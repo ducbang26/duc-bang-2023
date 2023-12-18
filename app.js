@@ -32,7 +32,7 @@ export default class App {
   }
 
   createGallery () {
-    this.gallery = document.querySelector('.demo-1__gallery')
+    this.gallery = document.querySelector('.hero__gallery')
   }
 
   createRenderer () {
@@ -42,7 +42,7 @@ export default class App {
 
     this.gl = this.renderer.gl
 
-    document.body.appendChild(this.gl.canvas)
+    document.querySelector('.hero').appendChild(this.gl.canvas)
   }
 
   createCamera () {
@@ -62,7 +62,7 @@ export default class App {
   }
 
   createMedias () {
-    this.mediasElements = document.querySelectorAll('.demo-1__gallery__figure')
+    this.mediasElements = document.querySelectorAll('.hero__gallery__figure')
     this.medias = Array.from(this.mediasElements).map(element => {
       let media = new Media({
         element,
@@ -180,8 +180,8 @@ export default class App {
   addEventListeners () {
     window.addEventListener('resize', this.onResize.bind(this))
 
-    window.addEventListener('mousewheel', this.onWheel.bind(this))
-    window.addEventListener('wheel', this.onWheel.bind(this))
+    // window.addEventListener('mousewheel', this.onWheel.bind(this))
+    // window.addEventListener('wheel', this.onWheel.bind(this))
 
     window.addEventListener('mousedown', this.onTouchDown.bind(this))
     window.addEventListener('mousemove', this.onTouchMove.bind(this))

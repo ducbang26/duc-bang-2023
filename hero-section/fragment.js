@@ -1,3 +1,4 @@
+export default /*glsl*/`
 precision highp float;
 
 uniform vec2 uImageSizes;
@@ -19,4 +20,4 @@ void main() {
 
   gl_FragColor.rgb = texture2D(tMap, uv).rgb;
   gl_FragColor.a = 1.0;
-}
+}`

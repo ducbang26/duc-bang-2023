@@ -1,0 +1,146 @@
+#hero-caption {
+    display: table;
+    width: 100%;
+    padding-top: 180px;
+    margin: 0 auto;
+    height: 100%;
+    position: relative;
+    box-sizing: border-box;
+    text-align: left;
+    pointer-events: initial;
+
+    .inner {
+        display: table-cell;
+        vertical-align: middle;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+}
+
+.hero-subtitle {
+    display: table;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    span {
+            display: block;
+        }
+}
+
+.subtitle-padding-left .hero-subtitle {
+    margin-left: 0;
+    margin-right: 0;
+    box-sizing: border-box;
+    padding-left: 50%;
+    text-align: left;
+}
+
+.text-align-center .hero-title {
+    display: table;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.light-content h1, .light-content h2, .light-content h3, .light-content h4, .light-content h5, .light-content h6, .dark-section h1, .dark-section h2, .dark-section h3, .dark-section h4, .dark-section h5, .dark-section h6 {
+    color: #fff;
+}
+
+.uppercase-titles h1, .uppercase-titles h2, .uppercase-titles h3, .uppercase-titles h4, .uppercase-titles h5, .uppercase-titles h6 {
+    text-transform: uppercase;
+}
+
+.hero-title {
+    font-size: calc(1rem + 5.15vw);
+    line-height: calc(1rem + 5.5vw);
+    font-weight: 500;
+    position: relative;
+    display: inline-block;
+    width: auto;
+    overflow: hidden;
+    padding: 0;
+    margin-bottom: 0;
+    span {
+        display: block;
+        letter-spacing: .3rem;
+        em {
+            font-family: 'Poppins', sans-serif;
+            font-style: normal;
+        }
+    }
+}
+
+.light-content .hero-subtitle {
+    color: #fff;
+}
+
+.text-align-center .hero-title {
+    display: table;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+@media only screen and (max-width: 767px)  {
+    #hero-caption {
+        padding-top: 120px;
+    }
+
+    .hero-title, .next-hero-title {
+        font-size: calc(3rem + 4.15vw);
+        line-height: calc(3rem + 4.5vw);
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+        margin-left: 0;
+        margin-right: 0;
+        margin: auto;
+        margin-top: 10px;
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .subtitle-padding-left .hero-subtitle {
+        margin-left: 0;
+        margin-right: 0;
+        margin: auto;
+        margin-top: 10px;
+        padding-left: 0;
+        text-align: center;
+    }
+
+}
+
+@media only screen and (max-width: 1024px)  {
+    #hero-caption {
+        padding-top: 140px;
+    }
+
+    .hero-subtitle {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+    .hero-subtitle {
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 30px;
+        margin-top: 30px;
+        width: 100%;
+        z-index: 10;
+        position: relative;
+        display: block;
+        overflow: hidden;
+        margin-left: 0px;
+    }
+}
+
+@media only screen and (max-width: 1466px)  {
+    #hero-caption {
+        padding-top: 160px;
+    }
+}

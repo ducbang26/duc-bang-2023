@@ -1,7 +1,7 @@
 import { Mesh, Program, Texture } from 'ogl'
 
-import fragment from './fragment.glsl'
-import vertex from './vertex.glsl'
+import fragment from './fragment.js'
+import vertex from './vertex.js'
 
 export default class {
   constructor ({ element, geometry, gl, height, scene, screen, viewport }) {

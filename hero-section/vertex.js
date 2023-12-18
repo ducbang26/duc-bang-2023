@@ -1,3 +1,4 @@
+export default /*glsl*/`
 #define PI 3.1415926535897932384626433832795
 
 precision highp float;
@@ -22,4 +23,4 @@ void main() {
   vUv = uv;
 
   gl_Position = projectionMatrix * newPosition;
-}
+}`
