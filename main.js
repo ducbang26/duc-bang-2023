@@ -3,6 +3,7 @@ import "./styles/hero-caption/hero-caption.scss";
 
 import App from "./app.js";
 import { gsap } from "gsap";
+import Lenis from '@studio-freight/lenis';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 document.querySelector("#app").innerHTML = `
@@ -88,6 +89,8 @@ document.querySelector("#app").innerHTML = `
   </div>
 </div>
 <div style="height: 100vh"></div>
+<div style="height: 100vh"></div>
+<div style="height: 100vh"></div>
 `;
 
 const images = document.querySelectorAll("img");
@@ -109,7 +112,33 @@ Array.from(images).forEach((element) => {
 
 new App();
 
+const lenis = new Lenis({
+  lerp: 0.1,
+  duration: 1.5,
+  smoothTouch: true
+});
+
+function raf(time) {
+  lenis.raf(time * 1000);
+  requestAnimationFrame(raf);
+}
+
+requestAnimationFrame(raf);
+
 gsap.registerPlugin(ScrollTrigger);
+
+const tl = gsap.timeline();
+
+tl.from(".caption-timeline span", {
+  duration: 1,
+  y: "100%",
+  opacity: 0,
+  ease: "power3.out",
+  delay: .7,
+  stagger: {
+    amount: 0.3
+  }
+})
 
 gsap.to(".hero", {
   clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
@@ -117,18 +146,63 @@ gsap.to(".hero", {
   scrollTrigger: {
     trigger: '.hero',
     start: "top top",
-    end: `+=500`,
+    pin: true,
+    end: `+=700`,
     scrub: 1
   }
 })
 
-gsap.to(".hero__wrapper", {
-  translateY: '500px',
-  ease: "strong",
+gsap.to(".parallax-scroll-caption", {
+  translate: '0% 5%',
+  opacity: 0.5,
+  ease: "power1.inOut",
+  duration: .5,
   scrollTrigger: {
-    trigger: '.hero',
+    trigger: '.parallax-scroll-caption',
     start: "top top",
-    end: `+=1000`,
-    scrub: 1  
+    end: "60%",
+    scrub: 1,
   }
 })
+
+gsap.utils.toArray(".hero__title").forEach(function (elem) {
+  ScrollTrigger.create({
+    trigger: elem,
+    start: "top 50%",
+    end: "bottom top",
+    // markers: true,
+    onEnter: function () {
+      gsap.fromTo(
+        elem,
+        { y: 100, autoAlpha: 0 },
+        {
+          duration: 1.25,
+          y: 0,
+          autoAlpha: 1,
+          ease: "back",
+          overwrite: "auto"
+        }
+      );
+    },
+    onLeave: function () {
+      gsap.fromTo(elem, { autoAlpha: 1 }, { autoAlpha: 0, overwrite: "auto" });
+    },
+    onEnterBack: function () {
+      gsap.fromTo(
+        elem,
+        { y: -100, autoAlpha: 0 },
+        {
+          duration: 1.25,
+          y: 0,
+          autoAlpha: 1,
+          ease: "back",
+          overwrite: "auto"
+        }
+      );
+    },
+    onLeaveBack: function () {
+      gsap.fromTo(elem, { autoAlpha: 1 }, { autoAlpha: 0, overwrite: "auto" });
+    }
+  });
+});
+

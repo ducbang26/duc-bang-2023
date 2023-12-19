@@ -13,6 +13,7 @@
     "vite": "^5.0.8"
   },
   "dependencies": {
+    "@studio-freight/lenis": "^1.0.29",
     "glslify-loader": "^2.0.0",
     "gsap": "^3.12.3",
     "lenis": "^0.0.2",

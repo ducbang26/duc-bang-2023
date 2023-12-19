@@ -11,7 +11,7 @@
   position: absolute;
   top: 0;
   width: 100%;
-  clip-path: polygon(30% 7%, 70% 7%, 70% 100%, 30% 100%);
+  clip-path: polygon(30% 3%, 70% 3%, 70% 100%, 30% 100%);
   z-index: 1;
   &:after {
     animation: grain 6s steps(10) infinite;
@@ -32,15 +32,16 @@
 }
 
 .hero__header {
+  padding-top: 600px;
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  // height: 100%;
   justify-content: center;
-  left: 0;
+  // left: 0;
   opacity: 0;
   position: absolute;
-  top: 0;
+  // bottom: 0;
   width: 100%;
   z-index: 2;
 
@@ -52,6 +53,7 @@
 
 .hero__title {
   font: 700 12rem/1 'AvantGarde', sans-serif;
+  opacity: 0;
   
   .hero-color-text {
     color: #ec4e39 !important;

@@ -20,8 +20,8 @@
 }
 
 html {
-  background: $color-black;
-  color: $color-white;
+  background: $color-black-light;
+  color: $color-stone;
   font-size: calc(100vw / 1920 * 10);
   user-select: none;
 }
@@ -32,7 +32,6 @@ body {
   margin: 0;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  // overscroll-behavior-y: none;
 }
 
 img {
@@ -64,4 +63,24 @@ a {
   &:focus {
     outline: none;
   }
+}
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
