@@ -170,7 +170,7 @@ gsap.utils.toArray(".hero__title").forEach(function (elem) {
     trigger: elem,
     start: "top 300px",
     end: "bottom top",
-    markers: true,
+    // markers: true,
     onEnter: function () {
       gsap.fromTo(
         elem,
