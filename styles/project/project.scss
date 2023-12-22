@@ -2,3 +2,76 @@ section {
     padding: 12vw 12vw!important;
     overflow: hidden;
 }
+
+.headline {
+    margin-top: -2vw;
+    margin-bottom: 5vw;
+    text-align: center;
+    h2 {
+        font-size: 8rem;
+        text-align: center;
+    }
+}
+
+.our-projects {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    grid-gap: 3vw;
+    margin: auto;
+
+    .project-box {
+        position: relative;
+        width: fit-content;
+        display: flex;
+        max-width: 44%;
+        flex-direction: column;
+        grid-gap: 2vw;
+        margin-top: -5vw;
+        font-family: 'Poppins', sans-serif;
+
+        .project-box-number {
+            z-index: 999;
+            position: absolute;
+            top: -4.5vw;
+            right: 2vw;
+            font-size: 6vw;
+            font-style: italic;
+        }
+        .project-box-image {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            max-width: 100%;
+            height: 30vw;
+        }
+        .project-box-name {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .project-box-description {
+            color: $midgrey;
+        }
+    }
+}
+
+p {
+    font-weight: 400;
+    font-size: 1.3vw;
+    line-height: 1.7;
+    letter-spacing: -0.030vw;
+}
+
+h3 {
+    font-weight: 500;
+    font-size: 2vw;
+    line-height: 0.9;
+    letter-spacing: -0.030vw;
+}
+
+.project-box:nth-of-type(even) {
+    margin-top: 10vw;
+}
