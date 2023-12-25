@@ -32,13 +32,6 @@ document.querySelector("#app").innerHTML = `
 </div>
 
 <section id="projects" class="projects section grey-section">
-  <div class="slide-cursor">
-    <svg xmlns="http://www.w3.org/2000/svg" class="" width="24" height="24" viewBox="0 0 24 24"
-      style="height: 84px; width: 84px; opacity: 1;">
-      <path fill="#060606" stroke="#060606" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-        d="M6 19L19 6m0 0v12.48M19 6H6.52"></path>
-    </svg>
-  </div>
   <div class="headline">
     <h2>
       <div style="overflow: hidden;">
@@ -179,13 +172,13 @@ Array.from(images).forEach((element) => {
 });
 
 const lenis = new Lenis({
-  lerp: 0.1,
-  duration: 1.5,
-  smoothTouch: true,
+  smoothWheel: true,
+  duration: 2,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
 });
 
 function raf(time) {
-  lenis.raf(time * 1000);
+  lenis.raf(time);
   requestAnimationFrame(raf);
 }
 
@@ -291,3 +284,4 @@ projectBoxImage.forEach((item) => {
   }, '-=1');
 
 });
+

@@ -24,6 +24,8 @@ html {
   color: $color-stone;
   font-size: calc(100vw / 1920 * 10);
   user-select: none;
+  overscroll-behavior: none;
+  overflow-x: hidden;
 }
 
 body {
