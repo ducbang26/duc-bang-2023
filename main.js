@@ -3,6 +3,7 @@ import "./styles/index.scss";
 import { gsap } from "gsap";
 import Lenis from "@studio-freight/lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Tween } from "gsap/gsap-core";
 
 document.querySelector("#app").innerHTML = `
   
@@ -150,7 +151,54 @@ document.querySelector("#app").innerHTML = `
     </div>
   </div>
 </section>
-<div style="height: 100vh"></div>
+<section class="marquee">
+  <div class="marquee-inner">
+    <div class="marquee-part">
+      <span>coding skill set</span>
+      <div class="arrow">
+        <img src="/images/shape.svg"/>
+      </div>
+    </div>
+    <div class="marquee-part">
+      coding skill set
+      <div class="arrow">
+        <img src="/images/shape.svg"/>
+      </div>
+    </div>
+    <div class="marquee-part">
+      coding skill set
+      <div class="arrow">
+        <img src="/images/shape.svg"/>
+      </div>
+    </div>
+    <div class="marquee-part">
+      coding skill set
+      <div class="arrow">
+        <img src="/images/shape.svg"/>
+      </div>
+    </div>
+    <div class="marquee-part">
+      coding skill set
+      <div class="arrow">
+        <img src="/images/shape.svg"/>
+      </div>
+    </div>
+    <div class="marquee-part">
+      coding skill set
+      <div class="arrow">
+        <img src="/images/shape.svg"/>
+      </div>
+    </div>
+    <div class="marquee-part">
+      coding skill set
+      <div class="arrow">
+        <img src="/images/shape.svg"/>
+      </div>
+    </div>
+  </div>
+
+</section>
+
 <div style="height: 100vh"></div>
 `;
 
@@ -284,4 +332,44 @@ projectBoxImage.forEach((item) => {
   }, '-=1');
 
 });
+
+//marquee section
+
+let currentScroll = 0;
+let isScrollingDown = true;
+let arrow = document.querySelectorAll(".arrow");
+
+let tween = gsap.to(".marquee-part", {
+xPercent: -100,
+repeat: -1,
+duration: 5,
+ease: "linear",
+})
+.totalProgress(0.5);
+
+gsap.set(".marquee-inner", { xPercent: -50 });
+
+window.addEventListener("scroll", () => {
+  if(window.scrollY > currentScroll) {
+    isScrollingDown = true;
+  } else {
+    isScrollingDown = false;
+  }
+
+  gsap.to(tween, {
+    timeScale: isScrollingDown ? 1 : -1,
+  });
+
+  arrow.forEach((item) => {
+    if (isScrollingDown) {
+      item.classList.remove('active');
+    } else {
+      item.classList.add('active');
+    }
+  })
+
+  currentScroll = window.scrollY;
+});
+
+
 
