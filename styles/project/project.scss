@@ -13,28 +13,6 @@ section {
     display: inline-block;
 }
 
-.slide-cursor {
-    z-index: 999999999999;
-    pointer-events: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 10vw;
-    height: 10vw;
-    opacity: 1;
-    background: $color-stone;
-    color: $color-black;
-    text-align: center;
-    border-radius: 50%;
-    font-size: 1vw;
-    letter-spacing: -0.030vw;
-    line-height: 1;
-    font-weight: 400;
-}
-
 .headline {
     margin-top: -2vw;
     margin-bottom: 5vw;
@@ -66,10 +44,11 @@ section {
         a {
             display: flex!important;
             flex-direction: column;
+            height: 100%;
         }
 
         .project-box-number {
-            z-index: 999;
+            z-index: 800;
             position: absolute;
             top: -3.5vw;
             right: 2vw;
@@ -112,4 +91,9 @@ h3 {
 
 .project-box:nth-of-type(even) {
     margin-top: 10vw;
+}
+
+.project-box a:hover {
+    transform: scale(1.05) rotate(0.001deg);
+    transition: all .5s cubic-bezier(.7, 0, .3, 1);
 }

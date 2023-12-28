@@ -1,12 +1,10 @@
 @import './utils/variables.scss';
 
 @import './base/base.scss';
-@import './base/frame.scss';
 @import './base/loader.scss';
-
-@import './mixins/links.scss';
 
 @import './hero/hero.scss';
 @import './hero-caption/hero-caption.scss';
 @import './project/project.scss';
 @import './marquee/marquee.scss';
+@import './cursor/cursor.scss';

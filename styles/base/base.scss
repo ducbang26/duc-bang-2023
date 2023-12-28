@@ -22,7 +22,6 @@
 html {
   background: $color-black-light;
   color: $color-stone;
-  font-size: calc(100vw / 1920 * 10);
   user-select: none;
   overscroll-behavior: none;
   overflow-x: hidden;
@@ -30,14 +29,23 @@ html {
 
 body {
   font-family: 'AvantGarde', sans-serif;
-  font-size: 15px;
+  font-size: clamp(16px, 1.2vw, 19px);
   margin: 0;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 img {
   display: block;
+  height:100%; 
+  width:100%;
 }
 
 canvas {
@@ -55,8 +63,6 @@ canvas {
 }
 
 a {
-  @extend %link--hidden;
-
   color: $color-white;
   outline: none;
   text-decoration: none;
