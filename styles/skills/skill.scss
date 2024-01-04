@@ -1,0 +1,112 @@
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.flex-col {
+    display: block;
+    width: 100%;
+    order: 2;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.skills .row .flex-col {
+    border-top: 1px solid $color-stone;
+}
+
+.skills .skills-ul .single-service {
+    display: flex;
+    border-bottom: 1px solid $color-stone;
+    padding: 2em 3em 2em 0;
+}
+
+.skills .skills-ul .single-service .serif {
+    position: absolute;
+    right: 0;
+}
+
+.skills .skills-ul {
+    cursor: default;
+}
+
+.skills .skills-ul .single-service:hover * {
+    opacity: .35;
+    cursor: default;
+}
+
+.mouse-pos-list-image {
+    width: 25vw;
+    height: 0vw;
+    z-index: 901;
+    position: fixed;
+    pointer-events: none;
+    transform: translate(calc(-50% + 52.5vw), -50%);
+    display: block;
+    left: 0;
+    overflow: hidden;
+    will-change: transform, height;
+    transition: height .6s cubic-bezier(.7, 0, .3, 1), width .6s cubic-bezier(.7, 0, .3, 1);
+    background: $color-black;
+}
+
+.mouse-pos-list-image.active {
+    height: 25vw;
+    width: 25vw;
+    transition: height .6s cubic-bezier(.7, 0, .3, 1), width .6s cubic-bezier(.7, 0, .3, 1);
+}
+
+.mouse-pos-list-image-inner {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 102%;
+    width: 102%;
+    left: -1%;
+
+}
+
+.mouse-pos-list-image .mouse-pos-list-image-inner .overlay-image {
+    opacity: 0;
+}
+
+.mouse-pos-list-image .mouse-pos-list-image-inner.active .overlay-image {
+    opacity: 1;
+}
+
+@media screen and (max-width: 1024px) {
+
+    .mouse-pos-list-image {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .mouse-pos-list-image li {
+        display: none;
+    }
+
+    .skills .skills-ul .single-service:hover * {
+        opacity: 1;
+        font-style: normal;
+        cursor: default;
+    }
+
+    .skills .skills-ul .single-service:hover .serif {
+        opacity: 1;
+        font-style: italic;
+        cursor: default;
+    }
+
+    .theme-no-italic .skills .skills-ul .single-service:hover .serif {
+        font-style: normal;
+        font-weight: 400;
+    }
+}

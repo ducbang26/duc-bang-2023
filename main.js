@@ -84,6 +84,33 @@ document.querySelector("#app").innerHTML = `
   </div>
 </div>
 
+<div class="mouse-pos-list-image mouse-pos-list-service no-select">
+  <li class="overlay mouse-pos-list-image-inner">
+    <div class="overlay overlay-image">
+      <div class="overlay overlay-image-inner active-image lazy entered loaded"
+        style="opacity: 1; background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(&quot;https://www.graphichunters.com/media/pages/home/4a34fb0126-1658411318/02-720x720-crop-1-q72.jpg&quot;);"
+        data-bg="https://www.graphichunters.com/media/pages/home/4a34fb0126-1658411318/02-720x720-crop-1-q72.jpg"
+        data-ll-status="loaded"></div>
+    </div>
+  </li>
+  <li class="overlay mouse-pos-list-image-inner">
+    <div class="overlay overlay-image">
+      <div class="overlay overlay-image-inner active-image lazy entered loaded"
+        style="opacity: 1; background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(&quot;https://www.graphichunters.com/media/pages/home/a08bef3cc1-1658411327/otw-2-720x720-crop-1-q72.jpg&quot;);"
+        data-bg="https://www.graphichunters.com/media/pages/home/a08bef3cc1-1658411327/otw-2-720x720-crop-1-q72.jpg"
+        data-ll-status="loaded"></div>
+    </div>
+  </li>
+  <li class="overlay mouse-pos-list-image-inner active">
+    <div class="overlay overlay-image">
+      <div class="overlay overlay-image-inner active-image lazy entered loaded"
+        style="opacity: 1; background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(&quot;https://www.graphichunters.com/media/pages/home/caef95186b-1658411320/cw5rgehwqaaqvfd-720x720-crop-1-q72.jpg&quot;);"
+        data-bg="https://www.graphichunters.com/media/pages/home/caef95186b-1658411320/cw5rgehwqaaqvfd-720x720-crop-1-q72.jpg"
+        data-ll-status="loaded"></div>
+    </div>
+  </li>
+</div>
+
 <div class="container">
   <div class="video-wrapper">
     <video class="hero__video"
@@ -256,7 +283,25 @@ document.querySelector("#app").innerHTML = `
       </div>
     </div>
   </div>
+</section>
 
+<section class="skills">
+  <div class="row">
+    <ul class="flex-col skills-ul mouse-pos-list-image-ul is-inview">
+      <li class="single-service mouse-pos-list-image-hover">
+        <h3>Creative Direction</h3>
+        <h4 class="serif">01</h4>
+      </li>
+      <li class="single-service mouse-pos-list-image-hover active">
+        <h3>Brand and Identity</h3>
+        <h4 class="serif">02</h4>
+      </li>
+      <li class="single-service mouse-pos-list-image-hover">
+        <h3>Visual Content</h3>
+        <h4 class="serif">03</h4>
+      </li>
+    </ul>
+  </div>
 </section>
 
 <div style="height: 100vh"></div>

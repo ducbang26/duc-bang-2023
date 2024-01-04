@@ -92,8 +92,3 @@ h3 {
 .project-box:nth-of-type(even) {
     margin-top: 10vw;
 }
-
-.project-box a:hover {
-    transform: scale(1.05) rotate(0.001deg);
-    transition: all .5s cubic-bezier(.7, 0, .3, 1);
-}
