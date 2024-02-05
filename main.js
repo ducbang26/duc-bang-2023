@@ -290,15 +290,12 @@ document.querySelector("#app").innerHTML = `
     <ul class="flex-col skills-ul mouse-pos-list-image-ul is-inview">
       <li class="single-service mouse-pos-list-image-hover">
         <h3>Creative Direction</h3>
-        <h4 class="serif">01</h4>
       </li>
       <li class="single-service mouse-pos-list-image-hover active">
         <h3>Brand and Identity</h3>
-        <h4 class="serif">02</h4>
       </li>
       <li class="single-service mouse-pos-list-image-hover">
         <h3>Visual Content</h3>
-        <h4 class="serif">03</h4>
       </li>
     </ul>
   </div>
@@ -447,6 +444,65 @@ function pageTransition() {
       },
       "-=1"
     );
+  });
+
+  let header = document.querySelectorAll(".single-service");
+
+  header.forEach((item) => {
+    let original = item.querySelector("h3");
+    let clone = original.cloneNode(true);
+    item.appendChild(clone);
+    gsap.set(clone, { yPercent: -100 });
+    let tl = gsap.timeline({paused:true});
+
+    //split the text in original h1 and clone
+    let originalSplit = SplitType.create(original, { type: "chars" });
+    let cloneSplit = SplitType.create(clone, { type: "chars" });
+
+    //global tween settings
+    let duration = 0.4;
+    let stagger = { each: 0.02, ease: "power2", from: "start" };
+
+    //initial position of clones
+    gsap.set(cloneSplit.chars, {
+      rotationX: -90,
+      opacity: 0,
+      transformOrigin: "50% 50% -50",
+    });
+
+    //build animation
+    tl.to(originalSplit.chars, {
+      duration: duration,
+      rotationX: 90,
+      transformOrigin: "50% 50% -50",
+      stagger: stagger,
+    });
+    tl.to(
+      originalSplit.chars,
+      { duration: duration, opacity: 0, stagger: stagger, ease: "power4.in" },
+      0
+    );
+
+    tl.to(
+      cloneSplit.chars,
+      { duration: 0.05, opacity: 1, stagger: stagger },
+      0.001
+    );
+    tl.to(
+      cloneSplit.chars,
+      { duration: duration, rotationX: 0, stagger: stagger },
+      0
+    );
+
+    item.animation = tl;
+  });
+
+  $(".single-service").on("mouseenter", function () {
+    this.animation.play();
+  });
+
+  $(".single-service").on("mouseleave", function () {
+    this.animation.reverse();
   });
 }
 

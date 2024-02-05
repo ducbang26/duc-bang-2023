@@ -24,22 +24,24 @@
 }
 
 .skills .skills-ul .single-service {
-    display: flex;
+    display: block;
     border-bottom: 1px solid $color-stone;
     padding: 2em 3em 2em 0;
 }
 
-.skills .skills-ul .single-service .serif {
-    position: absolute;
-    right: 0;
+.single-service h3 {
+    color: #444;
+    margin:0;
+	padding:0;
+    line-height: 0.5;
+    perspective:600px;
+}
+
+.single-service h3:nth-child(2) {
+    color:#efefef;
 }
 
 .skills .skills-ul {
-    cursor: default;
-}
-
-.skills .skills-ul .single-service:hover * {
-    opacity: .35;
     cursor: default;
 }
 
@@ -91,22 +93,5 @@
 
     .mouse-pos-list-image li {
         display: none;
-    }
-
-    .skills .skills-ul .single-service:hover * {
-        opacity: 1;
-        font-style: normal;
-        cursor: default;
-    }
-
-    .skills .skills-ul .single-service:hover .serif {
-        opacity: 1;
-        font-style: italic;
-        cursor: default;
-    }
-
-    .theme-no-italic .skills .skills-ul .single-service:hover .serif {
-        font-style: normal;
-        font-weight: 400;
     }
 }
