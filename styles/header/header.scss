@@ -1,0 +1,60 @@
+.sec-nav {
+    font-family: "Poppins", sans-serif;
+    z-index: 1;
+    position: relative;
+    padding: 0;
+}
+
+.container-wrapper {
+    z-index: 2;
+    width: 100%;
+    padding-left: 3.125em;
+    padding-right: 3.125em;
+    position: relative;
+}
+
+.menu-wrapper {
+    width: 100%;
+    align-items: center;
+    padding-top: 1.6em;
+    padding-bottom: 1.6em;
+    display: flex;
+}
+
+.menu-items-wrapper {
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+}
+
+.menu-item-wrapper {
+    grid-column-gap: 2.60417em;
+    grid-row-gap: 2.60417em;
+    display: flex;
+}
+
+.w-inline-block {
+    max-width: 100%;
+    display: inline-block;
+}
+
+.menu-link {
+    transition: all .5s cubic-bezier(.76,0,.24,1);
+}
+
+.item {
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-link:after {
+    content: attr(data-text);
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+}
+
+.menu-link:hover {
+    transform: translateY(-100%);
+}
