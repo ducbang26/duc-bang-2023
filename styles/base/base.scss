@@ -9,6 +9,11 @@
   box-sizing: border-box;
 }
 
+:root {
+  --x-spacing: 6rem;
+  --color-white: 0, 0%, 100%;
+}
+
 @font-face {
   font-family: 'Poppins';
   src: url('/fonts/Poppins.ttf') format('truetype');
@@ -25,6 +30,8 @@ html {
   user-select: none;
   overscroll-behavior: none;
   overflow-x: hidden;
+  text-size-adjust: none;
+  font-size: 62.5%;
 }
 
 body {
@@ -36,6 +43,7 @@ body {
   overflow: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  line-height: 1.6;
 }
 
 body::-webkit-scrollbar {

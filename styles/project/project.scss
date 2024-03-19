@@ -1,5 +1,5 @@
 section {
-    padding: 12vw 12vw;
+    padding: 12vw var(--x-spacing);
     overflow: hidden;
 }
 
@@ -73,20 +73,6 @@ section {
             color: $midgrey;
         }
     }
-}
-
-p {
-    font-weight: 400;
-    font-size: 1.3vw;
-    line-height: 1.7;
-    letter-spacing: -0.030vw;
-}
-
-h3 {
-    font-weight: 500;
-    font-size: 2vw;
-    line-height: 0.9;
-    letter-spacing: -0.030vw;
 }
 
 .project-box:nth-of-type(even) {

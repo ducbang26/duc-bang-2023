@@ -8,8 +8,9 @@
 .container-wrapper {
     z-index: 2;
     width: 100%;
-    padding-left: 3.125em;
-    padding-right: 3.125em;
+    padding: 0 var(--x-spacing);
+
+
     position: relative;
 }
 
