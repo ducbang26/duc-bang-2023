@@ -45,7 +45,6 @@ initScript();
 
 function initScript() {
   pageTransition();
-  initMarqueeAnimation();
   initStickyCursorWithDelay();
 }
 
@@ -151,46 +150,6 @@ function pageTransition() {
     );
   });
 
-}
-
-//marquee section
-function initMarqueeAnimation() {
-  let currentScroll = 0;
-  let isScrollingDown = true;
-  let arrow = document.querySelectorAll(".arrow");
-
-  let tween = gsap
-    .to(".marquee-part", {
-      xPercent: -100,
-      repeat: -1,
-      duration: 5,
-      ease: "linear",
-    })
-    .totalProgress(0.5);
-
-  gsap.set(".marquee-inner", { xPercent: -50 });
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > currentScroll) {
-      isScrollingDown = true;
-    } else {
-      isScrollingDown = false;
-    }
-
-    gsap.to(tween, {
-      timeScale: isScrollingDown ? 1 : -1,
-    });
-
-    arrow.forEach((item) => {
-      if (isScrollingDown) {
-        item.classList.remove("active");
-      } else {
-        item.classList.add("active");
-      }
-    });
-
-    currentScroll = window.scrollY;
-  });
 }
 
 function initStickyCursorWithDelay() {

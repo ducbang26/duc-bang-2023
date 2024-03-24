@@ -12,6 +12,13 @@
 :root {
   --x-spacing: 6rem;
   --color-white: 0, 0%, 100%;
+  --size: 1125
+}
+
+@media(min-width: 650px) {
+  :root {
+    --size: 3840
+  }
 }
 
 @font-face {
@@ -29,21 +36,22 @@ html {
   color: $color-stone;
   user-select: none;
   overscroll-behavior: none;
-  overflow-x: hidden;
   text-size-adjust: none;
-  font-size: 62.5%;
+  // font-size: .88889vw;
+  font-size: calc(1000vw/var(--size));
+  // -webkit-text-size-adjust: none;
+  // -webkit-font-smoothing: antialiased;
+  // -webkit-tap-highlight-color: transparent;
 }
 
 body {
   font-family: 'AvantGarde', sans-serif;
-  font-size: clamp(16px, 1.2vw, 19px);
   margin: 0;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
   overflow: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  line-height: 1.6;
+  font-size: 1.9rem;
+  line-height: 1.38
 }
 
 body::-webkit-scrollbar {
@@ -52,8 +60,8 @@ body::-webkit-scrollbar {
 
 img {
   display: block;
-  height:100%; 
-  width:100%;
+  height: 100%;
+  width: 100%;
 }
 
 canvas {
@@ -74,6 +82,7 @@ a {
   color: $color-white;
   outline: none;
   text-decoration: none;
+  font-size: inherit;
 
   &:hover,
   &:focus {
