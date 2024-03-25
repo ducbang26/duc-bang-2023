@@ -10,7 +10,7 @@
 }
 
 :root {
-  --x-spacing: 6rem;
+  --x-spacing: 10rem;
   --color-white: 0, 0%, 100%;
   --size: 1125
 }
@@ -37,11 +37,11 @@ html {
   user-select: none;
   overscroll-behavior: none;
   text-size-adjust: none;
-  // font-size: .88889vw;
+  font-size: .88889vw;
   font-size: calc(1000vw/var(--size));
-  // -webkit-text-size-adjust: none;
-  // -webkit-font-smoothing: antialiased;
-  // -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: none;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {

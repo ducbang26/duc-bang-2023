@@ -21,7 +21,7 @@
  
  /* Hover Init */
  .custom-cursor.cursor-init {
-    width: .8em;
+    width: 3rem;
     transition: width .3s cubic-bezier(0.7, 0, 0.3, 1), background-color .15s cubic-bezier(0.7, 0, 0.3, 1);
  }
  
@@ -31,7 +31,7 @@
  
  /* Hover Link */
  .custom-cursor.cursor-hover {
-    width: .4em;
+    width: 1.8rem;
     transition: width .4s cubic-bezier(0.7, 0, 0.3, 1), background-color .15s cubic-bezier(0.7, 0, 0.3, 1);
  }
  
@@ -88,75 +88,18 @@
     margin-left: .25em;
  }
  
- /* Hover Archive Case */
- /* Hover Jobs Case */
- .custom-cursor.cursor-lab,
- .custom-cursor.cursor-job {
-    background-color: $color-stone;
-    width: 8em;
-    transform: translate(-48%, -75%) rotate(0.001deg);
-    mix-blend-mode: normal;
-    transition: width .4s cubic-bezier(0.7, 0, 0.3, 1), background-color .15s cubic-bezier(0.7, 0, 0.3, 1);
- }
- 
- .custom-cursor.cursor-lab.pressed,
- .custom-cursor.cursor-job.pressed {
-    width: 10em;
- }
- 
- .custom-cursor .cursor-lab-inner span,
- .custom-cursor .cursor-job-inner span {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transition: transform .3s cubic-bezier(0.7, 0, 0.3, 1) 0s;
-    color: $color-black-light;
-    text-transform: uppercase;
-    line-height: 1.1em;
-    text-align: center;
-    font-size: 1em;
-    transform: translate(-50%, -50%) scale(0) rotate(0.001deg);
-    font-family: Poppins, sans-serif;
-    font-style: italic;
-    font-weight: 400;
- }
- 
- .theme-no-italic .custom-cursor .cursor-lab-inner span,
- .theme-no-italic .custom-cursor .cursor-job-inner span {
-    font-style: normal;
-    font-weight: 400;
- }
- 
- .custom-cursor.cursor-lab .cursor-lab-inner span,
- .custom-cursor.cursor-job .cursor-job-inner span {
-    transition: transform .3s cubic-bezier(0.3, 1, 0.7, 1) .2s;
-    transform: translate(-50%, -50%) scale(1) rotate(0.001deg);
- }
- 
- .custom-cursor .cursor-lab-inner .rotate-cursor,
- .custom-cursor .cursor-job-inner .rotate-cursor {
-    display: flex;
-    align-items: center;
- }
- 
- .custom-cursor .cursor-lab-inner .rotate-cursor svg,
- .custom-cursor .cursor-job-inner .rotate-cursor svg {
-    width: .8em;
-    margin-left: .25em;
- }
- 
  
  /* Hover Tiles Home Header */
  .custom-cursor.cursor-tiles {
     background-color: $color-stone;
-    width: 7em;
+    width: 7vw;
     transform: translate(-48%, -75%) rotate(0.001deg);
     mix-blend-mode: normal;
     transition: width .4s cubic-bezier(0.7, 0, 0.3, 1), background-color .15s cubic-bezier(0.7, 0, 0.3, 1);
  }
  
  .custom-cursor.cursor-tiles.pressed {
-    width: 9em;
+    width: 9vw;
  }
  
  .custom-cursor .cursor-tiles-inner span {
@@ -168,7 +111,7 @@
     text-transform: uppercase;
     line-height: 1;
     text-align: center;
-    font-size: 1em;
+    font-size: 4rem;
     transform: translate(-50%, -50%) scale(0) rotate(0.001deg);
     font-family: Poppins, sans-serif;
     font-style: italic;
