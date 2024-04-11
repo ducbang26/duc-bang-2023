@@ -71,9 +71,8 @@ function pageTransition() {
   });
 
   let clipValue = {
-    one: 10,
-    two: 10,
-    three: 50,
+    one: 35,
+    two: 3,
   };
 
   gsap
@@ -95,25 +94,13 @@ function pageTransition() {
         three: 0,
         onUpdate: () => {
           gsap.set(".hero__video", {
-            clipPath: `inset(${clipValue.one}% ${clipValue.two}% round ${clipValue.three}px)`,
+            clipPath: `inset(${clipValue.one}% round ${clipValue.two}rem)`,
           });
         },
       },
       "<"
     );
 
-  gsap.to(".headline-content", {
-    transform: "translate(0px, 0px)",
-    ease: "power1.inOut",
-    duration: 0.7,
-    opacity: 1,
-    scrollTrigger: {
-      trigger: ".headline-content",
-      start: "center bottom",
-      end: "center 10%",
-      toggleActions: "play reverse play reverse",
-    },
-  });
 
   const projectBoxNumber = gsap.utils.toArray(".project-box-number");
 

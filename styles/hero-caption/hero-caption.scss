@@ -1,17 +1,14 @@
 #hero-caption {
-    display: table;
+    position: absolute;
     width: 100%;
     padding-top: 180px;
     margin: 0 auto;
     height: 100%;
-    position: relative;
     box-sizing: border-box;
     text-align: left;
     pointer-events: initial;
 
     .inner {
-        display: table-cell;
-        vertical-align: middle;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
@@ -40,14 +37,6 @@
     box-sizing: border-box;
     padding-left: 50%;
     text-align: left;
-}
-
-.text-align-center .hero-title {
-    display: table;
-    width: auto;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
 }
 
 .light-content h1, .light-content h2, .light-content h3, .light-content h4, .light-content h5, .light-content h6, .dark-section h1, .dark-section h2, .dark-section h3, .dark-section h4, .dark-section h5, .dark-section h6 {

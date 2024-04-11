@@ -1,7 +1,5 @@
 .hero__wrapper {
-  width: 100%;
   position: relative;
-  height: 1024px;
 }
 
 .hero {
@@ -23,11 +21,11 @@
 
 .video-wrapper {
   position: relative;
-  padding-top: 56.25%;
+  padding-top: 50%;
 }
 
 .video-wrapper .hero__video {
-  clip-path: inset(10% 10% round 50px);
+  clip-path: inset(35% round 3rem);
   position: absolute;
   top: 0;
   left: 0;
