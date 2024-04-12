@@ -4,11 +4,6 @@ import { gsap } from "gsap";
 import Lenis from "@studio-freight/lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-document.querySelector("#app").innerHTML = `
-  
-
-`;
-
 gsap.registerPlugin(ScrollTrigger);
 
 const images = document.querySelectorAll("img");
@@ -100,7 +95,6 @@ function pageTransition() {
       },
       "<"
     );
-
 
   const projectBoxNumber = gsap.utils.toArray(".project-box-number");
 

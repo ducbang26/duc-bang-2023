@@ -33,12 +33,12 @@ section {
         display: flex;
         width: 50%;
         flex-direction: column;
-        grid-gap: 2vw;
+        grid-gap: 1vw;
         margin-top: -5vw;
         font-family: 'Poppins', sans-serif;
 
         a {
-            display: flex!important;
+            display: flex !important;
             flex-direction: column;
             height: 100%;
         }
@@ -51,6 +51,7 @@ section {
             font-size: 6vw;
             font-style: italic;
         }
+
         .project-box-image {
             position: relative;
             display: flex;
@@ -66,9 +67,32 @@ section {
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            h3 {
+                font-size: calc(1rem + 2.15vw);
+                line-height: calc(1rem + 2.5vw);
+                font-weight: 500;
+            }
         }
+
         .project-box-description {
+            display: flex;
+            align-items: center;
             color: $midgrey;
+            font-size: calc(1rem + 0.8vw);
+            line-height: calc(1rem + 1vw);
+            font-weight: 300;
+            .dot {
+                background: $midgrey;
+                width: .4vw;
+                height: .4vw;
+                border-radius: 99999px;
+                margin-left: calc(0.5rem + .7vw);
+            }
+
+            .right {
+                margin-left: calc(0.5rem + .7vw);
+            }
         }
     }
 }
