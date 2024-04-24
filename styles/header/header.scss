@@ -1,8 +1,9 @@
 .sec-nav {
     font-family: "Poppins", sans-serif;
-    z-index: 1;
-    position: relative;
+    z-index: 11;
+    position: fixed;
     padding: 0;
+    width: 100%;
 }
 
 .container-wrapper {

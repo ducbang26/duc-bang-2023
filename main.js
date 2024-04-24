@@ -237,13 +237,13 @@ function initStickyCursorWithDelay() {
   // });
 
   // Home Header Rotate
-  $(".home-header").on("mousemove", function () {
+  $(".hero__wrapper").on("mousemove", function () {
     if ($(".custom-cursor").hasClass("cursor-tiles")) {
     } else {
       $(".custom-cursor").addClass("cursor-tiles");
     }
   });
-  $(".home-header").on("mouseleave", function () {
+  $(".hero__wrapper").on("mouseleave", function () {
     $(".custom-cursor").removeClass("cursor-tiles");
   });
 

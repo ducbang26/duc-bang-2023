@@ -1,17 +1,20 @@
 #hero-caption {
-    position: absolute;
     width: 100%;
-    padding-top: 180px;
-    margin: 0 auto;
-    height: 100%;
+    height: 100vh;
     box-sizing: border-box;
+    position: absolute;
     text-align: left;
+    display: flex;
+    flex-direction: column;
     pointer-events: initial;
 
     .inner {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
+        margin-top: auto;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
@@ -20,23 +23,17 @@
 }
 
 .hero-subtitle {
-    font-size: 15px;
+    font-size: calc(1rem + 1.55vw);
+    line-height: calc(1rem + 2vw);
+    font-weight: 600;
     display: table;
     width: auto;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+    grid-column-start: 3;
+    padding: 0 5rem 5rem;
     span {
             display: block;
+            font-family: "Poppins", sans-serif;
         }
-}
-
-.subtitle-padding-left .hero-subtitle {
-    margin-left: 0;
-    margin-right: 0;
-    box-sizing: border-box;
-    padding-left: 50%;
-    text-align: left;
 }
 
 .light-content h1, .light-content h2, .light-content h3, .light-content h4, .light-content h5, .light-content h6, .dark-section h1, .dark-section h2, .dark-section h3, .dark-section h4, .dark-section h5, .dark-section h6 {
@@ -45,26 +42,6 @@
 
 .uppercase-titles h1, .uppercase-titles h2, .uppercase-titles h3, .uppercase-titles h4, .uppercase-titles h5, .uppercase-titles h6 {
     text-transform: uppercase;
-}
-
-.hero-title {
-    font-size: calc(1rem + 5.15vw);
-    line-height: calc(1rem + 5.5vw);
-    font-weight: 500;
-    position: relative;
-    display: inline-block;
-    width: auto;
-    overflow: hidden;
-    padding: 0;
-    margin-bottom: 0;
-    span {
-        display: block;
-        letter-spacing: .3rem;
-        em {
-            font-family: 'Poppins', sans-serif;
-            font-style: normal;
-        }
-    }
 }
 
 .light-content .hero-subtitle {
@@ -80,61 +57,17 @@
 }
 
 @media only screen and (max-width: 767px)  {
-    #hero-caption {
-        padding-top: 120px;
-    }
 
     .hero-title, .next-hero-title {
         font-size: calc(3rem + 4.15vw);
         line-height: calc(3rem + 4.5vw);
     }
 
-    .hero-subtitle {
-        font-size: 16px;
-        margin-left: 0;
-        margin-right: 0;
-        margin: auto;
-        margin-top: 10px;
-        padding-left: 0;
-        text-align: center;
-    }
-
-    .subtitle-padding-left .hero-subtitle {
-        margin-left: 0;
-        margin-right: 0;
-        margin: auto;
-        margin-top: 10px;
-        padding-left: 0;
-        text-align: center;
-    }
-
 }
 
 @media only screen and (max-width: 1024px)  {
-    #hero-caption {
-        padding-top: 140px;
-    }
 
-    .hero-subtitle {
-        margin-top: 20px;
-        font-size: 18px;
-    }
-    .hero-subtitle {
-        font-size: 20px;
-        font-weight: 500;
-        line-height: 30px;
-        margin-top: 30px;
-        width: 100%;
-        z-index: 10;
-        position: relative;
-        display: block;
-        overflow: hidden;
-        margin-left: 0px;
-    }
 }
 
 @media only screen and (max-width: 1466px)  {
-    #hero-caption {
-        padding-top: 160px;
-    }
 }
