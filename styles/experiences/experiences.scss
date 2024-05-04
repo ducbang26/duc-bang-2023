@@ -10,7 +10,7 @@
         border-bottom: 1px solid hsla(var(--color-white), .1);
         cursor: pointer;
         transition: all .2s;
-        padding: 4rem 0;
+        padding: 8rem 0;
         gap: 3rem;
 
         &:hover .Item_title>* {
@@ -29,7 +29,6 @@
                     transition: all .5s cubic-bezier(.76, 0, .24, 1);
                     margin: 0;
                     font-size: calc(1rem + 2.15vw);
-                    line-height: calc(1rem + 2.5vw);
                     font-weight: 500;
                     color: hsla(var(--color-white), .6);
                 }

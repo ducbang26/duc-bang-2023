@@ -8,6 +8,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const images = document.querySelectorAll("img");
 let imagesIndex = 0;
+const links = document.querySelectorAll('.cursorLink')
+const sections = document.querySelectorAll('.sectionLink')
 
 Array.from(images).forEach((element) => {
   const image = new Image();
@@ -42,6 +44,27 @@ function initScript() {
   pageTransition();
   initStickyCursorWithDelay();
 }
+
+links.forEach((link) => {
+  link.addEventListener('mouseenter', () => {
+    randomLetter()
+  })
+
+  link.addEventListener('click', (e) => {
+    if (!link.href) return
+    if (!link.href.includes('#')) return
+
+    e.preventDefault()
+    scrollToSection()
+  })
+
+  function scrollToSection() {
+    let id = link.href.split('#')
+    sections.forEach((el) => {
+      if (el.id === id[1]) lenis.scrollTo(link.getAttribute('href'))
+    })
+  }
+})
 
 function pageTransition() {
   var tl = gsap.timeline();
