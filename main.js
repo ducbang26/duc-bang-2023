@@ -69,7 +69,7 @@ links.forEach((link) => {
 function pageTransition() {
   var tl = gsap.timeline();
 
-  tl.from(".caption-timeline span", {
+  tl.from(".caption-timeline span span", {
     duration: 1,
     y: "100%",
     opacity: 0,

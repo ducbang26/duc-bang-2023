@@ -90,6 +90,10 @@ a {
   }
 }
 
+li {
+  list-style: none;
+}
+
 html.lenis {
   height: auto;
 }
@@ -108,4 +112,8 @@ html.lenis {
 
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
+}
+
+#app {
+  border-bottom: 1px solid rgba($color: $color-stone, $alpha: 0.1);
 }

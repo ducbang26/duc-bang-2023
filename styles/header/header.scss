@@ -27,6 +27,10 @@
     font-size: 5rem;
 }
 
+.logo {
+    color: $color-stone;
+}
+
 .menu-item-wrapper {
     grid-column-gap: 2.60417em;
     grid-row-gap: 2.60417em;
@@ -39,6 +43,7 @@
 }
 
 .menu-link {
+    color: $color-stone;
     transition: all .5s cubic-bezier(.76,0,.24,1);
 }
 

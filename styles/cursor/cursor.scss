@@ -23,16 +23,11 @@
 .custom-cursor.cursor-init {
    width: 3rem;
    transition: width .3s cubic-bezier(0.7, 0, 0.3, 1), background-color .15s cubic-bezier(0.7, 0, 0.3, 1);
+   mix-blend-mode: exclusion;
 }
 
 .custom-cursor.cursor-init.pressed {
    width: 1.2em;
-}
-
-/* Hover Link */
-.custom-cursor.cursor-hover {
-   width: 1.8rem;
-   transition: width .4s cubic-bezier(0.7, 0, 0.3, 1), background-color .15s cubic-bezier(0.7, 0, 0.3, 1);
 }
 
 .custom-cursor.cursor-hover.cursor-job.cursor-job-tiny span {
@@ -86,6 +81,7 @@
 .custom-cursor .cursor-work-inner .rotate-cursor svg {
    width: .8em;
    margin-left: .25em;
+   transform: rotate(45deg);
 }
 
 
@@ -136,7 +132,7 @@
 .custom-cursor .cursor-tiles-inner .rotate-cursor svg {
    width: .8em;
    margin-left: .25em;
-   transform: rotate(90deg);
+   transform: rotate(180deg);
 }
 
 /* Cursor - Video */
