@@ -12,12 +12,19 @@
 :root {
   --x-spacing: 10rem;
   --color-white: 0, 0%, 100%;
-  --size: 1125
+  --size: 1125;
+}
+
+@media (max-width: 767px) { 
+  :root {
+    --x-spacing: 5rem;
+  }
+
 }
 
 @media(min-width: 650px) {
   :root {
-    --size: 3840
+    --size: 3840;
   }
 }
 

@@ -8,8 +8,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const images = document.querySelectorAll("img");
 let imagesIndex = 0;
-const links = document.querySelectorAll('.cursorLink')
-const sections = document.querySelectorAll('.sectionLink')
+const links = document.querySelectorAll(".cursorLink");
+const sections = document.querySelectorAll(".sectionLink");
 
 Array.from(images).forEach((element) => {
   const image = new Image();
@@ -46,25 +46,25 @@ function initScript() {
 }
 
 links.forEach((link) => {
-  link.addEventListener('mouseenter', () => {
-    randomLetter()
-  })
+  link.addEventListener("mouseenter", () => {
+    randomLetter();
+  });
 
-  link.addEventListener('click', (e) => {
-    if (!link.href) return
-    if (!link.href.includes('#')) return
+  link.addEventListener("click", (e) => {
+    if (!link.href) return;
+    if (!link.href.includes("#")) return;
 
-    e.preventDefault()
-    scrollToSection()
-  })
+    e.preventDefault();
+    scrollToSection();
+  });
 
   function scrollToSection() {
-    let id = link.href.split('#')
+    let id = link.href.split("#");
     sections.forEach((el) => {
-      if (el.id === id[1]) lenis.scrollTo(link.getAttribute('href'))
-    })
+      if (el.id === id[1]) lenis.scrollTo(link.getAttribute("href"));
+    });
   }
-})
+});
 
 function pageTransition() {
   var tl = gsap.timeline();
@@ -153,7 +153,6 @@ function pageTransition() {
       "-=1"
     );
   });
-
 }
 
 function initStickyCursorWithDelay() {
@@ -309,3 +308,15 @@ function initStickyCursorWithDelay() {
     $(".custom-cursor").removeClass("cursor-video-play");
   });
 }
+
+const headerBtn = document.querySelector('.headerBtn')
+headerBtn.addEventListener('click', () => {
+  headerBtn.classList.toggle('open')
+})
+document.addEventListener('click', (e) => {
+  let check1 = e.target.closest('.header-btn')
+  let check2 = e.target.closest('.header-menu')
+  if (check1 == null && check2 == null) {
+    headerBtn.classList.remove('open')
+  }
+})

@@ -25,6 +25,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     margin: auto;
+    row-gap: 0;
 
     .project-box {
         padding-left: 1vw;
@@ -58,7 +59,6 @@
             flex-direction: column;
             overflow: hidden;
             max-width: 100%;
-            height: 30vw;
             clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
             border-radius: 5rem;
         }
@@ -82,6 +82,7 @@
             font-size: calc(1rem + 0.8vw);
             line-height: calc(1rem + 1vw);
             font-weight: 300;
+
             .dot {
                 background: $midgrey;
                 width: .4vw;
@@ -95,8 +96,27 @@
             }
         }
     }
+
+    @media (max-width: 767px) {
+        .project-box {
+            width: 100%;
+            margin-top: 2vw;
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .our-projects { 
+        row-gap: 5vw;
+    }
 }
 
 .project-box:nth-of-type(even) {
     margin-top: 10vw;
+}
+
+@media (max-width: 767px) {
+    .project-box:nth-of-type(even) {
+        margin-top: 0;
+    }
 }
