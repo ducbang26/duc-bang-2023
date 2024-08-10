@@ -4,319 +4,401 @@ import { gsap } from "gsap";
 import Lenis from "@studio-freight/lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
+const mainScript = () => {
+  gsap.registerPlugin(ScrollTrigger);
+  window.scrollTo(0, 0);
 
-const images = document.querySelectorAll("img");
-let imagesIndex = 0;
-const links = document.querySelectorAll(".cursorLink");
-const sections = document.querySelectorAll(".sectionLink");
+  const lenis = new Lenis({
+    lerp: false,
+    duration: 1.6,
+  });
 
-Array.from(images).forEach((element) => {
-  const image = new Image();
-
-  image.src = element.src;
-  image.onload = (_) => {
-    imagesIndex += 1;
-
-    if (imagesIndex === images.length) {
-      document.documentElement.classList.remove("loading");
-      document.documentElement.classList.add("loaded");
-    }
-  };
-});
-
-const lenis = new Lenis({
-  smoothWheel: true,
-  duration: 2,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-});
-
-function raf(time) {
-  lenis.raf(time);
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
   requestAnimationFrame(raf);
-}
 
-requestAnimationFrame(raf);
+  const viewport = {
+    w: window.innerWidth,
+    h: window.innerHeight,
+  };
+  function updateViewportSize() {
+    viewport.w = window.innerWidth;
+    viewport.h = window.innerHeight;
+  }
+  $(window).on("resize", updateViewportSize);
 
-initScript();
+  const images = document.querySelectorAll("img");
+  let imagesIndex = 0;
+  const links = document.querySelectorAll(".cursorLink");
+  const sections = document.querySelectorAll(".sectionLink");
 
-function initScript() {
-  pageTransition();
-  initStickyCursorWithDelay();
-}
+  Array.from(images).forEach((element) => {
+    const image = new Image();
 
-links.forEach((link) => {
-  link.addEventListener("mouseenter", () => {
-    randomLetter();
+    image.src = element.src;
+    image.onload = (_) => {
+      imagesIndex += 1;
+
+      if (imagesIndex === images.length) {
+        document.documentElement.classList.remove("loading");
+        document.documentElement.classList.add("loaded");
+      }
+    };
   });
 
-  link.addEventListener("click", (e) => {
-    if (!link.href) return;
-    if (!link.href.includes("#")) return;
+  links.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      if (!link.href) return;
+      if (!link.href.includes("#")) return;
 
-    e.preventDefault();
-    scrollToSection();
+      e.preventDefault();
+      scrollToSection();
+    });
+
+    function scrollToSection() {
+      let id = link.href.split("#");
+      sections.forEach((el) => {
+        if (el.id === id[1]) lenis.scrollTo(link.getAttribute("href"));
+      });
+    }
   });
 
-  function scrollToSection() {
-    let id = link.href.split("#");
-    sections.forEach((el) => {
-      if (el.id === id[1]) lenis.scrollTo(link.getAttribute("href"));
+  const headerBtn = document.querySelector(".headerBtn");
+  headerBtn.addEventListener("click", () => {
+    headerBtn.classList.toggle("open");
+  });
+  document.addEventListener("click", (e) => {
+    let check1 = e.target.closest(".header-btn");
+    let check2 = e.target.closest(".header-menu");
+    if (check1 == null && check2 == null) {
+      headerBtn.classList.remove("open");
+    }
+  });
+
+  // Cursor
+  function initCursor() {
+    // Sticky Cursor with delay
+    // https://greensock.com/forums/topic/21161-animated-mouse-cursor/
+
+    var posXBtn = 0;
+    var posYBtn = 0;
+    var mouseX = 0;
+    var mouseY = 0;
+
+    if (document.querySelector(".custom-cursor")) {
+      gsap.to({}, 0.0083333333, {
+        repeat: -1,
+        onRepeat: function () {
+          if (document.querySelector(".custom-cursor")) {
+            posXBtn += (mouseX - posXBtn) / 6;
+            posYBtn += (mouseY - posYBtn) / 6;
+            gsap.set($(".custom-cursor"), {
+              css: {
+                left: posXBtn,
+                top: posYBtn,
+              },
+            });
+            gsap.set($(".custom-cursor .rotate-cursor"), {
+              css: {
+                rotate: (mouseX - posXBtn) / 3,
+              },
+            });
+          }
+        },
+      });
+    }
+
+    $(document).on("mousemove", function (e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    // Mouse Init
+    $("main").on("mousemove", function () {
+      if ($(".custom-cursor").hasClass("cursor-init")) {
+      } else {
+        $(".custom-cursor").addClass("cursor-init");
+      }
+    });
+
+    // Link Hover
+    $("a").on("mouseenter", function () {
+      $(".custom-cursor").addClass("cursor-hover");
+    });
+    $("a").on("mouseleave", function () {
+      $(".custom-cursor").removeClass("cursor-hover");
+    });
+
+    // Pressed
+    $("main").on("mousedown", function () {
+      $(".custom-cursor").addClass("pressed");
+    });
+    $("main").on("mouseup", function () {
+      $(".custom-cursor").removeClass("pressed");
+    });
+
+    // Work Case Hover
+    $(".project-box").on("mouseenter", function () {
+      $(".custom-cursor").addClass("cursor-work");
+    });
+    $(".project-box").on("mouseleave", function () {
+      $(".custom-cursor").removeClass("cursor-work");
+    });
+
+    // Home Header Rotate
+    $(".hero__wrapper").on("mousemove", function () {
+      if ($(".custom-cursor").hasClass("cursor-tiles")) {
+      } else {
+        $(".custom-cursor").addClass("cursor-tiles");
+      }
+    });
+    $(".hero__wrapper").on("mouseleave", function () {
+      $(".custom-cursor").removeClass("cursor-tiles");
     });
   }
-});
+  initCursor();
+  // End-Cursor
 
-function pageTransition() {
-  var tl = gsap.timeline();
+  // Loading
+  function initLoading() {
+    let loadTl = gsap.timeline({
+      // paused: true,
+      defaults: {
+          ease: 'none'
+      }
+  })
+  loadTl
+  .to(".loading-txt", {x: 10, autoAlpha: 0, duration: 1, ease: 'power4.out'}, 0)
+  .to(".loading-overlay-block", {clipPath: "polygon(100% 0, 100% 0%, 100% 100%, 100% 100%)", duration: 1, stagger: .04, ease: 'power1.easeIn'}, '<=.2')
 
-  tl.from(".caption-timeline span span", {
-    duration: 1,
-    y: "100%",
-    opacity: 0,
-    ease: "power3.out",
-    delay: 0.7,
-    stagger: {
-      amount: 0.3,
-    },
-  }).from(".video-wrapper", {
-    duration: 1,
-    y: "5%",
-    opacity: 0,
-    ease: "power3.out",
-    stagger: {
-      amount: 0.3,
-    },
-  });
+  }
 
-  let clipValue = {
-    one: 35,
-    two: 3,
-  };
+  initLoading();
+  // End Loading
 
-  gsap
-    .timeline({
-      scrollTrigger: {
-        trigger: ".video-wrapper",
-        start: `center center`,
-        end: "+=700",
-        pin: true,
-        scrub: true,
-      },
-    })
-    .to(
-      clipValue,
-      {
-        duration: 1,
-        one: 0,
-        two: 0,
-        three: 0,
-        onUpdate: () => {
-          gsap.set(".hero__video", {
-            clipPath: `inset(${clipValue.one}% round ${clipValue.two}rem)`,
-          });
-        },
-      },
-      "<"
-    );
+  // Animation
+  class homeHeroAnimate {
+    tlHero;
 
-  const projectBoxNumber = gsap.utils.toArray(".project-box-number");
+    constructor() {
+      this.tlHero;
+    }
 
-  projectBoxNumber.forEach((item) => {
-    gsap.to(item, {
-      translate: "0% -30%",
-      ease: "power2.inOut",
-      duration: 1,
-      scrollTrigger: {
-        trigger: item,
+    setup() {
+      this.tlHero = gsap.timeline({
+        paused: true,
+        onStart: () => {},
+        onComplete: () => {},
+      });
+
+      this.tlHero
+        .from(".caption-timeline span span", {
+          duration: 1,
+          y: "100%",
+          opacity: 0,
+          ease: "power3.out",
+          delay: 0.7,
+          stagger: {
+            amount: 0.3,
+          },
+        })
+        .from(".video-wrapper", {
+          duration: 1,
+          y: "5%",
+          opacity: 0,
+          ease: "power3.out",
+          stagger: {
+            amount: 0.3,
+          },
+        });
+
+      let clipValue = {
+        one: 35,
+        two: 3,
+      };
+
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: ".video-wrapper",
+            start: `center center`,
+            end: "+=700",
+            pin: true,
+            scrub: true,
+          },
+        })
+        .to(
+          clipValue,
+          {
+            duration: 1,
+            one: 0,
+            two: 0,
+            three: 0,
+            onUpdate: () => {
+              gsap.set(".hero__video", {
+                clipPath: `inset(${clipValue.one}% round ${clipValue.two}rem)`,
+              });
+            },
+          },
+          "<"
+        );
+    }
+
+    play() {
+      this.tlHero.play();
+    }
+  }
+  let homeHeroAnim = new homeHeroAnimate();
+
+  class homeProjectAnimate {
+    constructor() {}
+
+    setTrigger() {
+      ScrollTrigger.create({
+        trigger: ".projects",
         start: "top bottom",
         end: "bottom top",
-        scrub: 1,
+        once: true,
+        onEnter: () => {
+          this.setup();
+        },
+      });
+    }
+
+    setup() {
+      const projectBoxImage = gsap.utils.toArray(".project-box-image");
+      const projectBoxNumber = gsap.utils.toArray(".project-box-number");
+
+      projectBoxNumber.forEach((item) => {
+        gsap.to(item, {
+          translate: "0% -30%",
+          ease: "power2.inOut",
+          duration: 1,
+          scrollTrigger: {
+            trigger: item,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      });
+
+      projectBoxImage.forEach((item) => {
+        gsap.to(
+          item,
+          {
+            clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+            ease: "power4.out",
+            duration: 1.5,
+            scrollTrigger: {
+              trigger: item,
+              start: "top 80%",
+              end: "bottom center",
+            },
+          },
+          "-=1"
+        );
+      });
+    }
+  }
+
+  let homeProjectAnim = new homeProjectAnimate();
+
+  initScript();
+
+  function initScript() {
+    pageTransition();
+  }
+
+  function pageTransition() {
+    var tl = gsap.timeline();
+
+    tl.from(".caption-timeline span span", {
+      duration: 1,
+      y: "100%",
+      opacity: 0,
+      ease: "power3.out",
+      delay: 0.7,
+      stagger: {
+        amount: 0.3,
+      },
+    }).from(".video-wrapper", {
+      duration: 1,
+      y: "5%",
+      opacity: 0,
+      ease: "power3.out",
+      stagger: {
+        amount: 0.3,
       },
     });
-  });
 
-  const projectBoxImage = gsap.utils.toArray(".project-box-image");
+    let clipValue = {
+      one: 35,
+      two: 3,
+    };
 
-  projectBoxImage.forEach((item) => {
-    gsap.to(
-      item,
-      {
-        clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-        ease: "power4.out",
-        duration: 1.5,
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: ".video-wrapper",
+          start: `center center`,
+          end: "+=700",
+          pin: true,
+          scrub: true,
+        },
+      })
+      .to(
+        clipValue,
+        {
+          duration: 1,
+          one: 0,
+          two: 0,
+          three: 0,
+          onUpdate: () => {
+            gsap.set(".hero__video", {
+              clipPath: `inset(${clipValue.one}% round ${clipValue.two}rem)`,
+            });
+          },
+        },
+        "<"
+      );
+
+    const projectBoxNumber = gsap.utils.toArray(".project-box-number");
+
+    projectBoxNumber.forEach((item) => {
+      gsap.to(item, {
+        translate: "0% -30%",
+        ease: "power2.inOut",
+        duration: 1,
         scrollTrigger: {
           trigger: item,
-          start: "top 80%",
-          end: "bottom center",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1,
         },
-      },
-      "-=1"
-    );
-  });
-}
+      });
+    });
 
-function initStickyCursorWithDelay() {
-  // Sticky Cursor with delay
-  // https://greensock.com/forums/topic/21161-animated-mouse-cursor/
+    const projectBoxImage = gsap.utils.toArray(".project-box-image");
 
-  var posXBtn = 0;
-  var posYBtn = 0;
-  var posXImage = 0;
-  var posYImage = 0;
-  var mouseX = 0;
-  var mouseY = 0;
-
-  if (document.querySelector(".custom-cursor, .mouse-pos-list-image")) {
-    gsap.to({}, 0.0083333333, {
-      repeat: -1,
-      onRepeat: function () {
-        if (document.querySelector(".custom-cursor")) {
-          posXBtn += (mouseX - posXBtn) / 6;
-          posYBtn += (mouseY - posYBtn) / 6;
-          gsap.set($(".custom-cursor"), {
-            css: {
-              left: posXBtn,
-              top: posYBtn,
-            },
-          });
-          gsap.set($(".custom-cursor .rotate-cursor"), {
-            css: {
-              rotate: (mouseX - posXBtn) / 3,
-            },
-          });
-        }
-        if (document.querySelector(".mouse-pos-list-image")) {
-          posXImage += (mouseX / 4 - posXImage) / 6;
-          posYImage += (mouseY - posYImage) / 6;
-          gsap.set($(".mouse-pos-list-image"), {
-            css: {
-              left: posXImage,
-              top: posYImage,
-            },
-          });
-        }
-      },
+    projectBoxImage.forEach((item) => {
+      gsap.to(
+        item,
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          ease: "power4.out",
+          duration: 1.5,
+          scrollTrigger: {
+            trigger: item,
+            start: "top 80%",
+            end: "bottom center",
+          },
+        },
+        "-=1"
+      );
     });
   }
-
-  $(document).on("mousemove", function (e) {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  // Mouse Init
-  $("main").on("mousemove", function () {
-    if ($(".custom-cursor").hasClass("cursor-init")) {
-    } else {
-      $(".custom-cursor").addClass("cursor-init");
-    }
-  });
-
-  // Link Hover
-  $("a").on("mouseenter", function () {
-    $(".custom-cursor").addClass("cursor-hover");
-  });
-  $("a").on("mouseleave", function () {
-    $(".custom-cursor").removeClass("cursor-hover");
-  });
-
-  // Pressed
-  $("main").on("mousedown", function () {
-    $(".custom-cursor").addClass("pressed");
-  });
-  $("main").on("mouseup", function () {
-    $(".custom-cursor").removeClass("pressed");
-  });
-
-  // Work Case Hover
-  $(".project-box").on("mouseenter", function () {
-    $(".custom-cursor").addClass("cursor-work");
-  });
-  $(".project-box").on("mouseleave", function () {
-    $(".custom-cursor").removeClass("cursor-work");
-  });
-
-  // Archive Preview Hover
-  $(".lab-preview").on("mouseenter", function () {
-    $(".custom-cursor").addClass("cursor-lab");
-  });
-  $(".lab-preview").on("mouseleave", function () {
-    $(".custom-cursor").removeClass("cursor-lab");
-  });
-
-  // // Jobs Preview Hover
-  // $('.single-job').on('mouseenter', function() {
-  //   $('.custom-cursor').addClass('cursor-job');
-  // });
-  // $('.single-job').on('mouseleave', function() {
-  //   $('.custom-cursor').removeClass('cursor-job');
-  // });
-  // $('.single-job .btn-click').on('mouseenter', function() {
-  //   $('.custom-cursor').addClass('cursor-job-tiny');
-  // });
-  // $('.single-job .btn-click').on('mouseleave', function() {
-  //   $('.custom-cursor').removeClass('cursor-job-tiny');
-  // });
-
-  // Home Header Rotate
-  $(".hero__wrapper").on("mousemove", function () {
-    if ($(".custom-cursor").hasClass("cursor-tiles")) {
-    } else {
-      $(".custom-cursor").addClass("cursor-tiles");
-    }
-  });
-  $(".hero__wrapper").on("mouseleave", function () {
-    $(".custom-cursor").removeClass("cursor-tiles");
-  });
-
-  // Service + Collective Image
-  $(".mouse-pos-list-image-hover").on("mouseenter", function () {
-    $(".mouse-pos-list-image").addClass("active");
-  });
-  $(".mouse-pos-list-image-hover").on("mouseleave", function () {
-    $(".mouse-pos-list-image").removeClass("active");
-  });
-
-  $(".mouse-pos-list-image-ul li").on("mouseenter mouseleave", function () {
-    var index = $(this).index();
-    $(".mouse-pos-list-image-ul, .mouse-pos-list-image").each(function () {
-      $("li", this).eq(index).siblings().removeClass("active");
-      $("li", this).eq(index).addClass("active");
-    });
-  });
-
-  $(".collective-ul li").on("mouseenter", function () {
-    $(".fixed-cursor-wrap").addClass("inactive");
-  });
-  $(".collective-ul li").on("mouseleave", function () {
-    $(".fixed-cursor-wrap").removeClass("inactive");
-  });
-
-  // Single Vimeo
-  $(".video-hover").on("mouseenter", function () {
-    $(".custom-cursor").addClass("cursor-video");
-  });
-  $(".video-hover").on("mouseleave", function () {
-    $(".custom-cursor").removeClass("cursor-video");
-  });
-  $(".video-hover .vimeo-control-play").on("mouseenter", function () {
-    $(".custom-cursor").addClass("cursor-video-play");
-    $(".custom-cursor").removeClass("cursor-video-pause");
-  });
-  $(".video-hover .vimeo-control-pause").on("mouseenter", function () {
-    $(".custom-cursor").addClass("cursor-video-pause");
-    $(".custom-cursor").removeClass("cursor-video-play");
-  });
-}
-
-const headerBtn = document.querySelector('.headerBtn')
-headerBtn.addEventListener('click', () => {
-  headerBtn.classList.toggle('open')
-})
-document.addEventListener('click', (e) => {
-  let check1 = e.target.closest('.header-btn')
-  let check2 = e.target.closest('.header-menu')
-  if (check1 == null && check2 == null) {
-    headerBtn.classList.remove('open')
-  }
-})
+};
+window.onload = mainScript;
