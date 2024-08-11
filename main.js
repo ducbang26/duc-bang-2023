@@ -29,6 +29,15 @@ const mainScript = () => {
   }
   $(window).on("resize", updateViewportSize);
 
+  window.addEventListener('pointermove', function() {
+    // if (doneLoad) {
+    //     if (userMoved != true) {
+    //         userMoved = true;
+    //         initCursor()
+    //     }
+    // }
+})
+
   const images = document.querySelectorAll("img");
   let imagesIndex = 0;
   const links = document.querySelectorAll(".cursorLink");
@@ -170,9 +179,35 @@ const mainScript = () => {
       }
   })
   loadTl
-  .to(".loading-txt", {x: 10, autoAlpha: 0, duration: 1, ease: 'power4.out'}, 0)
-  .to(".loading-overlay-block", {clipPath: "polygon(100% 0, 100% 0%, 100% 100%, 100% 100%)", duration: 1, stagger: .04, ease: 'power1.easeIn'}, '<=.2')
+  .to(".loading__numbers", {x: "20vw", delay: 1, ease: 'power4.inOut' })
+  .to(".loading__numbers", {x: "40vw", delay: 0.5, ease: 'power4.inOut' })
+  .to(".loading__numbers", {x: "60vw", delay: 0.5, ease: 'power4.inOut' })
+  .to(".loading__numbers", {x: "80vw", delay: 0.5, ease: 'power4.inOut' })
+  .to(".loading-overlay-block", {clipPath: "polygon(100% 0, 100% 0%, 100% 100%, 100% 100%)", duration: 1, stagger: .04, ease: 'power1.easeIn'}, '>=.5')
 
+  const numberOne = gsap.utils.toArray(".number-one span");
+  numberOne.forEach((element, index) => {
+    let counterTl = gsap.timeline({
+      defaults: {
+          ease: 'none'
+      }
+    })
+    counterTl
+    .to(element, {xPercent: 100, delay: index, ease: 'power4.inOut' }, 0)
+    .to(element, {x: "10vw", delay: (index + 1), ease: 'power4.inOut' }, 0)
+  });
+
+  const numberTwo = gsap.utils.toArray(".number-two span");
+  numberTwo.forEach((element, index) => {
+    let counterTl = gsap.timeline({
+      defaults: {
+          ease: 'none'
+      }
+    })
+    counterTl
+    .to(element, {xPercent: 100, delay: index, ease: 'power4.inOut' }, 0)
+    .to(element, {x: "10vw", delay: (index + 1), ease: 'power4.inOut' }, 0)
+  });
   }
 
   initLoading();
