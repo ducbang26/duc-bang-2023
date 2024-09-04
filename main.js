@@ -29,15 +29,6 @@ const mainScript = () => {
   }
   $(window).on("resize", updateViewportSize);
 
-  window.addEventListener('pointermove', function() {
-    // if (doneLoad) {
-    //     if (userMoved != true) {
-    //         userMoved = true;
-    //         initCursor()
-    //     }
-    // }
-})
-
   const images = document.querySelectorAll("img");
   let imagesIndex = 0;
   const links = document.querySelectorAll(".cursorLink");
@@ -157,17 +148,16 @@ const mainScript = () => {
     });
 
     // Home Header Rotate
-    $(".hero__wrapper").on("mousemove", function () {
+    $(".home__hero").on("mousemove", function () {
       if ($(".custom-cursor").hasClass("cursor-tiles")) {
       } else {
         $(".custom-cursor").addClass("cursor-tiles");
       }
     });
-    $(".hero__wrapper").on("mouseleave", function () {
+    $(".home__hero").on("mouseleave", function () {
       $(".custom-cursor").removeClass("cursor-tiles");
     });
   }
-  initCursor();
   // End-Cursor
 
   // Loading
@@ -175,39 +165,55 @@ const mainScript = () => {
     let loadTl = gsap.timeline({
       // paused: true,
       defaults: {
-          ease: 'none'
-      }
-  })
-  loadTl
-  .to(".loading__numbers", {x: "20vw", delay: 1, ease: 'power4.inOut' })
-  .to(".loading__numbers", {x: "40vw", delay: 0.5, ease: 'power4.inOut' })
-  .to(".loading__numbers", {x: "60vw", delay: 0.5, ease: 'power4.inOut' })
-  .to(".loading__numbers", {x: "80vw", delay: 0.5, ease: 'power4.inOut' })
-  .to(".loading-overlay-block", {clipPath: "polygon(100% 0, 100% 0%, 100% 100%, 100% 100%)", duration: 1, stagger: .04, ease: 'power1.easeIn'}, '>=.5')
+        ease: "none",
+      },
+      onComplete() {
+        initCursor();
+      },
+    });
+    loadTl
+      .to(".loading__numbers", { x: "20vw", delay: 1, ease: "power4.inOut" })
+      .to(".loading__numbers", { x: "40vw", delay: 0.5, ease: "power4.inOut" })
+      .to(".loading__numbers", { x: "60vw", delay: 0.5, ease: "power4.inOut" })
+      .to(".loading__numbers", { x: "80vw", delay: 0.5, ease: "power4.inOut" })
+      .to(
+        ".loading-overlay-block",
+        {
+          clipPath: "polygon(100% 0, 100% 0%, 100% 100%, 100% 100%)",
+          duration: 1,
+          stagger: 0.04,
+          delay: 0.1,
+          ease: "power1.easeIn",
+        },
+        ">=.5"
+      )
+      .to(".loading", { autoAlpha: 0, delay: 0.1, ease: "power4.inOut" });
 
-  const numberOne = gsap.utils.toArray(".number-one span");
-  numberOne.forEach((element, index) => {
-    let counterTl = gsap.timeline({
-      defaults: {
-          ease: 'none'
-      }
-    })
-    counterTl
-    .to(element, {xPercent: 100, delay: index, ease: 'power4.inOut' }, 0)
-    .to(element, {x: "10vw", delay: (index + 1), ease: 'power4.inOut' }, 0)
-  });
+    const numberOne = gsap.utils.toArray(".number-one span");
+    numberOne.forEach((element, index) => {
+      let counterTl = gsap.timeline({
+        defaults: {
+          ease: "none",
+        },
+        delay: 0.1,
+      });
+      counterTl
+        .to(element, { xPercent: 100, delay: index, ease: "power4.inOut" }, 0)
+        .to(element, { x: "10vw", delay: index + 1, ease: "power4.inOut" }, 0);
+    });
 
-  const numberTwo = gsap.utils.toArray(".number-two span");
-  numberTwo.forEach((element, index) => {
-    let counterTl = gsap.timeline({
-      defaults: {
-          ease: 'none'
-      }
-    })
-    counterTl
-    .to(element, {xPercent: 100, delay: index, ease: 'power4.inOut' }, 0)
-    .to(element, {x: "10vw", delay: (index + 1), ease: 'power4.inOut' }, 0)
-  });
+    const numberTwo = gsap.utils.toArray(".number-two span");
+    numberTwo.forEach((element, index) => {
+      let counterTl = gsap.timeline({
+        defaults: {
+          ease: "none",
+        },
+        delay: 0.1,
+      });
+      counterTl
+        .to(element, { xPercent: 100, delay: index, ease: "power4.inOut" }, 0)
+        .to(element, { x: "10vw", delay: index + 1, ease: "power4.inOut" }, 0);
+    });
   }
 
   initLoading();
@@ -228,57 +234,57 @@ const mainScript = () => {
         onComplete: () => {},
       });
 
-      this.tlHero
-        .from(".caption-timeline span span", {
-          duration: 1,
-          y: "100%",
-          opacity: 0,
-          ease: "power3.out",
-          delay: 0.7,
-          stagger: {
-            amount: 0.3,
-          },
-        })
-        .from(".video-wrapper", {
-          duration: 1,
-          y: "5%",
-          opacity: 0,
-          ease: "power3.out",
-          stagger: {
-            amount: 0.3,
-          },
-        });
+      // this.tlHero
+      //   .from(".caption-timeline span span", {
+      //     duration: 1,
+      //     y: "100%",
+      //     opacity: 0,
+      //     ease: "power3.out",
+      //     delay: 0.7,
+      //     stagger: {
+      //       amount: 0.3,
+      //     },
+      //   })
+      //   .from(".video-wrapper", {
+      //     duration: 1,
+      //     y: "5%",
+      //     opacity: 0,
+      //     ease: "power3.out",
+      //     stagger: {
+      //       amount: 0.3,
+      //     },
+      //   });
 
-      let clipValue = {
-        one: 35,
-        two: 3,
-      };
+      // let clipValue = {
+      //   one: 35,
+      //   two: 3,
+      // };
 
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: ".video-wrapper",
-            start: `center center`,
-            end: "+=700",
-            pin: true,
-            scrub: true,
-          },
-        })
-        .to(
-          clipValue,
-          {
-            duration: 1,
-            one: 0,
-            two: 0,
-            three: 0,
-            onUpdate: () => {
-              gsap.set(".hero__video", {
-                clipPath: `inset(${clipValue.one}% round ${clipValue.two}rem)`,
-              });
-            },
-          },
-          "<"
-        );
+      // gsap
+      //   .timeline({
+      //     scrollTrigger: {
+      //       trigger: ".video-wrapper",
+      //       start: `center center`,
+      //       end: "+=700",
+      //       pin: true,
+      //       scrub: true,
+      //     },
+      //   })
+      //   .to(
+      //     clipValue,
+      //     {
+      //       duration: 1,
+      //       one: 0,
+      //       two: 0,
+      //       three: 0,
+      //       onUpdate: () => {
+      //         gsap.set(".hero__video", {
+      //           clipPath: `inset(${clipValue.one}% round ${clipValue.two}rem)`,
+      //         });
+      //       },
+      //     },
+      //     "<"
+      //   );
     }
 
     play() {
@@ -341,11 +347,11 @@ const mainScript = () => {
 
   let homeProjectAnim = new homeProjectAnimate();
 
-  initScript();
+  // initScript();
 
-  function initScript() {
-    pageTransition();
-  }
+  // function initScript() {
+  //   pageTransition();
+  // }
 
   function pageTransition() {
     var tl = gsap.timeline();

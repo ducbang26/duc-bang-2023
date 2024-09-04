@@ -10,47 +10,33 @@
 }
 
 :root {
-  --x-spacing: 10rem;
+  --x-spacing: 5rem;
   --color-white: 0, 0%, 100%;
-  --size: 1125;
 }
 
 @media (max-width: 767px) { 
   :root {
-    --x-spacing: 5rem;
+    --x-spacing: 2rem;
   }
 
-}
-
-@media(min-width: 650px) {
-  :root {
-    --size: 3840;
-  }
-}
-
-@font-face {
-  font-family: 'AvantGarde';
-  src: url("/fonts/AvantGarde.otf") format("opentype");
 }
 
 html {
   background: $color-black-light;
   color: $color-stone;
   text-size-adjust: none;
-  font-size: .88889vw;
-  font-size: calc(1000vw/var(--size));
+  font-size: .5208333333vw !important;
   -webkit-text-size-adjust: none;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  font-family: 'AvantGarde', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   margin: 0;
   -ms-overflow-style: none;
-  scrollbar-width: none;
   font-size: 1.9rem;
-  line-height: 1.6;
+  line-height: 1.2;
 }
 
 body::-webkit-scrollbar {
@@ -118,8 +104,8 @@ html.lenis {
 }
 
 .loading {
-  width: 100vw;
-  height: 100vh;
+  width: 100svw;
+  height: 100svh;
   position: fixed;
   pointer-events: none;
   z-index: 99;
@@ -129,10 +115,9 @@ html.lenis {
     display: flex;
     position: absolute;
     transform-origin: bottom left;
-    will-change: transform;
     .preloader__numbers {
       display: inline-block;
-      height: 20vw;
+      height: 15vw;
       overflow: hidden;
       position: relative;
       width: 10vw;
@@ -144,7 +129,7 @@ html.lenis {
         font-size: 16vw;
         position: absolute;
         transform: translate(-100%);
-        will-change: transform;
+        line-height: 1;
       }
     }
   }

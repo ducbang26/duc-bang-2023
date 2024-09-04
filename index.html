@@ -12,6 +12,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
   <script>document.documentElement.className = "js"; var supportsCssVars = function () { var e, t = document.createElement("style"); return t.innerHTML = "root: { --tmp-var: bold; }", document.head.appendChild(t), e = !!(window.CSS && window.CSS.supports && window.CSS.supports("font-weight", "var(--tmp-var)")), t.parentNode.removeChild(t), e }; supportsCssVars() || alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://unpkg.com/split-type"></script>
@@ -67,9 +69,9 @@
         <div class="container">
           <div class="container-wrapper">
             <div class="menu-wrapper">
-              <div class="menu-items-wrapper logo">
+              <div class="menu-items-wrapper">
                 <a href="/" aria-current="page" class="logo-link-wrapper w-inline-block w--current">
-                  <div class="txt-medium">DucBang</div>
+                  <div class="txt-logo txt-medium">DUCBANG</div>
                 </a>
                 <div class="header-btn headerBtn">
                   <div class="state">
@@ -105,25 +107,20 @@
         </div>
       </nav>
 
-      <div class="heading hero__wrapper sectionLink" id="about">
-        <div id="hero-caption"
-          class="content-full-width text-align-center parallax-scroll-caption subtitle-padding-left no-padding-bottom">
-          <div class="inner">
-            <div class="hero-subtitle caption-timeline">
-              <span><span>I develop responsive, interactive,</span></span>
-              <span><span> and animated websites with</span></span>
-              <span><span> a strong focus on performance.</span></span>
-            </div>
-          </div>
+      <section class="home__hero sectionLink">
+        <div class="home__hero-title">
+          <h1 style="font-size: 25rem;" class="hero__title-text">
+            DUCBANG
+          </h1>
         </div>
-        <div class="container">
-          <div class="video-wrapper">
-            <video class="hero__video" src="/video/showreel.mp4" muted autoplay loop></video>
-          </div>
+        <div class="home__heroShowReel-wrap">
+          <figure class="home__heroShowReel">
+            <video style="transform: scale(0.48, 0.48);clip-path: inset(10.5% round 32px);" class="home__heroShowReel-video" src="/video/showreel.mp4" muted autoplay loop></video>
+          </figure>
         </div>
-      </div>
+      </section>
 
-      <section id="work" class="projects section grey-section sectionLink">
+      <section id="work" class="home__projects section sectionLink">
         <div class="headline">
           <h2>
             <div style="overflow: hidden;">
@@ -212,7 +209,7 @@
         </div>
       </div>
 
-      <section class="Experience_section section sectionLink" id="experience">
+      <section class="home_exp section sectionLink" id="experience">
         <div class="headline">
           <h2>
             <div style="overflow: hidden;">
@@ -261,7 +258,7 @@
     </div>
   </main>
 
-  <footer class="contact_section sectionLink" id="contact">
+  <footer class="footer sectionLink" id="contact">
     <div class="contact_wrapper">
       <div class="contact_content">
         <div class="footer_middle">
