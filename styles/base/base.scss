@@ -21,6 +21,16 @@
 
 }
 
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../fonts/Satoshi-Variable.woff2') format('woff2'),
+       url('../fonts/Satoshi-Variable.woff') format('woff'),
+       url('../fonts/Satoshi-Variable.ttf') format('truetype');
+  font-weight: 300 900;
+  font-display: swap;
+  font-style: normal;
+}
+
 html {
   background: $color-black-light;
   color: $color-stone;
@@ -32,7 +42,7 @@ html {
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Satoshi', sans-serif;
   margin: 0;
   -ms-overflow-style: none;
   font-size: 1.9rem;
@@ -97,10 +107,6 @@ html.lenis {
 
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
-}
-
-#app {
-  border-bottom: 1px solid rgba($color: $color-stone, $alpha: 0.1);
 }
 
 .loading {
