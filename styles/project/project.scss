@@ -19,24 +19,33 @@
     }
 }
 
-.our-projects {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin: auto;
-    row-gap: 0;
+.projects {
+    position: relative;
+    height: 300svh;
+
+    .projects-wrap {
+        position: sticky;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: clip;
+
+        .projects-wrap-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            perspective: 750px;
+        }
+    }
 
     .project-box {
-        padding-left: 1vw;
-        padding-right: 1vw;
-        position: relative;
+        font-family: 'Poppins', sans-serif;
+        position: absolute;
+        top: 0;
         display: flex;
-        width: 50%;
         flex-direction: column;
         grid-gap: 1vw;
-        margin-top: -5vw;
-        font-family: 'Poppins', sans-serif;
 
         a {
             display: flex !important;
@@ -44,23 +53,14 @@
             height: 100%;
         }
 
-        .project-box-number {
-            z-index: 800;
-            position: absolute;
-            top: -3.5vw;
-            right: 2vw;
-            font-size: 6vw;
-            font-style: italic;
-        }
-
         .project-box-image {
             position: relative;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            max-width: 100%;
-            clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
-            border-radius: 5rem;
+            width: 80rem;
+            border-radius: 1rem;
+            aspect-ratio: 4/3;
         }
 
         .project-box-name {
@@ -95,28 +95,5 @@
                 margin-left: calc(0.5rem + .7vw);
             }
         }
-    }
-
-    @media (max-width: 767px) {
-        .project-box {
-            width: 100%;
-            margin-top: 2vw;
-        }
-    }
-}
-
-@media (max-width: 767px) {
-    .our-projects { 
-        row-gap: 5vw;
-    }
-}
-
-.project-box:nth-of-type(even) {
-    margin-top: 10vw;
-}
-
-@media (max-width: 767px) {
-    .project-box:nth-of-type(even) {
-        margin-top: 0;
     }
 }

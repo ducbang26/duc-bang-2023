@@ -10,18 +10,24 @@
     width: 100%;
     height: 100svh;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     text-align: center;
     padding-left: var(--x-spacing);
     padding-right: var(--x-spacing);
-    z-index: 190;
-    // padding-bottom: 3rem;
+    z-index: 10;
+
+    .hero__title-text {
+        font-size: 20.5vw;
+        letter-spacing: -.8vw;
+        line-height: 85%;
+        text-transform: uppercase;
+    }
 }
 
 .home__heroShowReel-wrap {
     width: 100%;
-    height: 300svh;
+    height: 100svh;
 
     .home__heroShowReel {
         position: sticky;
