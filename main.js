@@ -8,6 +8,8 @@ const mainScript = () => {
   gsap.registerPlugin(ScrollTrigger);
   window.scrollTo(0, 0);
 
+  var starfield;
+
   const lenis = new Lenis({
     lerp: false,
     duration: 1.6,
@@ -219,10 +221,58 @@ const mainScript = () => {
   initLoading();
   // End Loading
 
+  //WebGl
+  function initWebGl() {
+    let webglOpts;
+    var webgl = null;
+    var opening = document.querySelector(".projects").offsetTop;
+    var canvas = document.querySelector("#starfield");
+    var webglContextParams = ['webgl', 'experimental-webgl', 'webkit-3d', 'moz-webgl'];
+    var webglContext = null;
+    for (var index = 0; index < webglContextParams.length; index++) {
+      try {
+        webglContext = canvas.getContext(webglContextParams[index]);
+        if (webglContext) {
+          //breaking as we got our context
+          webgl = true;
+          break;
+        }
+      } catch (E) {
+        console.log(E);
+      }
+    }
+
+    if ($(window).width() > 768) {
+      webglOpts = {
+        starCount: 1500,
+        follow: true,
+      };
+    } else {
+      webglOpts = {
+        starCount: 300,
+        follow: false,
+      };
+    }
+    starfield = new WebGLBackground({
+      canvas: document.querySelector("#starfield"),
+      button: document.querySelector('.webgl-center'),
+      backgroundColor: "#020518",
+      followButton: webglOpts.follow,
+      starCount: webglOpts.starCount,
+      starsScrollRange: [opening, 1500],
+      cloudsScrollRange: [opening, 1500],
+      idleIntensity: 0.1,
+      clickIntensity: 0.1,
+      buttonIntensity: 0.1,
+    });
+
+    console.log(starfield);
+  }
+  initWebGl();
+  //End WebGL
+
   // Animation
   class homeHeroAnimate {
-    tlHero;
-
     constructor() {
       this.tlHero;
     }
@@ -233,58 +283,6 @@ const mainScript = () => {
         onStart: () => {},
         onComplete: () => {},
       });
-
-      // this.tlHero
-      //   .from(".caption-timeline span span", {
-      //     duration: 1,
-      //     y: "100%",
-      //     opacity: 0,
-      //     ease: "power3.out",
-      //     delay: 0.7,
-      //     stagger: {
-      //       amount: 0.3,
-      //     },
-      //   })
-      //   .from(".video-wrapper", {
-      //     duration: 1,
-      //     y: "5%",
-      //     opacity: 0,
-      //     ease: "power3.out",
-      //     stagger: {
-      //       amount: 0.3,
-      //     },
-      //   });
-
-      // let clipValue = {
-      //   one: 35,
-      //   two: 3,
-      // };
-
-      // gsap
-      //   .timeline({
-      //     scrollTrigger: {
-      //       trigger: ".video-wrapper",
-      //       start: `center center`,
-      //       end: "+=700",
-      //       pin: true,
-      //       scrub: true,
-      //     },
-      //   })
-      //   .to(
-      //     clipValue,
-      //     {
-      //       duration: 1,
-      //       one: 0,
-      //       two: 0,
-      //       three: 0,
-      //       onUpdate: () => {
-      //         gsap.set(".hero__video", {
-      //           clipPath: `inset(${clipValue.one}% round ${clipValue.two}rem)`,
-      //         });
-      //       },
-      //     },
-      //     "<"
-      //   );
     }
 
     play() {
@@ -309,137 +307,41 @@ const mainScript = () => {
     }
 
     setup() {
-      const projectBoxImage = gsap.utils.toArray(".project-box-image");
-      const projectBoxNumber = gsap.utils.toArray(".project-box-number");
+      const projectBox = gsap.utils.toArray(".project-box");
 
-      projectBoxNumber.forEach((item) => {
-        gsap.to(item, {
-          translate: "0% -30%",
-          ease: "power2.inOut",
-          duration: 1,
-          scrollTrigger: {
-            trigger: item,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1,
-          },
+      for (let i = 0; i < projectBox.length; i++) {
+        gsap.set(projectBox[i], {
+          z: -1000,
+          autoAlpha: 0,
         });
+      }
+
+      const tlAnim = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".projects",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: true,
+        },
       });
 
-      projectBoxImage.forEach((item) => {
-        gsap.to(
-          item,
-          {
-            clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-            ease: "power4.out",
-            duration: 1.5,
-            scrollTrigger: {
-              trigger: item,
-              start: "top 80%",
-              end: "bottom center",
-            },
-          },
-          "-=1"
-        );
+      projectBox.forEach((item) => {
+        tlAnim
+          .to(item, { z: -200, autoAlpha: 1, duration: 4, ease: "linear" })
+          .to(item, { z: 1000, duration: 4, ease: "linear" })
+          .to(item, { autoAlpha: 0, ease: "linear" }, "-=0.45");
       });
     }
   }
 
   let homeProjectAnim = new homeProjectAnimate();
 
-  // initScript();
+  const SCRIPT = {};
+  SCRIPT.homeScript = () => {
+    homeHeroAnim.setup();
+    homeProjectAnim.setTrigger();
+  };
 
-  // function initScript() {
-  //   pageTransition();
-  // }
-
-  function pageTransition() {
-    var tl = gsap.timeline();
-
-    tl.from(".caption-timeline span span", {
-      duration: 1,
-      y: "100%",
-      opacity: 0,
-      ease: "power3.out",
-      delay: 0.7,
-      stagger: {
-        amount: 0.3,
-      },
-    }).from(".video-wrapper", {
-      duration: 1,
-      y: "5%",
-      opacity: 0,
-      ease: "power3.out",
-      stagger: {
-        amount: 0.3,
-      },
-    });
-
-    let clipValue = {
-      one: 35,
-      two: 3,
-    };
-
-    gsap
-      .timeline({
-        scrollTrigger: {
-          trigger: ".video-wrapper",
-          start: `center center`,
-          end: "+=700",
-          pin: true,
-          scrub: true,
-        },
-      })
-      .to(
-        clipValue,
-        {
-          duration: 1,
-          one: 0,
-          two: 0,
-          three: 0,
-          onUpdate: () => {
-            gsap.set(".hero__video", {
-              clipPath: `inset(${clipValue.one}% round ${clipValue.two}rem)`,
-            });
-          },
-        },
-        "<"
-      );
-
-    const projectBoxNumber = gsap.utils.toArray(".project-box-number");
-
-    projectBoxNumber.forEach((item) => {
-      gsap.to(item, {
-        translate: "0% -30%",
-        ease: "power2.inOut",
-        duration: 1,
-        scrollTrigger: {
-          trigger: item,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
-    });
-
-    const projectBoxImage = gsap.utils.toArray(".project-box-image");
-
-    projectBoxImage.forEach((item) => {
-      gsap.to(
-        item,
-        {
-          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-          ease: "power4.out",
-          duration: 1.5,
-          scrollTrigger: {
-            trigger: item,
-            start: "top 80%",
-            end: "bottom center",
-          },
-        },
-        "-=1"
-      );
-    });
-  }
+  SCRIPT.homeScript();
 };
 window.onload = mainScript;
