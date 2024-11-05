@@ -3,12 +3,11 @@ import "./styles/index.scss";
 import { gsap } from "gsap";
 import Lenis from "@studio-freight/lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import * as THREE from 'three';
 
 const mainScript = () => {
   gsap.registerPlugin(ScrollTrigger);
   window.scrollTo(0, 0);
-
-  var starfield;
 
   const lenis = new Lenis({
     lerp: false,
@@ -223,50 +222,47 @@ const mainScript = () => {
 
   //WebGl
   function initWebGl() {
-    let webglOpts;
-    var webgl = null;
-    var opening = document.querySelector(".projects").offsetTop;
-    var canvas = document.querySelector("#starfield");
-    var webglContextParams = ['webgl', 'experimental-webgl', 'webkit-3d', 'moz-webgl'];
-    var webglContext = null;
-    for (var index = 0; index < webglContextParams.length; index++) {
-      try {
-        webglContext = canvas.getContext(webglContextParams[index]);
-        if (webglContext) {
-          //breaking as we got our context
-          webgl = true;
-          break;
-        }
-      } catch (E) {
-        console.log(E);
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const geometry = new THREE.PlaneGeometry(2, 2);
+    const uniforms = {
+      iTime: { value: 0 },
+      iResolution: {
+        value: new THREE.Vector2(window.innerWidth, window.innerHeight),
       }
     }
 
-    if ($(window).width() > 768) {
-      webglOpts = {
-        starCount: 1500,
-        follow: true,
-      };
-    } else {
-      webglOpts = {
-        starCount: 300,
-        follow: false,
-      };
-    }
-    starfield = new WebGLBackground({
-      canvas: document.querySelector("#starfield"),
-      button: document.querySelector('.webgl-center'),
-      backgroundColor: "#020518",
-      followButton: webglOpts.follow,
-      starCount: webglOpts.starCount,
-      starsScrollRange: [opening, 1500],
-      cloudsScrollRange: [opening, 1500],
-      idleIntensity: 0.1,
-      clickIntensity: 0.1,
-      buttonIntensity: 0.1,
+    const material = new THREE.ShaderMaterial({
+      uniforms: uniforms,
+      vertexShader: document.getElementById('vertexShader').textContent,
+      fragmentShader: document.getElementById('fragmentShader').textContent,
     });
 
-    console.log(starfield);
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    let lastTime = 0;
+    function animated(time) {
+      const deltaTime = time - lastTime;
+      lastTime = time;
+      uniforms.iTime.value += deltaTime * 0.001;
+      renderer.render(scene, camera);
+
+      requestAnimationFrame(animated);
+    }
+
+    animated(0);
+
+    window.addEventListener('resize', () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      renderer.setSize(width, height);
+      uniforms.iResolution.value.set(width, height);
+    });
   }
   initWebGl();
   //End WebGL
