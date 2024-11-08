@@ -10,7 +10,7 @@
 }
 
 :root {
-  --x-spacing: 5rem;
+  --x-spacing: 4rem;
   --color-white: 0, 0%, 100%;
 }
 
@@ -22,18 +22,18 @@
 }
 
 @font-face {
-  font-family: 'Satoshi';
-  src: url('../fonts/Satoshi-Variable.woff2') format('woff2'),
-       url('../fonts/Satoshi-Variable.woff') format('woff'),
-       url('../fonts/Satoshi-Variable.ttf') format('truetype');
-  font-weight: 300 900;
+  font-family: 'Rajdhani';
+  src: url('../fonts/Rajdhani-Variable.woff2') format('woff2'),
+       url('../fonts/Rajdhani-Variable.woff') format('woff'),
+       url('../fonts/Rajdhani-Variable.ttf') format('truetype');
+  font-weight: 300 700;
   font-display: swap;
   font-style: normal;
 }
 
 html {
   background: $color-black-light;
-  color: $color-stone;
+  color: $color-white;
   text-size-adjust: none;
   font-size: .5208333333vw !important;
   -webkit-text-size-adjust: none;
@@ -42,7 +42,7 @@ html {
 }
 
 body {
-  font-family: 'Satoshi', sans-serif;
+  font-family: 'Rajdhani', sans-serif;
   margin: 0;
   -ms-overflow-style: none;
   font-size: 1.9rem;
@@ -96,8 +96,8 @@ html.lenis {
 }
 
 .loading {
-  width: 100svw;
-  height: 100svh;
+  width: 100%;
+  height: 100vh;
   position: fixed;
   pointer-events: none;
   z-index: 99;
@@ -132,7 +132,7 @@ html.lenis {
     display: flex;
 
     &-block {
-      background-color: $color-stone;
+      background-color: $color-white;
       height: 100%;
       width: 5%;
       clip-path: polygon(101% 0, -1% 0, -1% 100%, 101% 100%);

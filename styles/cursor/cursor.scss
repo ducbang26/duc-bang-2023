@@ -9,7 +9,7 @@
    transform: translate(-48%, -75%) rotate(0.001deg);
    transition: width .3s cubic-bezier(0.7, 0, 0.3, 1), background-color .15s cubic-bezier(0.7, 0, 0.3, 1);
    will-change: transform, width;
-   background-color: $color-stone;
+   background-color: $color-white;
    border-radius: 50%;
 }
 
@@ -36,7 +36,7 @@
 
 /* Hover Work Case */
 .custom-cursor.cursor-work {
-   background-color: $color-stone;
+   background-color: $color-white;
    width: 7vw;
    transform: translate(-48%, -75%) rotate(0.001deg);
    mix-blend-mode: normal;
@@ -87,7 +87,7 @@
 
 /* Hover Tiles Home Header */
 .custom-cursor.cursor-tiles {
-   background-color: $color-stone;
+   background-color: $color-white;
    width: 7vw;
    transform: translate(-48%, -75%) rotate(0.001deg);
    mix-blend-mode: normal;

@@ -7,7 +7,6 @@ import * as THREE from 'three';
 
 const mainScript = () => {
   gsap.registerPlugin(ScrollTrigger);
-  window.scrollTo(0, 0);
 
   const lenis = new Lenis({
     lerp: false,
@@ -307,7 +306,7 @@ const mainScript = () => {
 
       for (let i = 0; i < projectBox.length; i++) {
         gsap.set(projectBox[i], {
-          z: -1000,
+          z: -3000,
           autoAlpha: 0,
         });
       }
@@ -323,7 +322,7 @@ const mainScript = () => {
 
       projectBox.forEach((item) => {
         tlAnim
-          .to(item, { z: -200, autoAlpha: 1, duration: 4, ease: "linear" })
+          .to(item, { z: -200, autoAlpha: 1, duration: 6, ease: "linear" })
           .to(item, { z: 1000, duration: 4, ease: "linear" })
           .to(item, { autoAlpha: 0, ease: "linear" }, "-=0.45");
       });
@@ -336,6 +335,8 @@ const mainScript = () => {
   SCRIPT.homeScript = () => {
     homeHeroAnim.setup();
     homeProjectAnim.setTrigger();
+
+    lenis.scrollTo('.home__hero');
   };
 
   SCRIPT.homeScript();
