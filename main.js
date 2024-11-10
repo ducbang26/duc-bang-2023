@@ -19,6 +19,8 @@ const mainScript = () => {
   }
   requestAnimationFrame(raf);
 
+  lenis.scrollTo('.home__hero');
+
   const viewport = {
     w: window.innerWidth,
     h: window.innerHeight,
@@ -28,6 +30,18 @@ const mainScript = () => {
     viewport.h = window.innerHeight;
   }
   $(window).on("resize", updateViewportSize);
+
+  function calcTransform(property, value) {
+    let alias = { y: "translateY", x: "translateX", z: "translateZ", rotation: "rotate" };
+    return function (i, target) {
+      let transform = target.style.transform; // remember the original transform
+      target.style.transform = (alias[property] || property) + "(" + value + ")"; // apply the new value
+      let computed = parseFloat(gsap.getProperty(target, property, property.substr(0, 3) === "rot" ? "deg" : "px", true)); // grab the pixel value
+      target.style.transform = transform; // revert
+      gsap.getProperty(target, property, "px", true); // reset the cache so the new value is reflected
+      return computed; 
+    };
+  }
 
   const images = document.querySelectorAll("img");
   let imagesIndex = 0;
@@ -162,34 +176,29 @@ const mainScript = () => {
 
   // Loading
   function initLoading() {
+    const element = document.querySelector('.loading__numbers').getBoundingClientRect();
+    const elementWidth = element.width;
+
     let loadTl = gsap.timeline({
-      // paused: true,
       defaults: {
         ease: "none",
       },
       onComplete() {
         initCursor();
+        homeHeroAnim.play();
       },
     });
+    
     loadTl
-      .to(".loading__numbers", { x: "20vw", delay: 1, ease: "power4.inOut" })
-      .to(".loading__numbers", { x: "40vw", delay: 0.5, ease: "power4.inOut" })
-      .to(".loading__numbers", { x: "60vw", delay: 0.5, ease: "power4.inOut" })
-      .to(".loading__numbers", { x: "80vw", delay: 0.5, ease: "power4.inOut" })
-      .to(
-        ".loading-overlay-block",
-        {
-          clipPath: "polygon(100% 0, 100% 0%, 100% 100%, 100% 100%)",
-          duration: 1,
-          stagger: 0.04,
-          delay: 0.1,
-          ease: "power1.easeIn",
-        },
-        ">=.5"
-      )
-      .to(".loading", { autoAlpha: 0, delay: 0.1, ease: "power4.inOut" });
+      .to(".loading__numbers", { x: calcTransform("x", `calc(${elementWidth}px + 1rem)`), delay: 1, ease: "power4.inOut" })
+      .to(".loading__numbers", { x: calcTransform("x", `calc(${elementWidth * 2}px + 2rem)`), delay: 0.5, ease: "power4.inOut" })
+      .to(".loading__numbers", { x: calcTransform("x", `calc(${elementWidth * 3}px + 3rem)`), delay: 0.5, ease: "power4.inOut" })
+      .to(".loading__numbers", { x: calcTransform("x", `calc(${elementWidth * 4}px + 4rem)`), delay: 0.5, ease: "power4.inOut" })
+      .to(".loading__numbers", { x: calcTransform("x", `calc(${elementWidth * 5}px + 5rem)`), delay: 0.5, ease: "power4.inOut" })
+      .to(".hero__title-letter", { x: 0, duration: 0.8, delay: 0.7, ease: "power2.inOut" })
+      .to(".loading", { autoAlpha: 0, ease: "power4.inOut" }, '-=0.7');
 
-    const numberOne = gsap.utils.toArray(".number-one span");
+    const numberOne = gsap.utils.toArray(".number-one div");
     numberOne.forEach((element, index) => {
       let counterTl = gsap.timeline({
         defaults: {
@@ -202,7 +211,7 @@ const mainScript = () => {
         .to(element, { x: "10vw", delay: index + 1, ease: "power4.inOut" }, 0);
     });
 
-    const numberTwo = gsap.utils.toArray(".number-two span");
+    const numberTwo = gsap.utils.toArray(".number-two div");
     numberTwo.forEach((element, index) => {
       let counterTl = gsap.timeline({
         defaults: {
@@ -275,9 +284,11 @@ const mainScript = () => {
     setup() {
       this.tlHero = gsap.timeline({
         paused: true,
-        onStart: () => {},
         onComplete: () => {},
       });
+
+      this.tlHero.to(".sec-nav", { opacity: 1, duration: 1.2, ease: 'power3.inOut' })
+      .to(".home__hero-title", { backgroundColor: '#0e0e0e1a', ease: 'power3.inOut' }, '-=0.6');
     }
 
     play() {
@@ -333,10 +344,10 @@ const mainScript = () => {
 
   const SCRIPT = {};
   SCRIPT.homeScript = () => {
+    lenis.scrollTo('.home__hero');
+
     homeHeroAnim.setup();
     homeProjectAnim.setTrigger();
-
-    lenis.scrollTo('.home__hero');
   };
 
   SCRIPT.homeScript();

@@ -16,18 +16,25 @@
     padding-left: var(--x-spacing);
     padding-right: var(--x-spacing);
     z-index: 10;
-    background-color: rgba($color: $color-black-light, $alpha: .1);
+    background-color: $color-black-light;
+    transition: background-color .4s ease-in;
 
     .hero__title-text {
         margin-bottom: 2rem;
         width: 100%;
         display: flex;
         gap: 1rem;
+    }
 
-        svg {
+    .hero__char {
+        width: 100%;
+        overflow: hidden;
+
+        .hero__title-letter {
             width: inherit;
             height: 100%;
             display: block;
+            transform: translateX(-100%);
         }
     }
 }

@@ -14,7 +14,7 @@
   --color-white: 0, 0%, 100%;
 }
 
-@media (max-width: 767px) { 
+@media (max-width: 767px) {
   :root {
     --x-spacing: 2rem;
   }
@@ -24,8 +24,8 @@
 @font-face {
   font-family: 'Rajdhani';
   src: url('../fonts/Rajdhani-Variable.woff2') format('woff2'),
-       url('../fonts/Rajdhani-Variable.woff') format('woff'),
-       url('../fonts/Rajdhani-Variable.ttf') format('truetype');
+    url('../fonts/Rajdhani-Variable.woff') format('woff'),
+    url('../fonts/Rajdhani-Variable.ttf') format('truetype');
   font-weight: 300 700;
   font-display: swap;
   font-style: normal;
@@ -101,42 +101,52 @@ html.lenis {
   position: fixed;
   pointer-events: none;
   z-index: 99;
+  padding-left: var(--x-spacing);
+  padding-right: var(--x-spacing);
+  padding-bottom: 2rem;
+  background-color: $color-black-light;
 
-  &__numbers{
-    bottom: 0;
+  .loading__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    column-gap: 1rem;
+    width: 100%;
+    height: 100%;
+  }
+
+  .loading__numbers {
+    width: 100%;
+    height: 100%;
+  }
+
+  .loading__numbers-one {
+    grid-row-start: 1;
+    grid-column-start: 1;
+  }
+
+  .loading__numbers-two {
+    grid-row-start: 1;
+    grid-column-start: 2;
+  }
+
+  .preloader__numbers {
     display: flex;
-    position: absolute;
-    transform-origin: bottom left;
-    .preloader__numbers {
-      display: inline-block;
-      height: 15vw;
-      overflow: hidden;
-      position: relative;
-      width: 10vw;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    align-items: flex-end;
 
-      span {
-        font-family: "Poppins", sans-serif;
-        color: $color-black-light;
-        display: inline-block;
-        font-size: 16vw;
-        position: absolute;
-        transform: translate(-100%);
-        line-height: 1;
+    div {
+      position: absolute;
+      width: 100%;
+      transform: translateX(-100%);
+
+      svg {
+        width: inherit;
+        height: 100%;
+        display: block;
       }
     }
   }
-
-  &-overlay {
-    width: 100%;
-    height: 100%;
-    display: flex;
-
-    &-block {
-      background-color: $color-white;
-      height: 100%;
-      width: 5%;
-      clip-path: polygon(101% 0, -1% 0, -1% 100%, 101% 100%);
-    }
-  }
 }
-
