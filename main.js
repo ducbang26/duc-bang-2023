@@ -234,7 +234,7 @@ const mainScript = () => {
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+    document.querySelector('.projects-bg').appendChild(renderer.domElement);
 
     const geometry = new THREE.PlaneGeometry(2, 2);
     const uniforms = {
@@ -272,23 +272,40 @@ const mainScript = () => {
       uniforms.iResolution.value.set(width, height);
     });
   }
-  initWebGl();
   //End WebGL
 
   // Animation
   class homeHeroAnimate {
     constructor() {
       this.tlHero;
+      this.tlOverlapAnim;
     }
 
     setup() {
       this.tlHero = gsap.timeline({
         paused: true,
+        onStart: () => {
+          this.overlapAnim();
+        },
         onComplete: () => {},
       });
 
       this.tlHero.to(".sec-nav", { opacity: 1, duration: 1.2, ease: 'power3.inOut' })
       .to(".home__hero-title", { backgroundColor: '#0e0e0e1a', ease: 'power3.inOut' }, '-=0.6');
+    }
+
+    overlapAnim() {
+      this.tlOverlapAnim = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.home__hero-title',
+            start: `top+=${viewport.h * .3} top`,
+            end: 'bottom 30%',
+            scrub: .5,
+        }
+      })
+      this.tlOverlapAnim
+      .to('.home__heroShowReel', { opacity: 0, duration: 1, ease: 'none' })
+      .to(".hero__title-letter", { xPercent: -100, opacity: 0, ease: 'none' }, "<")
     }
 
     play() {
@@ -298,11 +315,13 @@ const mainScript = () => {
   let homeHeroAnim = new homeHeroAnimate();
 
   class homeProjectAnimate {
-    constructor() {}
+    constructor() {
+      this.headlineAnim;
+    }
 
     setTrigger() {
       ScrollTrigger.create({
-        trigger: ".projects",
+        trigger: ".home__projects",
         start: "top bottom",
         end: "bottom top",
         once: true,
@@ -313,11 +332,30 @@ const mainScript = () => {
     }
 
     setup() {
+      const firstWords = new SplitType('.first-words', {types: 'words, chars', charClass: 'headline-char'});
+      const secondWords = new SplitType('.second-words', {types: 'words, chars', charClass: 'headline-char'});
       const projectBox = gsap.utils.toArray(".project-box");
+
+      gsap.set('.first-words', { opacity: 1 });
+      gsap.set('.second-words', { opacity: 1 });
+
+      this.headlineAnim = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.headline',
+            start: `top+=${viewport.h * .4} top`,
+            end: '90% 70%',
+            scrub: true,
+        }
+      })
+      this.headlineAnim
+      .to(firstWords.chars, { translateY: '0px', translateZ: '0px', rotate: '0deg', opacity: 1, ease: 'none', stagger: 0.03 })
+      .to('.first-words', { opacity: 0, duration: 2, ease: 'none' })
+      .to(secondWords.chars, { translateY: '0px', translateZ: '0px', rotate: '0deg', opacity: 1, ease: 'none', stagger: 0.03 })
+      .to('.second-words', { opacity: 0, duration: 2, ease: 'none' })
 
       for (let i = 0; i < projectBox.length; i++) {
         gsap.set(projectBox[i], {
-          z: -3000,
+          z: -5000,
           autoAlpha: 0,
         });
       }
@@ -333,10 +371,12 @@ const mainScript = () => {
 
       projectBox.forEach((item) => {
         tlAnim
-          .to(item, { z: -200, autoAlpha: 1, duration: 6, ease: "linear" })
-          .to(item, { z: 1000, duration: 4, ease: "linear" })
+          .to(item, { autoAlpha: 1, ease: "none" })
+          .to(item, { z: 500, duration: 4, ease: "linear" }, "<")
           .to(item, { autoAlpha: 0, ease: "linear" }, "-=0.45");
       });
+
+      initWebGl();
     }
   }
 
