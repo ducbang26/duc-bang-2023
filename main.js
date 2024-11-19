@@ -299,7 +299,7 @@ const mainScript = () => {
         scrollTrigger: {
             trigger: '.home__hero-title',
             start: `top+=${viewport.h * .3} top`,
-            end: 'bottom 30%',
+            end: '95% 30%',
             scrub: .5,
         }
       })
@@ -316,7 +316,9 @@ const mainScript = () => {
 
   class homeProjectAnimate {
     constructor() {
-      this.headlineAnim;
+      this.tlHeadlineAnim;
+      this.tlProjectsAnim;
+      this.projectBox;
     }
 
     setTrigger() {
@@ -334,12 +336,15 @@ const mainScript = () => {
     setup() {
       const firstWords = new SplitType('.first-words', {types: 'words, chars', charClass: 'headline-char'});
       const secondWords = new SplitType('.second-words', {types: 'words, chars', charClass: 'headline-char'});
-      const projectBox = gsap.utils.toArray(".project-box");
+      this.projectBox = gsap.utils.toArray(".project-box");
 
       gsap.set('.first-words', { opacity: 1 });
       gsap.set('.second-words', { opacity: 1 });
 
-      this.headlineAnim = gsap.timeline({
+      this.tlHeadlineAnim = gsap.timeline({
+        onComplete: () => {
+          this.projectsAnim();
+        },
         scrollTrigger: {
             trigger: '.headline',
             start: `top+=${viewport.h * .4} top`,
@@ -347,20 +352,24 @@ const mainScript = () => {
             scrub: true,
         }
       })
-      this.headlineAnim
+      this.tlHeadlineAnim
       .to(firstWords.chars, { translateY: '0px', translateZ: '0px', rotate: '0deg', opacity: 1, ease: 'none', stagger: 0.03 })
       .to('.first-words', { opacity: 0, duration: 2, ease: 'none' })
       .to(secondWords.chars, { translateY: '0px', translateZ: '0px', rotate: '0deg', opacity: 1, ease: 'none', stagger: 0.03 })
       .to('.second-words', { opacity: 0, duration: 2, ease: 'none' })
 
-      for (let i = 0; i < projectBox.length; i++) {
-        gsap.set(projectBox[i], {
+      for (let i = 0; i < this.projectBox.length; i++) {
+        gsap.set(this.projectBox[i], {
           z: -5000,
           autoAlpha: 0,
         });
       }
 
-      const tlAnim = gsap.timeline({
+      initWebGl();
+    }
+
+    projectsAnim() {
+      this.tlProjectsAnim = gsap.timeline({
         scrollTrigger: {
           trigger: ".projects",
           start: "top top",
@@ -369,14 +378,15 @@ const mainScript = () => {
         },
       });
 
-      projectBox.forEach((item) => {
-        tlAnim
+      this.tlProjectsAnim
+      .to('.projects', { opacity: 1, duration: 2.5, ease: 'none' });
+
+      this.projectBox.forEach((item) => {
+        this.tlProjectsAnim
           .to(item, { autoAlpha: 1, ease: "none" })
           .to(item, { z: 500, duration: 4, ease: "linear" }, "<")
           .to(item, { autoAlpha: 0, ease: "linear" }, "-=0.45");
       });
-
-      initWebGl();
     }
   }
 
