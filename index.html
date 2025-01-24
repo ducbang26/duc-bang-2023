@@ -120,6 +120,8 @@
         </div>
       </div>
 
+      <canvas id="bg-canvas"></canvas>
+
       <nav id="navbar" class="sec-nav">
         <div class="container">
           <div class="container-wrapper">
@@ -164,9 +166,9 @@
 
       <section class="home__hero sectionLink">
         <div class="home__heroShowReel-wrap">
-          <figure class="home__heroShowReel">
+          <!-- <figure class="home__heroShowReel">
             <video class="home__heroShowReel-video" src="/video/showreel.mp4" muted autoplay loop></video>
-          </figure>
+          </figure> -->
         </div>
         <div class="home__hero-title">
           <div class="hero__title-text">
@@ -245,7 +247,6 @@
         </div>
         <div class="projects">
           <div class="projects-wrap">
-            <div class="projects-bg"></div>
             <div class="projects-wrap-inner">
               <div class="project-box">
                 <a href="https://wrong-parker.vercel.app/" class="link w-inline-block " target="_blank">
@@ -393,6 +394,8 @@
         </div>
       </section>
 
+      <canvas id="laptop-canvas"></canvas>
+
     </div>
   </main>
 
@@ -420,81 +423,7 @@
     </div>
   </footer>
 
-  <div class="custom-cursor no-select cursor-init">
-    <div class="overlay cursor-tiles-inner">
-      <span>
-        <div class="rotate-cursor">Scroll <svg xmlns="http://www.w3.org/2000/svg" width="26" height="28"
-            viewBox="0 0 30 32" fill="currentColor">
-            <path
-              d="M16.9815 7.14399L17.0134 29.8209C17.0134 30.3313 16.8378 30.762 16.4865 31.1133C16.1352 31.4646 15.7049 31.6398 15.1954 31.6389C14.6851 31.6389 14.2543 31.4633 13.9031 31.112C13.5518 30.7608 13.3766 30.3304 13.3774 29.821L13.4093 7.14399L3.71341 16.8399C3.35194 17.2014 2.92626 17.3821 2.43636 17.3821C1.94646 17.3821 1.52162 17.2014 1.16185 16.8399C0.800384 16.4784 0.61965 16.0528 0.61965 15.5629C0.61965 15.073 0.800384 14.6481 1.16186 14.2883L13.9196 1.53057C14.2811 1.1691 14.7068 0.988364 15.1967 0.988364C15.6866 0.988364 16.1114 1.1691 16.4712 1.53057L29.229 14.2884C29.5904 14.6498 29.7712 15.0755 29.7712 15.5654C29.7712 16.0553 29.5904 16.4801 29.229 16.8399C28.8675 17.2014 28.4418 17.3821 27.9519 17.3821C27.462 17.3821 27.0372 17.2014 26.6774 16.8399L16.9815 7.14399Z"
-              fill="currentColor" />
-          </svg></div>
-      </span>
-    </div>
-    <div class="overlay cursor-work-inner">
-      <span>
-        <div class="rotate-cursor">View <svg xmlns="http://www.w3.org/2000/svg" width="26" height="28"
-            viewBox="0 0 30 32" fill="currentColor">
-            <path
-              d="M16.9815 7.14399L17.0134 29.8209C17.0134 30.3313 16.8378 30.762 16.4865 31.1133C16.1352 31.4646 15.7049 31.6398 15.1954 31.6389C14.6851 31.6389 14.2543 31.4633 13.9031 31.112C13.5518 30.7608 13.3766 30.3304 13.3774 29.821L13.4093 7.14399L3.71341 16.8399C3.35194 17.2014 2.92626 17.3821 2.43636 17.3821C1.94646 17.3821 1.52162 17.2014 1.16185 16.8399C0.800384 16.4784 0.61965 16.0528 0.61965 15.5629C0.61965 15.073 0.800384 14.6481 1.16186 14.2883L13.9196 1.53057C14.2811 1.1691 14.7068 0.988364 15.1967 0.988364C15.6866 0.988364 16.1114 1.1691 16.4712 1.53057L29.229 14.2884C29.5904 14.6498 29.7712 15.0755 29.7712 15.5654C29.7712 16.0553 29.5904 16.4801 29.229 16.8399C28.8675 17.2014 28.4418 17.3821 27.9519 17.3821C27.462 17.3821 27.0372 17.2014 26.6774 16.8399L16.9815 7.14399Z"
-              fill="currentColor" />
-          </svg></div>
-      </span>
-    </div>
-    <div class="custom-cursor-inner custom-cursor-span-video">
-      <div class="play"><svg width="13" height="15" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 7.5V0L6.5 3.75L13 7.5L6.5 11.25L0 15V7.5Z" fill="#1C1D23"></path>
-        </svg>
-      </div>
-      <div class="pause"><svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" width="3" height="15" fill="#1C1D23"></rect>
-          <rect x="9" width="3" height="15" fill="#1C1D23"></rect>
-        </svg>
-      </div>
-    </div>
-  </div>
-
-  <script id="vertexShader" type="x-shader/x-vertex">
-    void main() {
-      gl_Position = vec4(position, 1.0);
-    }
-  </script>
-  <script id="fragmentShader" type="x-shader/x-fragment">
-    #define PI 3.14159
-    uniform vec2 iResolution;
-    uniform float iTime;
-
-    float vDrop(vec2 uv,float t)
-    {
-        uv.x = uv.x*100.0;						// H-Count
-        float dx = fract(uv.x);
-        uv.x = floor(uv.x);
-        uv.y *= 0.05;							// stretch
-        float o=sin(uv.x*215.4);				// offset
-        float s=cos(uv.x*33.1)*.3 +.7;			// speed
-        float trail = mix(95.0,35.0,s);			// trail length
-        float yv = fract(uv.y + t*s + o) * trail;
-        yv = 1.0/yv;
-        yv = smoothstep(0.0,1.0,yv*yv);
-        yv = sin(yv*PI)*(s*5.0);
-        float d2 = sin(dx*PI);
-        return yv*(d2*d2);
-    }
-
-    void main()
-    {
-        vec2 p = (gl_FragCoord.xy - 0.5 * iResolution.xy) / iResolution.y;
-        float d = length(p)+0.1;
-        p = vec2(atan(p.x, p.y) / PI, 2.5 / d);
-        float t =  iTime*0.4;
-        vec3 col = vec3(1.00,1.00,1.00) * vDrop(p,t);	// edit drop color here
-        col += vec3(1.00,1.00,1.00) * vDrop(p,t+0.33);	// edit drop color here
-        col += vec3(1.00,1.00,1.00) * vDrop(p,t+0.66); // edit drop color here
-        gl_FragColor = vec4(col*(d*d), 1.0);
-    }
-  </script>
   <script type="module" src="/main.js"></script>
-
 </body>
 
 </html>

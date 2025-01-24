@@ -3,7 +3,9 @@ import "./styles/index.scss";
 import { gsap } from "gsap";
 import Lenis from "@studio-freight/lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import * as THREE from 'three';
+import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import GUI from "lil-gui";
 
 const mainScript = () => {
   gsap.registerPlugin(ScrollTrigger);
@@ -19,7 +21,7 @@ const mainScript = () => {
   }
   requestAnimationFrame(raf);
 
-  lenis.scrollTo('.home__hero');
+  lenis.scrollTo(".home__hero");
 
   const viewport = {
     w: window.innerWidth,
@@ -29,17 +31,33 @@ const mainScript = () => {
     viewport.w = window.innerWidth;
     viewport.h = window.innerHeight;
   }
+  // eslint-disable-next-line no-undef
   $(window).on("resize", updateViewportSize);
 
+  let uniforms;
+
   function calcTransform(property, value) {
-    let alias = { y: "translateY", x: "translateX", z: "translateZ", rotation: "rotate" };
+    let alias = {
+      y: "translateY",
+      x: "translateX",
+      z: "translateZ",
+      rotation: "rotate",
+    };
     return function (i, target) {
       let transform = target.style.transform; // remember the original transform
-      target.style.transform = (alias[property] || property) + "(" + value + ")"; // apply the new value
-      let computed = parseFloat(gsap.getProperty(target, property, property.substr(0, 3) === "rot" ? "deg" : "px", true)); // grab the pixel value
+      target.style.transform =
+        (alias[property] || property) + "(" + value + ")"; // apply the new value
+      let computed = parseFloat(
+        gsap.getProperty(
+          target,
+          property,
+          property.substr(0, 3) === "rot" ? "deg" : "px",
+          true
+        )
+      ); // grab the pixel value
       target.style.transform = transform; // revert
       gsap.getProperty(target, property, "px", true); // reset the cache so the new value is reflected
-      return computed; 
+      return computed;
     };
   }
 
@@ -52,7 +70,7 @@ const mainScript = () => {
     const image = new Image();
 
     image.src = element.src;
-    image.onload = (_) => {
+    image.onload = () => {
       imagesIndex += 1;
 
       if (imagesIndex === images.length) {
@@ -93,90 +111,16 @@ const mainScript = () => {
 
   // Cursor
   function initCursor() {
-    // Sticky Cursor with delay
-    // https://greensock.com/forums/topic/21161-animated-mouse-cursor/
-
-    var posXBtn = 0;
-    var posYBtn = 0;
-    var mouseX = 0;
-    var mouseY = 0;
-
-    if (document.querySelector(".custom-cursor")) {
-      gsap.to({}, 0.0083333333, {
-        repeat: -1,
-        onRepeat: function () {
-          if (document.querySelector(".custom-cursor")) {
-            posXBtn += (mouseX - posXBtn) / 6;
-            posYBtn += (mouseY - posYBtn) / 6;
-            gsap.set($(".custom-cursor"), {
-              css: {
-                left: posXBtn,
-                top: posYBtn,
-              },
-            });
-            gsap.set($(".custom-cursor .rotate-cursor"), {
-              css: {
-                rotate: (mouseX - posXBtn) / 3,
-              },
-            });
-          }
-        },
-      });
-    }
-
-    $(document).on("mousemove", function (e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    // Mouse Init
-    $("main").on("mousemove", function () {
-      if ($(".custom-cursor").hasClass("cursor-init")) {
-      } else {
-        $(".custom-cursor").addClass("cursor-init");
-      }
-    });
-
-    // Link Hover
-    $("a").on("mouseenter", function () {
-      $(".custom-cursor").addClass("cursor-hover");
-    });
-    $("a").on("mouseleave", function () {
-      $(".custom-cursor").removeClass("cursor-hover");
-    });
-
-    // Pressed
-    $("main").on("mousedown", function () {
-      $(".custom-cursor").addClass("pressed");
-    });
-    $("main").on("mouseup", function () {
-      $(".custom-cursor").removeClass("pressed");
-    });
-
-    // Work Case Hover
-    $(".project-box").on("mouseenter", function () {
-      $(".custom-cursor").addClass("cursor-work");
-    });
-    $(".project-box").on("mouseleave", function () {
-      $(".custom-cursor").removeClass("cursor-work");
-    });
-
-    // Home Header Rotate
-    $(".home__hero").on("mousemove", function () {
-      if ($(".custom-cursor").hasClass("cursor-tiles")) {
-      } else {
-        $(".custom-cursor").addClass("cursor-tiles");
-      }
-    });
-    $(".home__hero").on("mouseleave", function () {
-      $(".custom-cursor").removeClass("cursor-tiles");
-    });
+    // update cursor here
+   console.log('update cursor here');
   }
   // End-Cursor
 
   // Loading
   function initLoading() {
-    const element = document.querySelector('.loading__numbers').getBoundingClientRect();
+    const element = document
+      .querySelector(".loading__numbers")
+      .getBoundingClientRect();
     const elementWidth = element.width;
 
     let loadTl = gsap.timeline({
@@ -188,15 +132,40 @@ const mainScript = () => {
         homeHeroAnim.play();
       },
     });
-    
+
     loadTl
-      .to(".loading__numbers", { x: calcTransform("x", `calc(${elementWidth}px + 1rem)`), delay: 1, ease: "power4.inOut" })
-      .to(".loading__numbers", { x: calcTransform("x", `calc(${elementWidth * 2}px + 2rem)`), delay: 0.5, ease: "power4.inOut" })
-      .to(".loading__numbers", { x: calcTransform("x", `calc(${elementWidth * 3}px + 3rem)`), delay: 0.5, ease: "power4.inOut" })
-      .to(".loading__numbers", { x: calcTransform("x", `calc(${elementWidth * 4}px + 4rem)`), delay: 0.5, ease: "power4.inOut" })
-      .to(".loading__numbers", { x: calcTransform("x", `calc(${elementWidth * 5}px + 5rem)`), delay: 0.5, ease: "power4.inOut" })
-      .to(".hero__title-letter", { x: 0, duration: 0.8, delay: 0.7, ease: "power2.inOut" })
-      .to(".loading", { autoAlpha: 0, ease: "power4.inOut" }, '-=0.7');
+      .to(".loading__numbers", {
+        x: calcTransform("x", `calc(${elementWidth}px + 1rem)`),
+        delay: 1,
+        ease: "power4.inOut",
+      })
+      .to(".loading__numbers", {
+        x: calcTransform("x", `calc(${elementWidth * 2}px + 2rem)`),
+        delay: 0.5,
+        ease: "power4.inOut",
+      })
+      .to(".loading__numbers", {
+        x: calcTransform("x", `calc(${elementWidth * 3}px + 3rem)`),
+        delay: 0.5,
+        ease: "power4.inOut",
+      })
+      .to(".loading__numbers", {
+        x: calcTransform("x", `calc(${elementWidth * 4}px + 4rem)`),
+        delay: 0.5,
+        ease: "power4.inOut",
+      })
+      .to(".loading__numbers", {
+        x: calcTransform("x", `calc(${elementWidth * 5}px + 5rem)`),
+        delay: 0.5,
+        ease: "power4.inOut",
+      })
+      .to(".hero__title-letter", {
+        x: 0,
+        duration: 0.8,
+        delay: 0.7,
+        ease: "power2.inOut",
+      })
+      .to(".loading", { autoAlpha: 0, ease: "power4.inOut" }, "-=0.7");
 
     const numberOne = gsap.utils.toArray(".number-one div");
     numberOne.forEach((element, index) => {
@@ -230,48 +199,273 @@ const mainScript = () => {
 
   //WebGl
   function initWebGl() {
+    // Canvas
+    const canvas = document.querySelector("#laptop-canvas");
+
+    // Scene
     const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.querySelector('.projects-bg').appendChild(renderer.domElement);
 
-    const geometry = new THREE.PlaneGeometry(2, 2);
-    const uniforms = {
-      iTime: { value: 0 },
-      iResolution: {
-        value: new THREE.Vector2(window.innerWidth, window.innerHeight),
-      }
-    }
-
-    const material = new THREE.ShaderMaterial({
-      uniforms: uniforms,
-      vertexShader: document.getElementById('vertexShader').textContent,
-      fragmentShader: document.getElementById('fragmentShader').textContent,
+    /**
+     * Models
+     */
+    const gltfLoaders = new GLTFLoader();
+    gltfLoaders.load("/models/laptop.glb", (gltf) => {
+      gltf.scene.scale.set(0.07, 0.07, 0.07);
+      scene.add(gltf.scene);
     });
 
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    /**
+     * Lights
+     */
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2.4);
+    scene.add(ambientLight);
 
-    let lastTime = 0;
-    function animated(time) {
-      const deltaTime = time - lastTime;
-      lastTime = time;
-      uniforms.iTime.value += deltaTime * 0.001;
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.8);
+    directionalLight.castShadow = true;
+    directionalLight.shadow.mapSize.set(1024, 1024);
+    directionalLight.shadow.camera.far = 15;
+    directionalLight.shadow.camera.left = -7;
+    directionalLight.shadow.camera.top = 7;
+    directionalLight.shadow.camera.right = 7;
+    directionalLight.shadow.camera.bottom = -7;
+    directionalLight.position.set(5, 5, 5);
+    scene.add(directionalLight);
+
+    /**
+     * Sizes
+     */
+    const sizes = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+
+    window.addEventListener("resize", () => {
+      // Update sizes
+      sizes.width = window.innerWidth;
+      sizes.height = window.innerHeight;
+
+      // Update camera
+      camera.aspect = sizes.width / sizes.height;
+      camera.updateProjectionMatrix();
+
+      // Update renderer
+      renderer.setSize(sizes.width, sizes.height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    });
+
+    /**
+     * Camera
+     */
+    // Base camera
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      sizes.width / sizes.height,
+      0.1,
+      100
+    );
+    camera.position.set(2, 2, 2);
+    camera.lookAt(new THREE.Vector3(0, 0.75, 0));
+    scene.add(camera);
+
+    /**
+     * Renderer
+     */
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      alpha: true,
+      antialias: true,
+    });
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    /**
+     * Animate
+     */
+    const clock = new THREE.Clock();
+    let previousTime = 0;
+
+    const tick = () => {
+      const elapsedTime = clock.getElapsedTime();
+      const deltaTime = elapsedTime - previousTime;
+      previousTime = elapsedTime;
+
+      // Update controls
+
+      // Render
       renderer.render(scene, camera);
 
-      requestAnimationFrame(animated);
+      // Call tick again on the next frame
+      window.requestAnimationFrame(tick);
+    };
+
+    tick();
+  }
+  initWebGl();
+
+  function starfieldBg() {
+    
+    //change setting here
+    const SETTINGS = {
+      amount: 6000,
+      radius: 50,
+      speed: 1.7,
+      fogEnabled: true,
+      elapsedTime: 0,
+      // trails: true,
+    };
+
+    // Canvas
+    const canvas = document.querySelector("#bg-canvas");
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      antialias: true,
+    });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    /**
+     * Sizes
+     */
+    const sizes = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+
+    window.addEventListener("resize", () => {
+      // Update sizes
+      sizes.width = window.innerWidth;
+      sizes.height = window.innerHeight;
+
+      // Update camera
+      camera.aspect = sizes.width / sizes.height;
+      camera.updateProjectionMatrix();
+
+      // Update renderer
+      renderer.setSize(sizes.width, sizes.height);
+      renderer.setPixelRatio(window.devicePixelRatio);
+    });
+
+    const spaceColor = new THREE.Color(0x020202);
+    const globalFog = new THREE.Fog(spaceColor, 0, SETTINGS.radius);
+    const scene = new THREE.Scene();
+    scene.background = spaceColor;
+    scene.fog = globalFog;
+
+    // ----------------------- create stars
+
+    const texture = new THREE.TextureLoader().load('/images/textures/star.webp');
+    const geometry = new THREE.BufferGeometry();
+    const material = new THREE.PointsMaterial({
+      map: texture,
+      size: 0.12,
+      blending: THREE.AdditiveBlending,
+      depthTest: false,
+    });
+
+    // tweak the shader
+    material.onBeforeCompile = (shader, renderer) => {
+      shader.uniforms.elapsedTime = {
+        get value() {
+          return SETTINGS.elapsedTime;
+        },
+      };
+      shader.uniforms.spawnRadius = {
+        get value() {
+          return SETTINGS.radius;
+        },
+      };
+      shader.uniforms.speed = {
+        get value() {
+          return SETTINGS.speed;
+        },
+      };
+
+      shader.vertexShader = "uniform float elapsedTime;" + shader.vertexShader;
+      shader.vertexShader = "uniform float spawnRadius;" + shader.vertexShader;
+      shader.vertexShader = "uniform float speed;" + shader.vertexShader;
+
+      shader.vertexShader = shader.vertexShader.replace(
+        "#include <project_vertex>",
+        `
+          // move stars in one direction
+          transformed.z += speed * elapsedTime;
+
+          // constrain stars inside cube
+          // (ex: if a star goes to far on one side, it'll be put back to the other side)
+          transformed.xyz = mod(transformed.xyz, spawnRadius * 2.0) - spawnRadius;
+
+          #include <project_vertex>
+        `
+      );
+
+      shader.vertexShader = shader.vertexShader.replace(
+        "gl_PointSize = size;",
+        `
+          // hide points that are outside sphere shape
+          gl_PointSize = size * step(distance(vec3(0.0, 0.0, 0.0), transformed), spawnRadius);
+        `
+      );
+      
+    };
+
+    // generate stars vertices
+    function updateStarsVertices(radius, amount) {
+      radius = radius || SETTINGS.radius;
+      amount = amount || SETTINGS.amount;
+
+      const diameter = radius * 2;
+      const vertices = [];
+      for (let i = 0; i < amount; i++) {
+        const x = Math.random() * diameter - radius;
+        const y = Math.random() * diameter - radius;
+        const z = Math.random() * diameter - radius;
+        vertices.push(x, y, z);
+      }
+
+      geometry.setAttribute(
+        "position",
+        new THREE.Float32BufferAttribute(vertices, 3)
+      );
     }
 
-    animated(0);
+    updateStarsVertices();
 
-    window.addEventListener('resize', () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      renderer.setSize(width, height);
-      uniforms.iResolution.value.set(width, height);
-    });
+    const stars = new THREE.Points(geometry, material);
+    scene.add(stars);
+
+    // -----------------------
+
+    const camera = new THREE.PerspectiveCamera(
+      70,
+      window.innerWidth / window.innerHeight,
+      1,
+      1000
+    );
+    camera.position.z = 20;
+
+    /**
+     * Animate
+     */
+    const clock = new THREE.Clock();
+    let oldElapsedTime = 0;
+
+    const tick = () => {
+      const elapsedTime = clock.getElapsedTime();
+      const deltaTime = elapsedTime - oldElapsedTime;
+      oldElapsedTime = elapsedTime;
+      SETTINGS.elapsedTime += deltaTime;
+
+      // Render
+      renderer.render(scene, camera);
+
+      // Call tick again on the next frame
+      window.requestAnimationFrame(tick);
+    };
+
+    tick();
   }
+  starfieldBg();
   //End WebGL
 
   // Animation
@@ -290,22 +484,31 @@ const mainScript = () => {
         onComplete: () => {},
       });
 
-      this.tlHero.to(".sec-nav", { opacity: 1, duration: 1.2, ease: 'power3.inOut' })
-      .to(".home__hero-title", { backgroundColor: '#0e0e0e1a', ease: 'power3.inOut' }, '-=0.6');
+      this.tlHero
+        .to(".sec-nav", { opacity: 1, duration: 1.2, ease: "power3.inOut" })
+        .to(
+          ".home__hero-title",
+          { backgroundColor: "#0e0e0e1a", ease: "power3.inOut" },
+          "-=0.6"
+        );
     }
 
     overlapAnim() {
       this.tlOverlapAnim = gsap.timeline({
         scrollTrigger: {
-            trigger: '.home__hero-title',
-            start: `top+=${viewport.h * .3} top`,
-            end: '95% 30%',
-            scrub: .5,
-        }
-      })
+          trigger: ".home__hero-title",
+          start: `top+=${viewport.h * 0.3} top`,
+          end: "95% 30%",
+          scrub: 0.5,
+        },
+      });
       this.tlOverlapAnim
-      .to('.home__heroShowReel', { opacity: 0, duration: 1, ease: 'none' })
-      .to(".hero__title-letter", { xPercent: -100, opacity: 0, ease: 'none' }, "<")
+        .to(".home__heroShowReel", { opacity: 0, duration: 1, ease: "none" })
+        .to(
+          ".hero__title-letter",
+          { xPercent: -100, opacity: 0, ease: "none" },
+          "<"
+        );
     }
 
     play() {
@@ -318,6 +521,7 @@ const mainScript = () => {
     constructor() {
       this.tlHeadlineAnim;
       this.tlProjectsAnim;
+      this.tlStarfieldAnim;
       this.projectBox;
     }
 
@@ -334,29 +538,52 @@ const mainScript = () => {
     }
 
     setup() {
-      const firstWords = new SplitType('.first-words', {types: 'words, chars', charClass: 'headline-char'});
-      const secondWords = new SplitType('.second-words', {types: 'words, chars', charClass: 'headline-char'});
+      // eslint-disable-next-line no-undef
+      const firstWords = new SplitType(".first-words", {
+        types: "words, chars",
+        charClass: "headline-char",
+      });
+      // eslint-disable-next-line no-undef
+      const secondWords = new SplitType(".second-words", {
+        types: "words, chars",
+        charClass: "headline-char",
+      });
       this.projectBox = gsap.utils.toArray(".project-box");
 
-      gsap.set('.first-words', { opacity: 1 });
-      gsap.set('.second-words', { opacity: 1 });
+      gsap.set(".first-words", { opacity: 1 });
+      gsap.set(".second-words", { opacity: 1 });
 
       this.tlHeadlineAnim = gsap.timeline({
         onComplete: () => {
           this.projectsAnim();
+          // this.starfieldAnim();
         },
         scrollTrigger: {
-            trigger: '.headline',
-            start: `top+=${viewport.h * .4} top`,
-            end: '90% 70%',
-            scrub: true,
-        }
-      })
+          trigger: ".headline",
+          start: `top+=${viewport.h * 0.4} top`,
+          end: "90% 70%",
+          scrub: true,
+        },
+      });
       this.tlHeadlineAnim
-      .to(firstWords.chars, { translateY: '0px', translateZ: '0px', rotate: '0deg', opacity: 1, ease: 'none', stagger: 0.03 })
-      .to('.first-words', { opacity: 0, duration: 2, ease: 'none' })
-      .to(secondWords.chars, { translateY: '0px', translateZ: '0px', rotate: '0deg', opacity: 1, ease: 'none', stagger: 0.03 })
-      .to('.second-words', { opacity: 0, duration: 2, ease: 'none' })
+        .to(firstWords.chars, {
+          translateY: "0px",
+          translateZ: "0px",
+          rotate: "0deg",
+          opacity: 1,
+          ease: "none",
+          stagger: 0.03,
+        })
+        .to(".first-words", { opacity: 0, duration: 2, ease: "none" })
+        .to(secondWords.chars, {
+          translateY: "0px",
+          translateZ: "0px",
+          rotate: "0deg",
+          opacity: 1,
+          ease: "none",
+          stagger: 0.03,
+        })
+        .to(".second-words", { opacity: 0, duration: 2, ease: "none" });
 
       for (let i = 0; i < this.projectBox.length; i++) {
         gsap.set(this.projectBox[i], {
@@ -365,7 +592,7 @@ const mainScript = () => {
         });
       }
 
-      initWebGl();
+      // initWebGl();
     }
 
     projectsAnim() {
@@ -378,8 +605,11 @@ const mainScript = () => {
         },
       });
 
-      this.tlProjectsAnim
-      .to('.projects', { opacity: 1, duration: 2.5, ease: 'none' });
+      this.tlProjectsAnim.to(".projects", {
+        opacity: 1,
+        duration: 2.5,
+        ease: "none",
+      });
 
       this.projectBox.forEach((item) => {
         this.tlProjectsAnim
@@ -388,13 +618,28 @@ const mainScript = () => {
           .to(item, { autoAlpha: 0, ease: "linear" }, "-=0.45");
       });
     }
+
+    // starfieldAnim() {
+    //   this.tlStarfieldAnim = gsap.timeline({
+    //     scrollTrigger: {
+    //       trigger: ".projects",
+    //       start: "top top",
+    //       end: "bottom bottom",
+    //       scrub: true,
+    //       onUpdate: (self) => {
+    //         uniforms.scrollOffset.value = gsap.utils.mapRange(0, 1, 1, 0.3, self.progress);
+    //       }
+    //     },
+    //   });
+
+    // }
   }
 
   let homeProjectAnim = new homeProjectAnimate();
 
   const SCRIPT = {};
   SCRIPT.homeScript = () => {
-    lenis.scrollTo('.home__hero');
+    lenis.scrollTo(".home__hero");
 
     homeHeroAnim.setup();
     homeProjectAnim.setTrigger();
