@@ -208,11 +208,17 @@ const mainScript = () => {
     /**
      * Models
      */
+    let laptopModel = null;
     const gltfLoaders = new GLTFLoader();
     gltfLoaders.load("/models/laptop.glb", (gltf) => {
-      gltf.scene.scale.set(0.07, 0.07, 0.07);
-      scene.add(gltf.scene);
+      gltf.scene.scale.set(0.1, 0.1, 0.1);
+      laptopModel = gltf.scene;
+      scene.add(laptopModel);
+      laptopModel.rotation.x = -0.23;
+      laptopModel.rotation.y = -0.31;
+      laptopModel.rotation.z = 0.46;
     });
+
 
     /**
      * Lights
@@ -263,8 +269,8 @@ const mainScript = () => {
       0.1,
       100
     );
-    camera.position.set(2, 2, 2);
-    camera.lookAt(new THREE.Vector3(0, 0.75, 0));
+    camera.position.set(2, 4.3, 2);
+    camera.lookAt(new THREE.Vector3(0, 2.5, 0));
     scene.add(camera);
 
     /**
@@ -479,18 +485,18 @@ const mainScript = () => {
       this.tlHero = gsap.timeline({
         paused: true,
         onStart: () => {
-          this.overlapAnim();
+          // this.overlapAnim();
         },
         onComplete: () => {},
       });
 
       this.tlHero
-        .to(".sec-nav", { opacity: 1, duration: 1.2, ease: "power3.inOut" })
-        .to(
-          ".home__hero-title",
-          { backgroundColor: "#0e0e0e1a", ease: "power3.inOut" },
-          "-=0.6"
-        );
+        .to(".sec-nav", { opacity: 1, duration: 1.2, ease: "power3.inOut" });
+        // .to(
+        //   ".home__hero-title",
+        //   { backgroundColor: "#0e0e0e1a", ease: "power3.inOut" },
+        //   "-=0.6"
+        // );
     }
 
     overlapAnim() {

@@ -1,5 +1,5 @@
 .sec-nav {
-    font-family: "Poppins", sans-serif;
+    font-family: "Thunder", sans-serif;
     z-index: 99;
     position: fixed;
     padding: 0;
@@ -164,7 +164,15 @@
 }
 
 .txt-logo {
-    font-family: 'Rajdhani', sans-serif;
+    font-family: 'Thunder', sans-serif;
     color: $color-white;
-    font-weight: 700;
+    font-weight: 800;
+    letter-spacing: 0.05rem;
+}
+
+sup {
+    top: -.2em;
+    font-size: 60%;
+    line-height: 0;
+    position: relative;
 }
