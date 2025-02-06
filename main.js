@@ -34,8 +34,6 @@ const mainScript = () => {
   // eslint-disable-next-line no-undef
   $(window).on("resize", updateViewportSize);
 
-  let uniforms;
-
   function calcTransform(property, value) {
     let alias = {
       y: "translateY",
@@ -112,7 +110,7 @@ const mainScript = () => {
   // Cursor
   function initCursor() {
     // update cursor here
-   console.log('update cursor here');
+    console.log("update cursor here");
   }
   // End-Cursor
 
@@ -198,27 +196,69 @@ const mainScript = () => {
   // End Loading
 
   //WebGl
+  // Canvas
+  const canvas = document.querySelector("#canvas");
+
+  // Scene
+  const scene = new THREE.Scene();
+
+  /**
+   * Sizes
+   */
+  const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+
+  //change setting here
+  const BACKGROUND_SETTINGS = {
+    amount: 6000,
+    radius: 50,
+    speed: 1.7,
+    fogEnabled: true,
+    elapsedTime: 0,
+    // trails: true,
+  };
+
+  /**
+   * Camera
+   */
+  // Base camera
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    sizes.width / sizes.height,
+    0.1,
+    100
+  );
+  camera.position.set(0, 4.3, 10);
+  // camera.lookAt(new THREE.Vector3(0, 2.5, 0));
+  scene.add(camera);
+
+  //renderer
+  const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    alpha: true,
+    antialias: true,
+  });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
   function initWebGl() {
-    // Canvas
-    const canvas = document.querySelector("#laptop-canvas");
-
-    // Scene
-    const scene = new THREE.Scene();
-
     /**
      * Models
      */
     let laptopModel = null;
     const gltfLoaders = new GLTFLoader();
     gltfLoaders.load("/models/laptop.glb", (gltf) => {
-      gltf.scene.scale.set(0.1, 0.1, 0.1);
+      gltf.scene.scale.set(0.25, 0.25, 0.25);
       laptopModel = gltf.scene;
       scene.add(laptopModel);
-      laptopModel.rotation.x = -0.23;
-      laptopModel.rotation.y = -0.31;
-      laptopModel.rotation.z = 0.46;
-    });
+      laptopModel.rotation.x = 0.15;
+      laptopModel.rotation.y = -1.02;
+      laptopModel.rotation.z = 0.33;
 
+      laptopModel.position.y = -0.3;
+    });
 
     /**
      * Lights
@@ -236,131 +276,20 @@ const mainScript = () => {
     directionalLight.shadow.camera.bottom = -7;
     directionalLight.position.set(5, 5, 5);
     scene.add(directionalLight);
-
-    /**
-     * Sizes
-     */
-    const sizes = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
-
-    window.addEventListener("resize", () => {
-      // Update sizes
-      sizes.width = window.innerWidth;
-      sizes.height = window.innerHeight;
-
-      // Update camera
-      camera.aspect = sizes.width / sizes.height;
-      camera.updateProjectionMatrix();
-
-      // Update renderer
-      renderer.setSize(sizes.width, sizes.height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    });
-
-    /**
-     * Camera
-     */
-    // Base camera
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      sizes.width / sizes.height,
-      0.1,
-      100
-    );
-    camera.position.set(2, 4.3, 2);
-    camera.lookAt(new THREE.Vector3(0, 2.5, 0));
-    scene.add(camera);
-
-    /**
-     * Renderer
-     */
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvas,
-      alpha: true,
-      antialias: true,
-    });
-    renderer.setSize(sizes.width, sizes.height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-    /**
-     * Animate
-     */
-    const clock = new THREE.Clock();
-    let previousTime = 0;
-
-    const tick = () => {
-      const elapsedTime = clock.getElapsedTime();
-      const deltaTime = elapsedTime - previousTime;
-      previousTime = elapsedTime;
-
-      // Update controls
-
-      // Render
-      renderer.render(scene, camera);
-
-      // Call tick again on the next frame
-      window.requestAnimationFrame(tick);
-    };
-
-    tick();
   }
   initWebGl();
 
   function starfieldBg() {
-    
-    //change setting here
-    const SETTINGS = {
-      amount: 6000,
-      radius: 50,
-      speed: 1.7,
-      fogEnabled: true,
-      elapsedTime: 0,
-      // trails: true,
-    };
-
-    // Canvas
-    const canvas = document.querySelector("#bg-canvas");
-
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvas,
-      antialias: true,
-    });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    /**
-     * Sizes
-     */
-    const sizes = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
-
-    window.addEventListener("resize", () => {
-      // Update sizes
-      sizes.width = window.innerWidth;
-      sizes.height = window.innerHeight;
-
-      // Update camera
-      camera.aspect = sizes.width / sizes.height;
-      camera.updateProjectionMatrix();
-
-      // Update renderer
-      renderer.setSize(sizes.width, sizes.height);
-      renderer.setPixelRatio(window.devicePixelRatio);
-    });
-
-    const spaceColor = new THREE.Color(0x020202);
-    const globalFog = new THREE.Fog(spaceColor, 0, SETTINGS.radius);
-    const scene = new THREE.Scene();
-    scene.background = spaceColor;
+    // const spaceColor = new THREE.Color(0x020202);
+    const globalFog = new THREE.Fog(0x060606, 0, BACKGROUND_SETTINGS.radius);
+    // scene.background = spaceColor;
     scene.fog = globalFog;
 
     // ----------------------- create stars
 
-    const texture = new THREE.TextureLoader().load('/images/textures/star.webp');
+    const texture = new THREE.TextureLoader().load(
+      "/images/textures/star.webp"
+    );
     const geometry = new THREE.BufferGeometry();
     const material = new THREE.PointsMaterial({
       map: texture,
@@ -373,17 +302,17 @@ const mainScript = () => {
     material.onBeforeCompile = (shader, renderer) => {
       shader.uniforms.elapsedTime = {
         get value() {
-          return SETTINGS.elapsedTime;
+          return BACKGROUND_SETTINGS.elapsedTime;
         },
       };
       shader.uniforms.spawnRadius = {
         get value() {
-          return SETTINGS.radius;
+          return BACKGROUND_SETTINGS.radius;
         },
       };
       shader.uniforms.speed = {
         get value() {
-          return SETTINGS.speed;
+          return BACKGROUND_SETTINGS.speed;
         },
       };
 
@@ -412,13 +341,12 @@ const mainScript = () => {
           gl_PointSize = size * step(distance(vec3(0.0, 0.0, 0.0), transformed), spawnRadius);
         `
       );
-      
     };
 
     // generate stars vertices
     function updateStarsVertices(radius, amount) {
-      radius = radius || SETTINGS.radius;
-      amount = amount || SETTINGS.amount;
+      radius = radius || BACKGROUND_SETTINGS.radius;
+      amount = amount || BACKGROUND_SETTINGS.amount;
 
       const diameter = radius * 2;
       const vertices = [];
@@ -439,39 +367,44 @@ const mainScript = () => {
 
     const stars = new THREE.Points(geometry, material);
     scene.add(stars);
-
-    // -----------------------
-
-    const camera = new THREE.PerspectiveCamera(
-      70,
-      window.innerWidth / window.innerHeight,
-      1,
-      1000
-    );
-    camera.position.z = 20;
-
-    /**
-     * Animate
-     */
-    const clock = new THREE.Clock();
-    let oldElapsedTime = 0;
-
-    const tick = () => {
-      const elapsedTime = clock.getElapsedTime();
-      const deltaTime = elapsedTime - oldElapsedTime;
-      oldElapsedTime = elapsedTime;
-      SETTINGS.elapsedTime += deltaTime;
-
-      // Render
-      renderer.render(scene, camera);
-
-      // Call tick again on the next frame
-      window.requestAnimationFrame(tick);
-    };
-
-    tick();
   }
   starfieldBg();
+
+  window.addEventListener("resize", () => {
+    // Update sizes
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight;
+
+    // Update camera
+    camera.aspect = sizes.width / sizes.height;
+    camera.updateProjectionMatrix();
+
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  });
+
+  /**
+   * Animate
+   */
+  const clock = new THREE.Clock();
+  let oldElapsedTime = 0;
+
+  const tick = () => {
+    const elapsedTime = clock.getElapsedTime();
+    const deltaTime = elapsedTime - oldElapsedTime;
+    oldElapsedTime = elapsedTime;
+    BACKGROUND_SETTINGS.elapsedTime += deltaTime;
+
+    // Render
+    renderer.render(scene, camera);
+
+    // Call tick again on the next frame
+    window.requestAnimationFrame(tick);
+  };
+
+  tick();
+  // starfieldBg();
   //End WebGL
 
   // Animation
@@ -490,13 +423,16 @@ const mainScript = () => {
         onComplete: () => {},
       });
 
-      this.tlHero
-        .to(".sec-nav", { opacity: 1, duration: 1.2, ease: "power3.inOut" });
-        // .to(
-        //   ".home__hero-title",
-        //   { backgroundColor: "#0e0e0e1a", ease: "power3.inOut" },
-        //   "-=0.6"
-        // );
+      this.tlHero.to(".sec-nav", {
+        opacity: 1,
+        duration: 1.2,
+        ease: "power3.inOut",
+      });
+      // .to(
+      //   ".home__hero-title",
+      //   { backgroundColor: "#0e0e0e1a", ease: "power3.inOut" },
+      //   "-=0.6"
+      // );
     }
 
     overlapAnim() {
