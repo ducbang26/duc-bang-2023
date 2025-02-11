@@ -5,9 +5,6 @@
 }
 
 .home__hero-title {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -20,7 +17,6 @@
 
     .hero__title-text {
         width: 100%;
-        overflow: hidden;
 
         .title__text-wrap {
             display: flex;
@@ -30,19 +26,8 @@
                 font-size: 30vw;
                 line-height: 31vw;
                 font-weight: 800;
+                transform: scaleY(0);
             }
-        }
-    }
-
-    .hero__char {
-        width: 100%;
-        overflow: hidden;
-
-        .hero__title-letter {
-            width: inherit;
-            height: 100%;
-            display: block;
-            transform: translateX(-100%);
         }
     }
 
@@ -56,6 +41,7 @@
             font-size: 4.2rem;
             text-transform: uppercase;
             max-width: 36.5rem;
+            opacity: 0;
         }
     }
 }

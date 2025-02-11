@@ -128,6 +128,7 @@ const mainScript = () => {
       onComplete() {
         initCursor();
         homeHeroAnim.play();
+        laptopTl.play();
       },
     });
 
@@ -198,17 +199,25 @@ const mainScript = () => {
   //WebGl
   // Canvas
   const canvas = document.querySelector("#canvas");
+  const videoEl = document.createElement("video");
+
+  let laptopTl,
+    laptopAppearTl,
+    laptopOpeningTl,
+    screenOnTl,
+    floatingTl;
+  let darkPlasticMaterial,
+    cameraMaterial,
+    baseMetalMaterial,
+    logoMaterial,
+    screenMaterial,
+    keyboardMaterial;
+  let macGroup, lidGroup, bottomGroup, screenMesh, lightHolder, screenLight;
+  let screenVideoTexture;
+  const screenSize = [29.4, 20];
 
   // Scene
   const scene = new THREE.Scene();
-
-  /**
-   * Sizes
-   */
-  const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight,
-  };
 
   //change setting here
   const BACKGROUND_SETTINGS = {
@@ -226,7 +235,7 @@ const mainScript = () => {
   // Base camera
   const camera = new THREE.PerspectiveCamera(
     75,
-    sizes.width / sizes.height,
+    viewport.w / viewport.h,
     0.1,
     100
   );
@@ -243,21 +252,256 @@ const mainScript = () => {
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
 
+  function createMaterials() {
+    const textLoader = new THREE.TextureLoader();
+
+    videoEl.setAttribute("src", "/video/showreel.mp4");
+    videoEl.muted = true;
+    videoEl.play();
+
+    screenVideoTexture = new THREE.VideoTexture(videoEl);
+    screenVideoTexture.flipY = false;
+    screenMaterial = new THREE.MeshBasicMaterial({
+      map: screenVideoTexture,
+      transparent: true,
+      opacity: 0,
+      side: THREE.BackSide,
+    });
+    const keyboardTexture = textLoader.load(
+      "/images/textures/keyboard-overlay.png"
+    );
+    keyboardMaterial = new THREE.MeshBasicMaterial({
+      color: 0xfffffff,
+      alphaMap: keyboardTexture,
+      transparent: true,
+    });
+
+    darkPlasticMaterial = new THREE.MeshStandardMaterial({
+      color: 0x000000,
+      roughness: 0.9,
+      metalness: 0.9,
+    });
+    cameraMaterial = new THREE.MeshBasicMaterial({
+      color: 0x333333,
+    });
+    baseMetalMaterial = new THREE.MeshStandardMaterial({
+      color: 0xcecfd3,
+    });
+    logoMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+    });
+  }
+
+  function parseModel(glb) {
+    [...glb.scene.children].forEach((child) => {
+      if (child.name === "_top") {
+        lidGroup.add(child);
+        [...child.children].forEach((mesh) => {
+          if (mesh.name === "lid") {
+            mesh.material = baseMetalMaterial;
+          } else if (mesh.name === "logo") {
+            mesh.material = logoMaterial;
+          } else if (mesh.name === "screen-frame") {
+            mesh.material = darkPlasticMaterial;
+          } else if (mesh.name === "camera") {
+            mesh.material = cameraMaterial;
+          }
+        });
+      } else if (child.name === "_bottom") {
+        bottomGroup.add(child);
+        [...child.children].forEach((mesh) => {
+          if (mesh.name === "base") {
+            mesh.material = baseMetalMaterial;
+          } else if (mesh.name === "legs") {
+            mesh.material = darkPlasticMaterial;
+          } else if (mesh.name === "keyboard") {
+            mesh.material = darkPlasticMaterial;
+          } else if (mesh.name === "inner") {
+            mesh.material = darkPlasticMaterial;
+          }
+        });
+      }
+    });
+  }
+
+  function addScreen() {
+    screenMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(screenSize[0], screenSize[1]),
+      screenMaterial
+    );
+    screenMesh.position.set(0, 10.5, -0.11);
+    screenMesh.rotation.set(Math.PI, 0, 0);
+    lidGroup.add(screenMesh);
+
+    screenLight = new THREE.RectAreaLight(
+      0xffffff,
+      0,
+      screenSize[0],
+      screenSize[1]
+    );
+    screenLight.position.set(0, 10.5, 0);
+    screenLight.rotation.set(Math.PI, 0, 0);
+    lidGroup.add(screenLight);
+
+    const darkScreen = screenMesh.clone();
+    darkScreen.position.set(0, 10.5, -0.111);
+    darkScreen.rotation.set(Math.PI, Math.PI, 0);
+    darkScreen.material = darkPlasticMaterial;
+    lidGroup.add(darkScreen);
+  }
+
+  function addKeyboard() {
+    const keyboardKeys = new THREE.Mesh(
+      new THREE.PlaneGeometry(27.7, 11.6),
+      keyboardMaterial
+    );
+    keyboardKeys.rotation.set(-0.5 * Math.PI, 0, 0);
+    keyboardKeys.position.set(0, 0.045, 7.21);
+    bottomGroup.add(keyboardKeys);
+  }
+
+  function createTimelines() {
+    // ---------------------------------------------------
+    floatingTl = gsap
+      .timeline({
+        repeat: -1,
+      })
+      .to([lidGroup.position, bottomGroup.position], { duration: 1.5, y: "+=1", ease: "power1.inOut", }, 0)
+      .to([lidGroup.position, bottomGroup.position], { duration: 1.5, y: "-=1", ease: "power1.inOut", })
+      .timeScale(0);
+
+    // ---------------------------------------------------
+    screenOnTl = gsap
+      .timeline({
+        paused: true,
+      })
+      .to(
+        screenMaterial,
+        {
+          duration: 0.1,
+          opacity: 0.96,
+        },
+        0
+      )
+      .to(
+        screenLight,
+        {
+          duration: 0.1,
+          intensity: 1.5,
+        },
+        0
+      );
+
+    // ---------------------------------------------------
+    laptopOpeningTl = gsap
+      .timeline({
+        paused: true,
+        onUpdate: () => {},
+      })
+      .from(
+        lidGroup.position,
+        {
+          duration: 0.75,
+          z: "+=.5",
+        },
+        0
+      )
+      .fromTo(
+        lidGroup.rotation,
+        {
+          duration: 1,
+          x: 0.5 * Math.PI,
+        },
+        {
+          x: -0.2 * Math.PI,
+        },
+        0
+      )
+      .to(
+        screenOnTl,
+        {
+          duration: 0.06,
+          progress: 1,
+        },
+        0.05
+      );
+
+    // ---------------------------------------------------
+    laptopAppearTl = gsap
+      .timeline({
+        paused: true,
+      })
+      .fromTo(
+        macGroup.rotation,
+        {
+          x: 0.5 * Math.PI,
+          y: 0.2 * Math.PI,
+        },
+        {
+          duration: 2,
+          x: 0.05 * Math.PI,
+          y: -0.2 * Math.PI,
+        },
+        0
+      )
+      .fromTo(
+        macGroup.position,
+        {
+          y: -50,
+        },
+        {
+          duration: 1,
+          y: -2,
+        },
+        0
+      );
+
+    // ---------------------------------------------------
+    // ---------------------------------------------------
+    laptopTl = gsap
+      .timeline({
+        defaults: {
+          ease: "none",
+        },
+        paused: true,
+      })
+      .to(
+        laptopAppearTl,
+        {
+          duration: 1.5,
+          progress: 1,
+        },
+        0
+      )
+      .to(
+        laptopOpeningTl,
+        {
+          duration: 1,
+          progress: 0.34,
+        },
+        0.5
+      )
+      .to(
+        floatingTl,
+        {
+          duration: 1,
+          timeScale: 1,
+        },
+        1
+      );
+  }
+
   function initWebGl() {
     /**
      * Models
      */
-    let laptopModel = null;
     const gltfLoaders = new GLTFLoader();
+    createMaterials();
     gltfLoaders.load("/models/laptop.glb", (gltf) => {
-      gltf.scene.scale.set(0.25, 0.25, 0.25);
-      laptopModel = gltf.scene;
-      scene.add(laptopModel);
-      laptopModel.rotation.x = 0.15;
-      laptopModel.rotation.y = -1.02;
-      laptopModel.rotation.z = 0.33;
-
-      laptopModel.position.y = -0.3;
+      parseModel(gltf);
+      addScreen();
+      addKeyboard();
+      createTimelines();
     });
 
     /**
@@ -265,17 +509,15 @@ const mainScript = () => {
      */
     const ambientLight = new THREE.AmbientLight(0xffffff, 2.4);
     scene.add(ambientLight);
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.8);
-    directionalLight.castShadow = true;
-    directionalLight.shadow.mapSize.set(1024, 1024);
-    directionalLight.shadow.camera.far = 15;
-    directionalLight.shadow.camera.left = -7;
-    directionalLight.shadow.camera.top = 7;
-    directionalLight.shadow.camera.right = 7;
-    directionalLight.shadow.camera.bottom = -7;
-    directionalLight.position.set(5, 5, 5);
-    scene.add(directionalLight);
+    
+    macGroup = new THREE.Group();
+    macGroup.position.z = -12;
+    macGroup.scale.set(0.38, 0.38, 0.38);
+    scene.add(macGroup);
+    lidGroup = new THREE.Group();
+    macGroup.add(lidGroup);
+    bottomGroup = new THREE.Group();
+    macGroup.add(bottomGroup);
   }
   initWebGl();
 
@@ -372,15 +614,15 @@ const mainScript = () => {
 
   window.addEventListener("resize", () => {
     // Update sizes
-    sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight;
+    viewport.w = window.innerWidth;
+    viewport.h = window.innerHeight;
 
     // Update camera
-    camera.aspect = sizes.width / sizes.height;
+    camera.aspect = viewport.w / viewport.h;
     camera.updateProjectionMatrix();
 
     // Update renderer
-    renderer.setSize(sizes.width, sizes.height);
+    renderer.setSize(viewport.w, viewport.h);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 
@@ -404,7 +646,6 @@ const mainScript = () => {
   };
 
   tick();
-  // starfieldBg();
   //End WebGL
 
   // Animation
@@ -423,16 +664,31 @@ const mainScript = () => {
         onComplete: () => {},
       });
 
-      this.tlHero.to(".sec-nav", {
-        opacity: 1,
-        duration: 1.2,
-        ease: "power3.inOut",
-      });
-      // .to(
-      //   ".home__hero-title",
-      //   { backgroundColor: "#0e0e0e1a", ease: "power3.inOut" },
-      //   "-=0.6"
-      // );
+      this.tlHero
+        .to(".hero__title-letter", {
+          scaleY: 1,
+          ease: "elastic.out(1,0.5)",
+          duration: 1.3,
+          stagger: 0.07,
+        })
+        .to(
+          ".sec-nav",
+          {
+            opacity: 1,
+            duration: 1.2,
+            ease: "power3.out",
+          },
+          "-=0.6"
+        )
+        .to(
+          ".subtext__role",
+          {
+            opacity: 1,
+            duration: 1.2,
+            ease: "power3.out",
+          },
+          "<"
+        );
     }
 
     overlapAnim() {
@@ -444,13 +700,11 @@ const mainScript = () => {
           scrub: 0.5,
         },
       });
-      this.tlOverlapAnim
-        .to(".home__heroShowReel", { opacity: 0, duration: 1, ease: "none" })
-        .to(
-          ".hero__title-letter",
-          { xPercent: -100, opacity: 0, ease: "none" },
-          "<"
-        );
+      this.tlOverlapAnim.to(".home__heroShowReel", {
+        opacity: 0,
+        duration: 1,
+        ease: "none",
+      });
     }
 
     play() {
@@ -533,8 +787,6 @@ const mainScript = () => {
           autoAlpha: 0,
         });
       }
-
-      // initWebGl();
     }
 
     projectsAnim() {
@@ -560,21 +812,6 @@ const mainScript = () => {
           .to(item, { autoAlpha: 0, ease: "linear" }, "-=0.45");
       });
     }
-
-    // starfieldAnim() {
-    //   this.tlStarfieldAnim = gsap.timeline({
-    //     scrollTrigger: {
-    //       trigger: ".projects",
-    //       start: "top top",
-    //       end: "bottom bottom",
-    //       scrub: true,
-    //       onUpdate: (self) => {
-    //         uniforms.scrollOffset.value = gsap.utils.mapRange(0, 1, 1, 0.3, self.progress);
-    //       }
-    //     },
-    //   });
-
-    // }
   }
 
   let homeProjectAnim = new homeProjectAnimate();
