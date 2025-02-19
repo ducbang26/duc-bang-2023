@@ -22,6 +22,7 @@ const mainScript = () => {
   requestAnimationFrame(raf);
 
   lenis.scrollTo(".home__hero");
+  lenis.stop();
 
   const viewport = {
     w: window.innerWidth,
@@ -116,80 +117,66 @@ const mainScript = () => {
 
   // Loading
   function initLoading() {
-    const element = document
-      .querySelector(".loading__numbers")
-      .getBoundingClientRect();
-    const elementWidth = element.width;
-
+    const progress = { value: 0 };
+    const loadInner = document.querySelector("#load-inner");
+    const loadProgress = document.querySelector("#load-progress");
+    const loaderText = document.querySelector(".loader-text");
     let loadTl = gsap.timeline({
       defaults: {
         ease: "none",
       },
       onComplete() {
+        gsap.to(loadProgress, {
+          strokeDasharray: "0, 300",
+          duration: 1.2,
+          ease: "circ.inOut",
+          onComplete: () => {
+            gsap.set(loadProgress, {
+              strokeDasharray: `0px, 999999px`,
+              "--dash-offset": 0.001,
+            });
+          },
+        });
+
+        gsap.to(loadInner, {
+          strokeDasharray: "0, 301",
+          duration: .3,
+          delay: .2,
+          ease: "circ.inOut",
+          onComplete: () => {
+            gsap.set(loadInner, {
+              strokeDasharray: `0px, 999999px`,
+              "--dash-offset": 0.001,
+            });
+          },
+        });
+
+        gsap.to(loaderText, {
+          opacity: 0,
+          duration: 1,
+          delay: .2,
+          filter: "blur(10px)",
+          ease: "circ.inOut",
+        });
+
         initCursor();
         homeHeroAnim.play();
         laptopTl.play();
+        BACKGROUND_SETTINGS.speed = 2.3;
       },
     });
 
-    loadTl
-      .to(".loading__numbers", {
-        x: calcTransform("x", `calc(${elementWidth}px + 1rem)`),
-        delay: 1,
-        ease: "power4.inOut",
-      })
-      .to(".loading__numbers", {
-        x: calcTransform("x", `calc(${elementWidth * 2}px + 2rem)`),
-        delay: 0.5,
-        ease: "power4.inOut",
-      })
-      .to(".loading__numbers", {
-        x: calcTransform("x", `calc(${elementWidth * 3}px + 3rem)`),
-        delay: 0.5,
-        ease: "power4.inOut",
-      })
-      .to(".loading__numbers", {
-        x: calcTransform("x", `calc(${elementWidth * 4}px + 4rem)`),
-        delay: 0.5,
-        ease: "power4.inOut",
-      })
-      .to(".loading__numbers", {
-        x: calcTransform("x", `calc(${elementWidth * 5}px + 5rem)`),
-        delay: 0.5,
-        ease: "power4.inOut",
-      })
-      .to(".hero__title-letter", {
-        x: 0,
-        duration: 0.8,
-        delay: 0.7,
-        ease: "power2.inOut",
-      })
-      .to(".loading", { autoAlpha: 0, ease: "power4.inOut" }, "-=0.7");
-
-    const numberOne = gsap.utils.toArray(".number-one div");
-    numberOne.forEach((element, index) => {
-      let counterTl = gsap.timeline({
-        defaults: {
-          ease: "none",
-        },
-        delay: 0.1,
-      });
-      counterTl
-        .to(element, { xPercent: 100, delay: index, ease: "power4.inOut" }, 0)
-        .to(element, { x: "10vw", delay: index + 1, ease: "power4.inOut" }, 0);
-    });
-
-    const numberTwo = gsap.utils.toArray(".number-two div");
-    numberTwo.forEach((element, index) => {
-      let counterTl = gsap.timeline({
-        defaults: {
-          ease: "none",
-        },
-        delay: 0.1,
-      });
-      counterTl
-        .to(element, { xPercent: 100, delay: index, ease: "power4.inOut" }, 0)
-        .to(element, { x: "10vw", delay: index + 1, ease: "power4.inOut" }, 0);
+    loadTl.to(progress, {
+      value: 100,
+      duration: 3,
+      ease: "circ.inOut",
+      onUpdate: () => {
+        const newProgress = Math.round(progress.value);
+        loaderText.textContent = `${newProgress}`;
+        gsap.set(loadProgress, {
+          strokeDasharray: `${3 * newProgress}, 300`,
+        });
+      },
     });
   }
 
@@ -201,11 +188,7 @@ const mainScript = () => {
   const canvas = document.querySelector("#canvas");
   const videoEl = document.createElement("video");
 
-  let laptopTl,
-    laptopAppearTl,
-    laptopOpeningTl,
-    screenOnTl,
-    floatingTl;
+  let laptopTl, laptopAppearTl, laptopOpeningTl, screenOnTl, floatingTl;
   let darkPlasticMaterial,
     cameraMaterial,
     baseMetalMaterial,
@@ -221,10 +204,9 @@ const mainScript = () => {
 
   //change setting here
   const BACKGROUND_SETTINGS = {
-    amount: 6000,
-    radius: 50,
-    speed: 1.7,
-    fogEnabled: true,
+    amount: 4000,
+    radius: 70,
+    speed: 10,
     elapsedTime: 0,
     // trails: true,
   };
@@ -257,6 +239,7 @@ const mainScript = () => {
 
     videoEl.setAttribute("src", "/video/showreel.mp4");
     videoEl.muted = true;
+    videoEl.loop = true;
     videoEl.play();
 
     screenVideoTexture = new THREE.VideoTexture(videoEl);
@@ -342,12 +325,6 @@ const mainScript = () => {
     screenLight.position.set(0, 10.5, 0);
     screenLight.rotation.set(Math.PI, 0, 0);
     lidGroup.add(screenLight);
-
-    const darkScreen = screenMesh.clone();
-    darkScreen.position.set(0, 10.5, -0.111);
-    darkScreen.rotation.set(Math.PI, Math.PI, 0);
-    darkScreen.material = darkPlasticMaterial;
-    lidGroup.add(darkScreen);
   }
 
   function addKeyboard() {
@@ -366,8 +343,16 @@ const mainScript = () => {
       .timeline({
         repeat: -1,
       })
-      .to([lidGroup.position, bottomGroup.position], { duration: 1.5, y: "+=1", ease: "power1.inOut", }, 0)
-      .to([lidGroup.position, bottomGroup.position], { duration: 1.5, y: "-=1", ease: "power1.inOut", })
+      .to(
+        [lidGroup.position, bottomGroup.position],
+        { duration: 1.5, y: "+=1", ease: "power1.inOut" },
+        0
+      )
+      .to([lidGroup.position, bottomGroup.position], {
+        duration: 1.5,
+        y: "-=1",
+        ease: "power1.inOut",
+      })
       .timeScale(0);
 
     // ---------------------------------------------------
@@ -379,7 +364,7 @@ const mainScript = () => {
         screenMaterial,
         {
           duration: 0.1,
-          opacity: 0.96,
+          opacity: 1,
         },
         0
       )
@@ -439,8 +424,8 @@ const mainScript = () => {
         },
         {
           duration: 2,
-          x: 0.05 * Math.PI,
-          y: -0.2 * Math.PI,
+          x: 0.04 * Math.PI,
+          y: -0.08 * Math.PI,
         },
         0
       )
@@ -471,7 +456,7 @@ const mainScript = () => {
           duration: 1.5,
           progress: 1,
         },
-        0
+        '+=0.5'
       )
       .to(
         laptopOpeningTl,
@@ -507,9 +492,15 @@ const mainScript = () => {
     /**
      * Lights
      */
-    const ambientLight = new THREE.AmbientLight(0xffffff, 2.4);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
     scene.add(ambientLight);
-    
+
+    lightHolder = new THREE.Group();
+    scene.add(lightHolder);
+    const light = new THREE.PointLight(0xfff5e1, 0.8);
+    light.position.set(0, 5, 0);
+    lightHolder.add(light);
+
     macGroup = new THREE.Group();
     macGroup.position.z = -12;
     macGroup.scale.set(0.38, 0.38, 0.38);
@@ -519,13 +510,12 @@ const mainScript = () => {
     bottomGroup = new THREE.Group();
     macGroup.add(bottomGroup);
   }
-  initWebGl();
 
   function starfieldBg() {
-    // const spaceColor = new THREE.Color(0x020202);
-    const globalFog = new THREE.Fog(0x060606, 0, BACKGROUND_SETTINGS.radius);
+    const globalFog = new THREE.Fog(0x060606, 20, BACKGROUND_SETTINGS.radius);
     // scene.background = spaceColor;
     scene.fog = globalFog;
+    // const spaceColor = new THREE.Color(0x020202);
 
     // ----------------------- create stars
 
@@ -552,21 +542,15 @@ const mainScript = () => {
           return BACKGROUND_SETTINGS.radius;
         },
       };
-      shader.uniforms.speed = {
-        get value() {
-          return BACKGROUND_SETTINGS.speed;
-        },
-      };
 
       shader.vertexShader = "uniform float elapsedTime;" + shader.vertexShader;
       shader.vertexShader = "uniform float spawnRadius;" + shader.vertexShader;
-      shader.vertexShader = "uniform float speed;" + shader.vertexShader;
 
       shader.vertexShader = shader.vertexShader.replace(
         "#include <project_vertex>",
         `
           // move stars in one direction
-          transformed.z += speed * elapsedTime;
+          transformed.z += elapsedTime;
 
           // constrain stars inside cube
           // (ex: if a star goes to far on one side, it'll be put back to the other side)
@@ -612,6 +596,8 @@ const mainScript = () => {
   }
   starfieldBg();
 
+  initWebGl();
+
   window.addEventListener("resize", () => {
     // Update sizes
     viewport.w = window.innerWidth;
@@ -636,7 +622,9 @@ const mainScript = () => {
     const elapsedTime = clock.getElapsedTime();
     const deltaTime = elapsedTime - oldElapsedTime;
     oldElapsedTime = elapsedTime;
-    BACKGROUND_SETTINGS.elapsedTime += deltaTime;
+    BACKGROUND_SETTINGS.elapsedTime += deltaTime * BACKGROUND_SETTINGS.speed;
+
+    lightHolder.quaternion.copy(camera.quaternion);
 
     // Render
     renderer.render(scene, camera);
@@ -661,16 +649,27 @@ const mainScript = () => {
         onStart: () => {
           // this.overlapAnim();
         },
-        onComplete: () => {},
+        onComplete: () => {
+          lenis.start();
+        },
       });
 
       this.tlHero
-        .to(".hero__title-letter", {
-          scaleY: 1,
-          ease: "elastic.out(1,0.5)",
-          duration: 1.3,
-          stagger: 0.07,
+        .to(BACKGROUND_SETTINGS, {
+          speed: 2,
+          duration: 3,
+          ease: "power2.inOut",
         })
+        .to(
+          ".hero__title-letter",
+          {
+            scaleY: 1,
+            ease: "elastic.out(1,0.5)",
+            duration: 1.3,
+            stagger: 0.07,
+          },
+          "-=0.5"
+        )
         .to(
           ".sec-nav",
           {
@@ -818,8 +817,6 @@ const mainScript = () => {
 
   const SCRIPT = {};
   SCRIPT.homeScript = () => {
-    lenis.scrollTo(".home__hero");
-
     homeHeroAnim.setup();
     homeProjectAnim.setTrigger();
   };

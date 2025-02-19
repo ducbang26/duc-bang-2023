@@ -94,7 +94,7 @@ html.lenis {
   pointer-events: none;
 }
 
-.loading {
+.pre-loader {
   width: 100%;
   height: 100vh;
   position: fixed;
@@ -103,49 +103,47 @@ html.lenis {
   padding-left: var(--x-spacing);
   padding-right: var(--x-spacing);
   padding-bottom: 2rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 
-  .loading__grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    column-gap: 1rem;
+  .loader-wrap {
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
-  }
-
-  .loading__numbers {
-    width: 100%;
-    height: 100%;
-  }
-
-  .loading__numbers-one {
-    grid-row-start: 1;
-    grid-column-start: 1;
-  }
-
-  .loading__numbers-two {
-    grid-row-start: 1;
-    grid-column-start: 2;
-  }
-
-  .preloader__numbers {
     display: flex;
-    overflow: hidden;
     position: relative;
-    width: 100%;
-    height: 100%;
-    align-items: flex-end;
+    top: 0%;
+    bottom: 0%;
+    left: 0%;
+    right: 0%;
+  }
+  
+  #progress-bar {
+    width: 12rem;
+    height: 12rem;
+    display: block;
+    margin: auto;
+    position: absolute;
+  }
 
-    div {
-      position: absolute;
-      width: 100%;
-      transform: translateX(-100%);
+  .loader-text {
+    font-family: 'Golos Text', sans-serif;
+    font-size: 3rem;
+    line-height: 85%;
+    opacity: 1;
+    filter: blur(0px);
+  }
 
-      svg {
-        width: inherit;
-        height: 100%;
-        display: block;
-      }
-    }
+  #load-progress {
+    stroke-dasharray: 0, 301;
+    stroke-dashoffset: var(--dash-offset);
+  }
+
+  #load-inner {
+    stroke-dasharray: 301, 301;
+    stroke-dashoffset: var(--dash-offset);
   }
 }
 
