@@ -549,7 +549,6 @@ const mainScript = () => {
         paused: true,
         onStart: () => {
           this.overlapAnim();
-          console.log(macGroup);
         },
         onComplete: () => {
           lenis.start();
