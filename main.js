@@ -131,10 +131,7 @@ const mainScript = () => {
           duration: 1.2,
           ease: "circ.inOut",
           onComplete: () => {
-            gsap.set(loadProgress, {
-              strokeDasharray: `0px, 999999px`,
-              "--dash-offset": 0.001,
-            });
+            gsap.set(loadProgress, { strokeDasharray: `0px, 999999px`, "--dash-offset": 0.001, });
           },
         });
 
@@ -144,20 +141,11 @@ const mainScript = () => {
           delay: .2,
           ease: "circ.inOut",
           onComplete: () => {
-            gsap.set(loadInner, {
-              strokeDasharray: `0px, 999999px`,
-              "--dash-offset": 0.001,
-            });
+            gsap.set(loadInner, { strokeDasharray: `0px, 999999px`, "--dash-offset": 0.001, });
           },
         });
 
-        gsap.to(loaderText, {
-          opacity: 0,
-          duration: 1,
-          delay: .2,
-          filter: "blur(10px)",
-          ease: "circ.inOut",
-        });
+        gsap.to(loaderText, { opacity: 0, duration: 1, delay: .2, filter: "blur(10px)", ease: "circ.inOut", });
 
         initCursor();
         homeHeroAnim.play();
@@ -173,9 +161,7 @@ const mainScript = () => {
       onUpdate: () => {
         const newProgress = Math.round(progress.value);
         loaderText.textContent = `${newProgress}`;
-        gsap.set(loadProgress, {
-          strokeDasharray: `${3 * newProgress}, 300`,
-        });
+        gsap.set(loadProgress, { strokeDasharray: `${3 * newProgress}, 300`, });
       },
     });
   }
@@ -204,7 +190,7 @@ const mainScript = () => {
 
   //change setting here
   const BACKGROUND_SETTINGS = {
-    amount: 4000,
+    amount: 2000,
     radius: 70,
     speed: 10,
     elapsedTime: 0,
@@ -263,15 +249,19 @@ const mainScript = () => {
       color: 0x000000,
       roughness: 0.9,
       metalness: 0.9,
+      transparent: true,
     });
     cameraMaterial = new THREE.MeshBasicMaterial({
       color: 0x333333,
+      transparent: true,
     });
     baseMetalMaterial = new THREE.MeshStandardMaterial({
       color: 0xcecfd3,
+      transparent: true,
     });
     logoMaterial = new THREE.MeshBasicMaterial({
       color: 0xffffff,
+      transparent: true,
     });
   }
 
@@ -343,16 +333,8 @@ const mainScript = () => {
       .timeline({
         repeat: -1,
       })
-      .to(
-        [lidGroup.position, bottomGroup.position],
-        { duration: 1.5, y: "+=1", ease: "power1.inOut" },
-        0
-      )
-      .to([lidGroup.position, bottomGroup.position], {
-        duration: 1.5,
-        y: "-=1",
-        ease: "power1.inOut",
-      })
+      .to([lidGroup.position, bottomGroup.position], { duration: 1.5, y: "+=1", ease: "power1.inOut" }, 0)
+      .to([lidGroup.position, bottomGroup.position], { duration: 1.5,y: "-=1",ease: "power1.inOut", })
       .timeScale(0);
 
     // ---------------------------------------------------
@@ -360,22 +342,8 @@ const mainScript = () => {
       .timeline({
         paused: true,
       })
-      .to(
-        screenMaterial,
-        {
-          duration: 0.1,
-          opacity: 1,
-        },
-        0
-      )
-      .to(
-        screenLight,
-        {
-          duration: 0.1,
-          intensity: 1.5,
-        },
-        0
-      );
+      .to(screenMaterial, { duration: 0.1,  opacity: 1, }, 0)
+      .to(screenLight, { duration: 0.1, intensity: 1.5, }, 0);
 
     // ---------------------------------------------------
     laptopOpeningTl = gsap
@@ -383,63 +351,17 @@ const mainScript = () => {
         paused: true,
         onUpdate: () => {},
       })
-      .from(
-        lidGroup.position,
-        {
-          duration: 0.75,
-          z: "+=.5",
-        },
-        0
-      )
-      .fromTo(
-        lidGroup.rotation,
-        {
-          duration: 1,
-          x: 0.5 * Math.PI,
-        },
-        {
-          x: -0.2 * Math.PI,
-        },
-        0
-      )
-      .to(
-        screenOnTl,
-        {
-          duration: 0.06,
-          progress: 1,
-        },
-        0.05
-      );
+      .from(lidGroup.position, { duration: 0.75, z: "+=.5", }, 0)
+      .fromTo(lidGroup.rotation, { duration: 1, x: 0.5 * Math.PI, }, { x: -0.2 * Math.PI, }, 0)
+      .to(screenOnTl, { duration: 0.06, progress: 1, }, 0.05);
 
     // ---------------------------------------------------
     laptopAppearTl = gsap
       .timeline({
         paused: true,
       })
-      .fromTo(
-        macGroup.rotation,
-        {
-          x: 0.5 * Math.PI,
-          y: 0.2 * Math.PI,
-        },
-        {
-          duration: 2,
-          x: 0.04 * Math.PI,
-          y: -0.08 * Math.PI,
-        },
-        0
-      )
-      .fromTo(
-        macGroup.position,
-        {
-          y: -50,
-        },
-        {
-          duration: 1,
-          y: -2,
-        },
-        0
-      );
+      .fromTo(macGroup.rotation, { x: 0.5 * Math.PI, y: 0.2 * Math.PI, }, { duration: 2, x: 0.04 * Math.PI, y: -0.08 * Math.PI, }, 0)
+      .fromTo(macGroup.position, { y: -50, }, { duration: 1, y: -2, }, 0);
 
     // ---------------------------------------------------
     // ---------------------------------------------------
@@ -450,30 +372,9 @@ const mainScript = () => {
         },
         paused: true,
       })
-      .to(
-        laptopAppearTl,
-        {
-          duration: 1.5,
-          progress: 1,
-        },
-        '+=0.5'
-      )
-      .to(
-        laptopOpeningTl,
-        {
-          duration: 1,
-          progress: 0.34,
-        },
-        0.5
-      )
-      .to(
-        floatingTl,
-        {
-          duration: 1,
-          timeScale: 1,
-        },
-        1
-      );
+      .to(laptopAppearTl,{ duration: 1.5, progress: 1, }, '+=0.5')
+      .to(laptopOpeningTl,{ duration: 1,progress: 0.34, }, 0.5)
+      .to(floatingTl,{ duration: 1, timeScale: 1, }, 1);
   }
 
   function initWebGl() {
@@ -647,7 +548,8 @@ const mainScript = () => {
       this.tlHero = gsap.timeline({
         paused: true,
         onStart: () => {
-          // this.overlapAnim();
+          this.overlapAnim();
+          console.log(macGroup);
         },
         onComplete: () => {
           lenis.start();
@@ -655,55 +557,30 @@ const mainScript = () => {
       });
 
       this.tlHero
-        .to(BACKGROUND_SETTINGS, {
-          speed: 2,
-          duration: 3,
-          ease: "power2.inOut",
-        })
-        .to(
-          ".hero__title-letter",
-          {
-            scaleY: 1,
-            ease: "elastic.out(1,0.5)",
-            duration: 1.3,
-            stagger: 0.07,
-          },
-          "-=0.5"
-        )
-        .to(
-          ".sec-nav",
-          {
-            opacity: 1,
-            duration: 1.2,
-            ease: "power3.out",
-          },
-          "-=0.6"
-        )
-        .to(
-          ".subtext__role",
-          {
-            opacity: 1,
-            duration: 1.2,
-            ease: "power3.out",
-          },
-          "<"
-        );
+        .to(BACKGROUND_SETTINGS, { speed: 2, duration: 3, ease: "power2.inOut" })
+        .to(".hero__title-letter", { scaleY: 1, ease: "elastic.out(1,0.5)", duration: 1.3, stagger: 0.07, }, "-=0.5")
+        .to(".sec-nav", { opacity: 1, duration: 1.2, ease: "power3.out", }, "-=0.6")
+        .to(".subtext__role", { opacity: 1, duration: 1.2, ease: "power3.out" }, "<");
     }
 
     overlapAnim() {
       this.tlOverlapAnim = gsap.timeline({
         scrollTrigger: {
-          trigger: ".home__hero-title",
-          start: `top+=${viewport.h * 0.3} top`,
-          end: "95% 30%",
+          trigger: ".home__heroShowReel-wrap",
+          start: `top bottom`,
+          end: "95% top",
           scrub: 0.5,
         },
       });
-      this.tlOverlapAnim.to(".home__heroShowReel", {
-        opacity: 0,
-        duration: 1,
-        ease: "none",
-      });
+      this.tlOverlapAnim.to(baseMetalMaterial, { opacity: 0, duration: .1 }, 0)
+      .to(darkPlasticMaterial, { opacity: 0, duration: .1 }, '<')
+      .to(cameraMaterial, { opacity: 0, duration: .1 }, '<')
+      .to(keyboardMaterial, { opacity: 0, duration: .1 }, '<')
+      .to(macGroup.rotation, { x: 0, y: 0, })
+      .to(lidGroup.rotation, { x: 0, }, "<")
+      .to(macGroup.scale, { x: 1.5, y: 1.5, z: 1.5,}, "<")
+      .to(macGroup.position, { y: -12, }, "<")
+      .to(macGroup.position, { y: 22, })
     }
 
     play() {
@@ -716,7 +593,6 @@ const mainScript = () => {
     constructor() {
       this.tlHeadlineAnim;
       this.tlProjectsAnim;
-      this.tlStarfieldAnim;
       this.projectBox;
     }
 
@@ -751,7 +627,6 @@ const mainScript = () => {
       this.tlHeadlineAnim = gsap.timeline({
         onComplete: () => {
           this.projectsAnim();
-          // this.starfieldAnim();
         },
         scrollTrigger: {
           trigger: ".headline",
@@ -769,7 +644,7 @@ const mainScript = () => {
           ease: "none",
           stagger: 0.03,
         })
-        .to(".first-words", { opacity: 0, duration: 2, ease: "none" })
+        .to(".first-words", { opacity: 0, scale: 1.1, duration: 2, ease: "none" })
         .to(secondWords.chars, {
           translateY: "0px",
           translateZ: "0px",
@@ -778,7 +653,7 @@ const mainScript = () => {
           ease: "none",
           stagger: 0.03,
         })
-        .to(".second-words", { opacity: 0, duration: 2, ease: "none" });
+        .to(".second-words", { opacity: 0, scale: 1.1, duration: 2, ease: "none" });
 
       for (let i = 0; i < this.projectBox.length; i++) {
         gsap.set(this.projectBox[i], {
@@ -798,11 +673,7 @@ const mainScript = () => {
         },
       });
 
-      this.tlProjectsAnim.to(".projects", {
-        opacity: 1,
-        duration: 2.5,
-        ease: "none",
-      });
+      this.tlProjectsAnim.to(".projects", { opacity: 1, duration: 2.5, ease: "none", });
 
       this.projectBox.forEach((item) => {
         this.tlProjectsAnim
