@@ -1,7 +1,6 @@
 .home__hero {
     position: relative;
     width: 100%;
-    z-index: 10;
 }
 
 .home__hero-title {
@@ -35,6 +34,7 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
+        z-index: 3;
 
         .subtext__role {
             font-family: "Thunder";
