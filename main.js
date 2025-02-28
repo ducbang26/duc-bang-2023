@@ -113,48 +113,15 @@ const mainScript = () => {
     const loadInner = document.querySelector("#load-inner");
     const loadProgress = document.querySelector("#load-progress");
     const loaderText = document.querySelector(".loader-text");
+    gsap.set(".pre-loader", { autoAlpha: 1 });
+    gsap.set('.load-outer-path', { autoAlpha: 1 });
+
     let loadTl = gsap.timeline({
       defaults: {
         ease: "none",
       },
       onComplete() {
-        gsap.to(loadProgress, {
-          strokeDasharray: "0, 300",
-          duration: 1.2,
-          ease: "circ.inOut",
-          onComplete: () => {
-            gsap.set(loadProgress, {
-              strokeDasharray: `0px, 999999px`,
-              "--dash-offset": 0.001,
-            });
-          },
-        });
-
-        gsap.to(loadInner, {
-          strokeDasharray: "0, 301",
-          duration: 0.3,
-          delay: 0.2,
-          ease: "circ.inOut",
-          onComplete: () => {
-            gsap.set(loadInner, {
-              strokeDasharray: `0px, 999999px`,
-              "--dash-offset": 0.001,
-            });
-          },
-        });
-
-        gsap.to(loaderText, {
-          opacity: 0,
-          duration: 1,
-          delay: 0.2,
-          filter: "blur(10px)",
-          ease: "circ.inOut",
-        });
-
-        initCursor();
-        homeHeroAnim.play();
-        laptopTl.play();
-        BACKGROUND_SETTINGS.speed = 2.3;
+        endLoadTl.play();
       },
     });
 
@@ -168,6 +135,62 @@ const mainScript = () => {
         gsap.set(loadProgress, { strokeDasharray: `${3 * newProgress}, 300` });
       },
     });
+
+    let endLoadTl = gsap.timeline({
+      defaults: {
+        ease: "none",
+      },
+      paused: true,
+      onComplete: () => {
+        initCursor();
+        homeHeroAnim.play();
+        laptopTl.play();
+        BACKGROUND_SETTINGS.speed = 2.3;
+      }
+    });
+
+    endLoadTl.to(loadProgress, {
+      strokeDasharray: "0, 300",
+      duration: 1.2,
+      ease: "circ.inOut",
+      onComplete: () => {
+        gsap.set(loadProgress, {
+          strokeDasharray: `0px, 999999px`,
+          "--dash-offset": 0.001,
+        });
+        
+      },
+    })
+    .to(loadInner, {
+      strokeDasharray: "0, 301",
+      duration: 0.3,
+      delay: 0.2,
+      ease: "circ.inOut",
+      onComplete: () => {
+        gsap.set(loadInner, {
+          strokeDasharray: `0px, 999999px`,
+          "--dash-offset": 0.001,
+        });
+
+        gsap.to('.load-outer-path', {
+          autoAlpha: 0,
+          ease: "circ.inOut",
+          duration: 1,
+          stagger: 0.01,
+        });
+      },
+    }, "<")
+    .to(loaderText, {
+      opacity: 0,
+      duration: 1,
+      delay: 0.2,
+      filter: "blur(10px)",
+      ease: "circ.inOut",
+    }, "<")
+    .to(".pre-loader", {
+      autoAlpha: 0,
+    });
+    
   }
 
   initLoading();

@@ -19,251 +19,288 @@
 <body>
 
   <main id="app">
-    <div data-scroll>
-      <div class="pre-loader">
-        <div class="loader-wrap">
-          <div class="loader-text">0</div>
-          <svg id="progress-bar" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="opacity: 1;">
-            <path stroke-width=".2rem" stroke="#ffffff1a" fill="none" id="load-inner"
-              d="M98,50 C98,76.50967 76.50967,98 50,98 23.49033,98 2,76.50967 2,50 2,23.49033 23.49033,2 50,2 76.50967,2 98,23.49033 98,50 z"></path>
-            <path fill="none" stroke="#ff4c24" stroke-width=".2rem" stroke-dasharray="0, 301" stroke-linecap="round" d="M50 2
-              a 48 48 0 0 1 0 96
-              a 48 48 0 0 1 0 -96" id="load-progress"></path>
+    <div class="pre-loader">
+      <div class="loader-wrap">
+        <div class="loader-text">0</div>
+        <div class="load-outer-wrap">
+          <svg class="load-outer" xmlns="http://www.w3.org/2000/svg" width="454" height="454" viewBox="0 0 454 454" fill="none">
+            <path class="load-outer-path" d="M221.395 0H232.593V50.4455H221.395V0Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M260.899 2.4758L271.94 4.42194L263.181 54.0986L252.139 52.1525L260.899 2.4758Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M299.37 11.7737L309.909 15.6055L292.657 63.0092L282.125 59.1744L299.37 11.7737Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M335.657 27.6093L345.343 33.2146L320.131 76.9015L310.424 71.2962L335.657 27.6093Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M368.621 49.5042L377.207 56.7106L344.783 95.34L336.196 88.1365L368.621 49.5042Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M397.289 76.7926L404.496 85.3793L365.851 117.807L358.66 109.217L397.289 76.7926Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M420.785 108.657L426.391 118.343L382.704 143.564L377.102 133.857L420.785 108.657Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M438.394 144.094L442.229 154.629L394.823 171.881L390.988 161.349L438.394 144.094Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M449.578 182.063L451.521 193.101L401.847 201.861L399.901 190.822L449.578 182.063Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M454 221.395V232.593H403.555V221.395H454Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M451.521 260.899L449.578 271.94L399.901 263.181L401.847 252.14L451.521 260.899Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M442.229 299.371L438.394 309.91L390.988 292.658L394.823 282.125L442.229 299.371Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M426.391 335.657L420.785 345.343L377.102 320.118L382.704 310.412L426.391 335.657Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M404.496 368.621L397.289 377.207L358.66 344.783L365.863 336.196L404.496 368.621Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M377.207 397.289L368.621 404.496L336.196 365.851L344.783 358.648L377.207 397.289Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M345.343 420.785L335.657 426.391L310.436 382.704L320.143 377.102L345.343 420.785Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M309.91 438.394L299.371 442.229L282.119 394.823L292.651 390.988L309.91 438.394Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M271.94 449.578L260.899 451.521L252.139 401.847L263.181 399.901L271.94 449.578Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M232.605 454H221.407V403.555H232.605V454Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M193.101 451.521L182.063 449.578L190.822 399.901L201.86 401.847L193.101 451.521Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M154.629 442.229L144.094 438.394L161.346 390.988L171.878 394.823L154.629 442.229Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M118.343 426.391L108.657 420.785L133.881 377.102L143.588 382.704L118.343 426.391Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M85.3791 404.496L76.7925 397.289L109.217 358.66L117.807 365.864L85.3791 404.496Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M56.7106 377.207L49.5042 368.621L88.1486 336.196L95.3521 344.783L56.7106 377.207Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M33.2146 345.343L27.6093 335.657L71.2962 310.436L76.9015 320.143L33.2146 345.343Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M15.6054 309.91L11.7737 299.371L59.1743 282.119L63.0091 292.651L15.6054 309.91Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M4.42197 271.94L2.47583 260.899L52.1525 252.14L54.0987 263.181L4.42197 271.94Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M0 232.605V221.407H50.4455V232.605H0Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M2.47583 193.101L4.42197 182.063L54.0987 190.822L52.1525 201.861L2.47583 193.101Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M11.7737 154.629L15.6054 144.094L63.0091 161.346L59.1743 171.878L11.7737 154.629Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M27.6093 118.343L33.2146 108.657L76.9015 133.869L71.2962 143.576L27.6093 118.343Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M49.5042 85.3793L56.7106 76.7926L95.34 109.217L88.1365 117.807L49.5042 85.3793Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M76.7925 56.7106L85.3791 49.5042L117.807 88.1486L109.217 95.34L76.7925 56.7106Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M108.657 33.2146L118.343 27.6093L143.564 71.2962L133.869 76.9015L108.657 33.2146Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M144.094 15.6055L154.629 11.7737L171.881 59.1744L161.349 63.0092L144.094 15.6055Z" fill="white" fill-opacity="0.5"/>
+            <path class="load-outer-path" d="M182.063 4.42194L193.101 2.4758L201.86 52.1525L190.822 54.0986L182.063 4.42194Z" fill="white" fill-opacity="0.5"/>
           </svg>
         </div>
+        <svg id="progress-bar" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="opacity: 1;">
+          <path stroke-width=".1rem" stroke="#ffffff1a" fill="none" id="load-inner"
+            d="M98,50 C98,76.50967 76.50967,98 50,98 23.49033,98 2,76.50967 2,50 2,23.49033 23.49033,2 50,2 76.50967,2 98,23.49033 98,50 z"></path>
+          <path fill="none" stroke="#ff4c24" stroke-width=".1rem" stroke-dasharray="0, 301" stroke-linecap="round" d="M50 2
+            a 48 48 0 0 1 0 96
+            a 48 48 0 0 1 0 -96" id="load-progress"></path>
+        </svg>
       </div>
-
-      <canvas id="canvas"></canvas>
-      <canvas id="fluid"></canvas>
-
-      <nav id="navbar" class="sec-nav">
-          <div class="container-wrapper">
-            <div class="menu-wrapper">
-              <div class="menu-items-wrapper">
-                <a href="/" aria-current="page" class="logo-link-wrapper w-inline-block w--current">
-                  <div class="txt-logo">DUCBANG<sup>©</sup></div>
-                </a>
-                <div class="header-btn headerBtn">
-                  <div class="state">
-                    <div>Menu</div>
-                    <div>Close</div>
-                  </div>
-                </div>
-                <div class="menu-item-wrapper">
-                  <div class="item">
-                    <a href="#home" class="menu-link w-inline-block cursorLink" data-text="Home">
-                      Home
-                    </a>
-                  </div>
-                  <div class="item">
-                    <a href="#works" class="menu-link w-inline-block cursorLink" data-text="Works">
-                      Works
-                    </a>
-                  </div>
-                  <div class="item">
-                    <a href="#experience" class="menu-link w-inline-block cursorLink" data-text="Experience">
-                      Experience
-                    </a>
-                  </div>
-                  <div class="item">
-                    <a href="#contact" class="menu-link w-inline-block cursorLink" data-text="Contact">
-                      Contact
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      <section class="home__hero sectionLink">
-        <div class="home__hero-title">
-          <div class="hero__title-text">
-            <div class="title__text-wrap">
-              <span class="hero__title-letter">D</span>
-              <span class="hero__title-letter">U</span>
-              <span class="hero__title-letter">C</span>
-              <span class="hero__title-letter">B</span>
-              <span class="hero__title-letter">A</span>
-              <span class="hero__title-letter">N</span>
-              <span class="hero__title-letter">G</span>
-            </div>
-          </div>
-          <div class="hero__title-subtext">
-            <div class="subtext__role">creative developer <br />base in vietnam</div>
-            <div class="subtext__role">[scroll]</div>
-          </div>
-        </div>
-        <div class="home__heroShowReel-wrap">
-          <!-- <figure class="home__heroShowReel">
-            <video class="home__heroShowReel-video" src="/video/showreel.mp4" muted autoplay loop></video>
-          </figure> -->
-        </div>
-      </section>
-
-      <section id="work" class="home__projects sectionLink">
-        <div class="headline">
-          <div class="headline-wrap">
-            <div class="headline-content">
-              <h5 class="headline-content-text first-words">
-                Creating custom websites focusing on performance and design that make your brand stand out.
-              </h5>
-              <h5 class="headline-content-text second-words ">
-                Featured projects that have been meticulously crafted with passion to drive results and impact.
-              </h5>
-            </div>
-          </div>
-        </div>
-        <div class="projects">
-          <div class="projects-wrap">
-            <div class="projects-wrap-inner">
-              <div class="project-box">
-                <a href="https://wrong-parker.vercel.app/" class="link w-inline-block " target="_blank">
-                  <div class="project-box-image">
-                    <img src="/images/works/parker.webp"
-                      srcset="/images/works/parker.webp 400w, /images/works/parker.webp 800w, /images/works/parker.webp 1080w"
-                      sizes="100vw" alt="parker" class=" w-full   relative z-10 w-full" loading="lazy" width="1080"
-                      height="810">
-                  </div>
-                  <div class="project-box-description">
-                    <div>2024</div>
-                    <div class="dot"></div>
-                    <div class="right">Development</div>
-                  </div>
-                  <div class="project-box-name">
-                    <h3 style="">
-                      <div style="overflow: hidden;">
-                        <div class="split-line">
-                          <div>WRONG PARKER</div>
-                        </div>
-                      </div>
-                    </h3>
-                  </div>
-                </a>
-              </div>
-              <div class="project-box">
-                <a href="https://dermond.vercel.app/" class="link w-inline-block " target="_blank">
-                  <div class="project-box-image">
-                    <img src="/images/works/dermond.webp"
-                      srcset="/images/works/dermond.webp 400w, /images/works/dermond.webp 800w, /images/works/dermond.webp 1080w"
-                      sizes="100vw" alt="dermond" class=" w-full relative z-10 w-full" loading="lazy" width="1080"
-                      height="810">
-                  </div>
-                  <div class="project-box-description">
-                    <div>2024</div>
-                    <div class="dot"></div>
-                    <div class="right">Development</div>
-                  </div>
-                  <div class="project-box-name">
-                    <h3 style="">
-                      <div style="overflow: hidden;">
-                        <div class="split-line">
-                          <div>Demond - Vintage tailor shop</div>
-                        </div>
-                      </div>
-                    </h3>
-                  </div>
-                </a>
-              </div>
-              <div class="project-box">
-                <a href="https://dermond.vercel.app/" class="link w-inline-block " target="_blank">
-                  <div class="project-box-image">
-                    <img src="/images/works/dermond.webp"
-                      srcset="/images/works/dermond.webp 400w, /images/works/dermond.webp 800w, /images/works/dermond.webp 1080w"
-                      sizes="100vw" alt="dermond" class=" w-full relative z-10 w-full" loading="lazy" width="1080"
-                      height="810">
-                  </div>
-                  <div class="project-box-description">
-                    <div>2024</div>
-                    <div class="dot"></div>
-                    <div class="right">Development</div>
-                  </div>
-                  <div class="project-box-name">
-                    <h3 style="">
-                      <div style="overflow: hidden;">
-                        <div class="split-line">
-                          <div>Demond - Vintage tailor shop</div>
-                        </div>
-                      </div>
-                    </h3>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div class="marquee">
-        <div class="marquee__inner-wrap">
-          <div class="marquee__inner" aria-hidden="true">
-            <span>responsiveness</span>
-            <div class="marquee__img" style="background-image:url(images/marquee-img/1.jpg);"></div>
-            <span>accessibility</span>
-            <div class="marquee__img" style="background-image:url(images/marquee-img/2.jpg);"></div>
-            <span>performance</span>
-            <div class="marquee__img" style="background-image:url(images/marquee-img/3.jpg);"></div>
-            <span>interactive</span>
-            <div class="marquee__img" style="background-image:url(images/marquee-img/4.jpg);"></div>
-            <span>responsiveness</span>
-            <div class="marquee__img" style="background-image:url(images/marquee-img/1.jpg);"></div>
-            <span>accessibility</span>
-            <div class="marquee__img" style="background-image:url(images/marquee-img/2.jpg);"></div>
-            <span>performance</span>
-            <div class="marquee__img" style="background-image:url(images/marquee-img/3.jpg);"></div>
-            <span>interactive</span>
-            <div class="marquee__img" style="background-image:url(images/marquee-img/4.jpg);"></div>
-          </div>
-        </div>
-      </div>
-
-      <section class="home_exp section sectionLink" id="experience">
-        <div class="headline">
-          <h2>
-            <div style="overflow: hidden;">
-              <div class="headline-content">Experience.</div>
-            </div>
-          </h2>
-        </div>
-        <div class="Item_item">
-          <div class="Item_left">
-            <div class="Item_title">
-              <h3 data-text="Creative Developer">Creative Developer</h3>
-            </div>
-            <span class="Item_info">Autonomous Inc</span>
-          </div>
-          <div class="Item_right">
-            <span class="Item_info">January 2023 - December 2023</span>
-            <span class="Item_info">On-site</span>
-          </div>
-        </div>
-        <div class="Item_item">
-          <div class="Item_left">
-            <div class="Item_title">
-              <h3 data-text="Frontend Developer">Frontend Developer</h3>
-            </div>
-            <span class="Item_info">PSA Solution JSC</span>
-          </div>
-          <div class="Item_right">
-            <span class="Item_info">July 2022 - January 2023</span>
-            <span class="Item_info">On-site</span>
-          </div>
-        </div>
-        <div class="Item_item">
-          <div class="Item_left">
-            <div class="Item_title">
-              <h3 data-text="Frontend Developer">Frontend Developer</h3>
-            </div>
-            <span class="Item_info">Unigwork</span>
-          </div>
-          <div class="Item_right">
-            <span class="Item_info">May 2021 - December 2021</span>
-            <span class="Item_info">Remote</span>
-          </div>
-        </div>
-      </section>
     </div>
+
+    <canvas id="canvas"></canvas>
+    <canvas id="fluid"></canvas>
+
+    <nav id="navbar" class="sec-nav">
+        <div class="container-wrapper">
+          <div class="menu-wrapper">
+            <div class="menu-items-wrapper">
+              <a href="/" aria-current="page" class="logo-link-wrapper w-inline-block w--current">
+                <div class="txt-logo">DUCBANG<sup>©</sup></div>
+              </a>
+              <div class="header-btn headerBtn">
+                <div class="state">
+                  <div>Menu</div>
+                  <div>Close</div>
+                </div>
+              </div>
+              <div class="menu-item-wrapper">
+                <div class="item">
+                  <a href="#home" class="menu-link w-inline-block cursorLink" data-text="Home">
+                    Home
+                  </a>
+                </div>
+                <div class="item">
+                  <a href="#works" class="menu-link w-inline-block cursorLink" data-text="Works">
+                    Works
+                  </a>
+                </div>
+                <div class="item">
+                  <a href="#experience" class="menu-link w-inline-block cursorLink" data-text="Experience">
+                    Experience
+                  </a>
+                </div>
+                <div class="item">
+                  <a href="#contact" class="menu-link w-inline-block cursorLink" data-text="Contact">
+                    Contact
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </nav>
+
+    <section class="home__hero sectionLink">
+      <div class="home__hero-title">
+        <div class="hero__title-text">
+          <div class="title__text-wrap">
+            <span class="hero__title-letter">D</span>
+            <span class="hero__title-letter">U</span>
+            <span class="hero__title-letter">C</span>
+            <span class="hero__title-letter">B</span>
+            <span class="hero__title-letter">A</span>
+            <span class="hero__title-letter">N</span>
+            <span class="hero__title-letter">G</span>
+          </div>
+        </div>
+        <div class="hero__title-subtext">
+          <div class="subtext__role">creative developer <br />base in vietnam</div>
+          <div class="subtext__role">[scroll]</div>
+        </div>
+      </div>
+      <div class="home__heroShowReel-wrap">
+        <!-- <figure class="home__heroShowReel">
+          <video class="home__heroShowReel-video" src="/video/showreel.mp4" muted autoplay loop></video>
+        </figure> -->
+      </div>
+    </section>
+
+    <section id="work" class="home__projects sectionLink">
+      <div class="headline">
+        <div class="headline-wrap">
+          <div class="headline-content">
+            <h5 class="headline-content-text first-words">
+              Creating custom websites focusing on performance and design that make your brand stand out.
+            </h5>
+            <h5 class="headline-content-text second-words ">
+              Featured projects that have been meticulously crafted with passion to drive results and impact.
+            </h5>
+          </div>
+        </div>
+      </div>
+      <div class="projects">
+        <div class="projects-wrap">
+          <div class="projects-wrap-inner">
+            <div class="project-box">
+              <a href="https://wrong-parker.vercel.app/" class="link w-inline-block " target="_blank">
+                <div class="project-box-image">
+                  <img src="/images/works/parker.webp"
+                    srcset="/images/works/parker.webp 400w, /images/works/parker.webp 800w, /images/works/parker.webp 1080w"
+                    sizes="100vw" alt="parker" class=" w-full   relative z-10 w-full" loading="lazy" width="1080"
+                    height="810">
+                </div>
+                <div class="project-box-description">
+                  <div>2024</div>
+                  <div class="dot"></div>
+                  <div class="right">Development</div>
+                </div>
+                <div class="project-box-name">
+                  <h3 style="">
+                    <div style="overflow: hidden;">
+                      <div class="split-line">
+                        <div>WRONG PARKER</div>
+                      </div>
+                    </div>
+                  </h3>
+                </div>
+              </a>
+            </div>
+            <div class="project-box">
+              <a href="https://dermond.vercel.app/" class="link w-inline-block " target="_blank">
+                <div class="project-box-image">
+                  <img src="/images/works/dermond.webp"
+                    srcset="/images/works/dermond.webp 400w, /images/works/dermond.webp 800w, /images/works/dermond.webp 1080w"
+                    sizes="100vw" alt="dermond" class=" w-full relative z-10 w-full" loading="lazy" width="1080"
+                    height="810">
+                </div>
+                <div class="project-box-description">
+                  <div>2024</div>
+                  <div class="dot"></div>
+                  <div class="right">Development</div>
+                </div>
+                <div class="project-box-name">
+                  <h3 style="">
+                    <div style="overflow: hidden;">
+                      <div class="split-line">
+                        <div>Demond - Vintage tailor shop</div>
+                      </div>
+                    </div>
+                  </h3>
+                </div>
+              </a>
+            </div>
+            <div class="project-box">
+              <a href="https://dermond.vercel.app/" class="link w-inline-block " target="_blank">
+                <div class="project-box-image">
+                  <img src="/images/works/dermond.webp"
+                    srcset="/images/works/dermond.webp 400w, /images/works/dermond.webp 800w, /images/works/dermond.webp 1080w"
+                    sizes="100vw" alt="dermond" class=" w-full relative z-10 w-full" loading="lazy" width="1080"
+                    height="810">
+                </div>
+                <div class="project-box-description">
+                  <div>2024</div>
+                  <div class="dot"></div>
+                  <div class="right">Development</div>
+                </div>
+                <div class="project-box-name">
+                  <h3 style="">
+                    <div style="overflow: hidden;">
+                      <div class="split-line">
+                        <div>Demond - Vintage tailor shop</div>
+                      </div>
+                    </div>
+                  </h3>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee">
+      <div class="marquee__inner-wrap">
+        <div class="marquee__inner" aria-hidden="true">
+          <span>responsiveness</span>
+          <div class="marquee__img" style="background-image:url(images/marquee-img/1.jpg);"></div>
+          <span>accessibility</span>
+          <div class="marquee__img" style="background-image:url(images/marquee-img/2.jpg);"></div>
+          <span>performance</span>
+          <div class="marquee__img" style="background-image:url(images/marquee-img/3.jpg);"></div>
+          <span>interactive</span>
+          <div class="marquee__img" style="background-image:url(images/marquee-img/4.jpg);"></div>
+          <span>responsiveness</span>
+          <div class="marquee__img" style="background-image:url(images/marquee-img/1.jpg);"></div>
+          <span>accessibility</span>
+          <div class="marquee__img" style="background-image:url(images/marquee-img/2.jpg);"></div>
+          <span>performance</span>
+          <div class="marquee__img" style="background-image:url(images/marquee-img/3.jpg);"></div>
+          <span>interactive</span>
+          <div class="marquee__img" style="background-image:url(images/marquee-img/4.jpg);"></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="home_exp section sectionLink" id="experience">
+      <div class="headline">
+        <h2>
+          <div style="overflow: hidden;">
+            <div class="headline-content">Experience.</div>
+          </div>
+        </h2>
+      </div>
+      <div class="Item_item">
+        <div class="Item_left">
+          <div class="Item_title">
+            <h3 data-text="Creative Developer">Creative Developer</h3>
+          </div>
+          <span class="Item_info">Autonomous Inc</span>
+        </div>
+        <div class="Item_right">
+          <span class="Item_info">January 2023 - December 2023</span>
+          <span class="Item_info">On-site</span>
+        </div>
+      </div>
+      <div class="Item_item">
+        <div class="Item_left">
+          <div class="Item_title">
+            <h3 data-text="Frontend Developer">Frontend Developer</h3>
+          </div>
+          <span class="Item_info">PSA Solution JSC</span>
+        </div>
+        <div class="Item_right">
+          <span class="Item_info">July 2022 - January 2023</span>
+          <span class="Item_info">On-site</span>
+        </div>
+      </div>
+      <div class="Item_item">
+        <div class="Item_left">
+          <div class="Item_title">
+            <h3 data-text="Frontend Developer">Frontend Developer</h3>
+          </div>
+          <span class="Item_info">Unigwork</span>
+        </div>
+        <div class="Item_right">
+          <span class="Item_info">May 2021 - December 2021</span>
+          <span class="Item_info">Remote</span>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
