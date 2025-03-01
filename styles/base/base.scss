@@ -119,14 +119,22 @@ html.lenis {
     left: 0%;
     right: 0%;
   }
-  
-  #progress-bar {
-    width: 30rem;
-    height: 30rem;
+
+  .progress-bar-wrap {
+    width: 58rem;
+    height: 58rem;
     display: block;
     margin: auto;
     position: absolute;
+    -webkit-mask-image: linear-gradient(180deg, transparent 25%, rgb(0, 0, 0) 40%, rgb(0, 0, 0) 60%, transparent 75%);
+    transform: scale(1.2);
+
+    #progress-bar {
+      width: 100%;
+      height: 100%;
+    }
   }
+  
 
   .loader-text {
     font-family: 'Golos Text', sans-serif;
@@ -138,9 +146,11 @@ html.lenis {
 
   .load-outer-wrap {
     position: absolute;
-    width: 26rem;
-    height: 26rem;
+    width: 50rem;
+    height: 50rem;
     display: flex;
+    -webkit-mask-image: linear-gradient(180deg, transparent 15%, rgb(0, 0, 0) 40%, rgb(0, 0, 0) 60%, transparent 85%);
+    transform: scale(1.16);
 
     .load-outer {
       width: 100%;
@@ -148,16 +158,6 @@ html.lenis {
       transform: rotate(-90deg);
       animation: rotating 30s linear infinite;
     }
-  }
-
-  #load-progress {
-    stroke-dasharray: 0, 301;
-    stroke-dashoffset: var(--dash-offset);
-  }
-
-  #load-inner {
-    stroke-dasharray: 301, 301;
-    stroke-dashoffset: var(--dash-offset);
   }
 }
 
