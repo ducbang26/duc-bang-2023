@@ -110,8 +110,6 @@ const mainScript = () => {
   // Loading
   function initLoading() {
     const progress = { value: 0 };
-    const loadInner = document.querySelector("#load-inner");
-    const loadProgress = document.querySelector("#load-progress");
     const loaderText = document.querySelector(".loader-text");
     gsap.set(".pre-loader", { autoAlpha: 1 });
     // gsap.set('.load-outer-path', { autoAlpha: 1 });
@@ -153,7 +151,7 @@ const mainScript = () => {
       onComplete: () => {
         initCursor();
         homeHeroAnim.play();
-        laptopTl.play();
+        // laptopTl.play(); REMEMBER TURN ON LAPTOP TIMELINE
         BACKGROUND_SETTINGS.speed = 2.3;
       }
     });
@@ -216,6 +214,7 @@ const mainScript = () => {
    * Camera
    */
   // Base camera
+  let cameraGroup = new THREE.Group();
   const camera = new THREE.PerspectiveCamera(
     75,
     viewport.w / viewport.h,
@@ -223,8 +222,8 @@ const mainScript = () => {
     100
   );
   camera.position.set(0, 4.3, 10);
-  // camera.lookAt(new THREE.Vector3(0, 2.5, 0));
-  scene.add(camera);
+  scene.add(cameraGroup);
+  cameraGroup.add(camera);
 
   //renderer
   const renderer = new THREE.WebGLRenderer({
@@ -350,12 +349,12 @@ const mainScript = () => {
       })
       .to(
         [lidGroup.position, bottomGroup.position],
-        { duration: 1.5, y: "+=1", ease: "power1.inOut" },
+        { duration: 1.5, y: "+=0.5", ease: "power1.inOut" },
         0
       )
       .to([lidGroup.position, bottomGroup.position], {
         duration: 1.5,
-        y: "-=1",
+        y: "-=0.5",
         ease: "power1.inOut",
       })
       .timeScale(0);
@@ -551,12 +550,43 @@ const mainScript = () => {
    */
   const clock = new THREE.Clock();
   let oldElapsedTime = 0;
+  let cursor = { x: 0, y: 0 };
+  function handleTouchMove(event) {
+    let touch = event.touches[0];
+    cursor.x = touch.clientX / viewport.w - 0.5;
+    cursor.y = touch.clientY / viewport.h - 0.5;
+  }
+  window.addEventListener("touchmove", handleTouchMove);
+  window.addEventListener("mousemove", function (event) {
+    cursor.x = event.clientX / viewport.w - 0.5;
+    cursor.y = event.clientY / viewport.h - 0.5;
+  });
+
+  let cameraData = {
+    positionX: camera.position.x,
+    positionY: camera.position.y,
+    positionZ: camera.position.z,
+    rotationX: camera.rotation.x,
+    rotationY: camera.rotation.y,
+    rotationZ: camera.rotation.z,
+  };
 
   const tick = () => {
     const elapsedTime = clock.getElapsedTime();
     const deltaTime = elapsedTime - oldElapsedTime;
     oldElapsedTime = elapsedTime;
     BACKGROUND_SETTINGS.elapsedTime += deltaTime * BACKGROUND_SETTINGS.speed;
+    let parallaxX = cursor.x * .5;
+    let parallaxY = -cursor.y * .5;
+
+    camera.rotation.x = cameraData.rotationX;
+    camera.rotation.y = cameraData.rotationY;
+    camera.rotation.z = cameraData.rotationZ;
+
+    cameraGroup.position.x +=
+      (parallaxX - cameraGroup.position.x) * 5 * deltaTime;
+    cameraGroup.position.y +=
+      (parallaxY - cameraGroup.position.y) * 5 * deltaTime;
 
     lightHolder.quaternion.copy(camera.quaternion);
 
@@ -1233,10 +1263,8 @@ const mainScript = () => {
       "../app/themes/flipp/dist/images/LDR_LLL1_0.png"
     );
 
-    const blurProgram = new Program(blurVertexShader, blurShader);
     const copyProgram = new Program(baseVertexShader, copyShader);
     const clearProgram = new Program(baseVertexShader, clearShader);
-    const colorProgram = new Program(baseVertexShader, colorShader);
     const splatProgram = new Program(baseVertexShader, splatShader);
     const advectionProgram = new Program(baseVertexShader, advectionShader);
     const divergenceProgram = new Program(baseVertexShader, divergenceShader);
@@ -2022,20 +2050,10 @@ const mainScript = () => {
     }
 
     setup() {
-      // eslint-disable-next-line no-undef
-      const firstWords = new SplitType(".first-words", {
-        types: "words, chars",
-        charClass: "headline-char",
-      });
-      // eslint-disable-next-line no-undef
-      const secondWords = new SplitType(".second-words", {
-        types: "words, chars",
-        charClass: "headline-char",
-      });
       this.projectBox = gsap.utils.toArray(".project-box");
 
-      gsap.set(".first-words", { opacity: 1 });
-      gsap.set(".second-words", { opacity: 1 });
+      gsap.set(".first-words", { autoAlpha: 1 });
+      gsap.set(".second-words", { autoAlpha: 1 });
 
       this.tlHeadlineAnim = gsap.timeline({
         onComplete: () => {
@@ -2049,32 +2067,26 @@ const mainScript = () => {
         },
       });
       this.tlHeadlineAnim
-        .to(firstWords.chars, {
-          translateY: "0px",
-          translateZ: "0px",
-          rotate: "0deg",
-          opacity: 1,
+        .to(".first-words", {
+          maskPosition: '-3343.64px 0px',
+          duration: 2,
           ease: "none",
-          stagger: 0.03,
         })
         .to(".first-words", {
-          opacity: 0,
+          autoAlpha: 0,
           scale: 1.1,
-          duration: 2,
+          duration: 1,
           ease: "none",
-        })
-        .to(secondWords.chars, {
-          translateY: "0px",
-          translateZ: "0px",
-          rotate: "0deg",
-          opacity: 1,
-          ease: "none",
-          stagger: 0.03,
         })
         .to(".second-words", {
-          opacity: 0,
-          scale: 1.1,
+          maskPosition: '-3343.64px 0px',
           duration: 2,
+          ease: "none",
+        })
+        .to(".second-words", {
+          autoAlpha: 0,
+          scale: 1.1,
+          duration: 1,
           ease: "none",
         });
 
