@@ -29,7 +29,7 @@
     width: 100%;
     justify-content: space-between;
     display: flex;
-    font-size: 3.2rem;
+    font-size: 3rem;
     position: relative;
 }
 
@@ -140,27 +140,13 @@
 .menu-link {
     color: $color-white;
     transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+    font-kerning: none;
+    font-feature-settings: "liga" 0;
 }
 
 .item {
     position: relative;
     overflow: hidden;
-}
-
-.item:hover > * {
-    transform: translateY(-100%);
-}
-
-.menu-link:after {
-    content: attr(data-text);
-    display: block;
-    position: absolute;
-    top: 100%;
-    left: 0;
-}
-
-.menu-link:hover {
-    transform: translateY(-100%);
 }
 
 .txt-logo {

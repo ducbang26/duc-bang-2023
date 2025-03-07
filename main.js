@@ -61,7 +61,7 @@ const mainScript = () => {
 
   const images = document.querySelectorAll("img");
   let imagesIndex = 0;
-  const links = document.querySelectorAll(".cursorLink");
+  // const links = [...document.querySelectorAll(".hover_link")];
   const sections = document.querySelectorAll(".sectionLink");
 
   Array.from(images).forEach((element) => {
@@ -78,7 +78,39 @@ const mainScript = () => {
     };
   });
 
+  let links = document.querySelectorAll(".hover_link");
+  let duration = 50;
+  let framesMax = 7
+
   links.forEach((link) => {
+    let textOrig = link.textContent;
+    let inter;
+
+    link.addEventListener("mouseover", (e) => {
+      let text = e.currentTarget.textContent;
+      let charArr = text.split("");
+      let frame = 0;
+
+      // shuffle at given speed
+      inter = setInterval(() => {
+        if(frame<framesMax){
+          let charArrShuff = shuffleArr(charArr);
+          link.textContent = charArrShuff.join("");
+          frame++
+        }else{
+          clearInterval(inter);
+          link.textContent = textOrig;
+        }
+      }, duration);
+
+    });
+
+    // stop
+    link.addEventListener("mouseleave", (e) => {
+      e.currentTarget.textContent = textOrig;
+      clearInterval(inter);
+    });
+
     link.addEventListener("click", (e) => {
       if (!link.href) return;
       if (!link.href.includes("#")) return;
@@ -94,6 +126,15 @@ const mainScript = () => {
       });
     }
   });
+
+  function shuffleArr(arr) {
+    return arr.reduce(
+      ([a, b]) => (
+        b.push(...a.splice((Math.random() * a.length) | 0, 1)), [a, b]
+      ),
+      [[...arr], []]
+    )[1];
+  }
 
   const headerBtn = document.querySelector(".headerBtn");
   headerBtn.addEventListener("click", () => {
@@ -2125,10 +2166,32 @@ const mainScript = () => {
 
   let homeProjectAnim = new homeProjectAnimate();
 
+  class homeContactAnimate {
+    constructor() {
+      
+    }
+
+    setTrigger() {
+      ScrollTrigger.create({
+        trigger: ".home__contact",
+        start: "top bottom",
+        end: "bottom top",
+        once: true,
+        onEnter: () => {
+          this.setup();
+        },
+      });
+    }
+
+    setup() {}
+  }
+  let homeContactAnim = new homeContactAnimate();
+
   const SCRIPT = {};
   SCRIPT.homeScript = () => {
     homeHeroAnim.setup();
     homeProjectAnim.setTrigger();
+    homeContactAnim.setTrigger();
   };
 
   SCRIPT.homeScript();
