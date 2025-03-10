@@ -192,7 +192,7 @@ const mainScript = () => {
       onComplete: () => {
         initCursor();
         homeHeroAnim.play();
-        // laptopTl.play(); REMEMBER TURN ON LAPTOP TIMELINE
+        laptopTl.play();
         BACKGROUND_SETTINGS.speed = 2.3;
       }
     });
