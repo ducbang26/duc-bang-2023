@@ -5,6 +5,7 @@ import Lenis from "@studio-freight/lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { TextAnimator } from './lib/textAnimator.js';
 
 const mainScript = () => {
   gsap.registerPlugin(ScrollTrigger);
@@ -61,7 +62,6 @@ const mainScript = () => {
 
   const images = document.querySelectorAll("img");
   let imagesIndex = 0;
-  // const links = [...document.querySelectorAll(".hover_link")];
   const sections = document.querySelectorAll(".sectionLink");
 
   Array.from(images).forEach((element) => {
@@ -78,37 +78,15 @@ const mainScript = () => {
     };
   });
 
-  let links = document.querySelectorAll(".hover_link");
-  let duration = 50;
-  let framesMax = 7
+  document.querySelectorAll(".hover_link").forEach((link) => {
+    let typewriter = link.querySelector(".typewriter");
 
-  links.forEach((link) => {
-    let textOrig = link.textContent;
-    let inter;
-
-    link.addEventListener("mouseover", (e) => {
-      let text = e.currentTarget.textContent;
-      let charArr = text.split("");
-      let frame = 0;
-
-      // shuffle at given speed
-      inter = setInterval(() => {
-        if(frame<framesMax){
-          let charArrShuff = shuffleArr(charArr);
-          link.textContent = charArrShuff.join("");
-          frame++
-        }else{
-          clearInterval(inter);
-          link.textContent = textOrig;
-        }
-      }, duration);
-
+    const animator = new TextAnimator(typewriter);
+    link.addEventListener('mouseenter', () => {
+      animator.animate();
     });
-
-    // stop
-    link.addEventListener("mouseleave", (e) => {
-      e.currentTarget.textContent = textOrig;
-      clearInterval(inter);
+    link.addEventListener('mouseleave', () => {
+      animator.animateBack();
     });
 
     link.addEventListener("click", (e) => {
@@ -2158,13 +2136,47 @@ const mainScript = () => {
       this.projectBox.forEach((item) => {
         this.tlProjectsAnim
           .to(item, { autoAlpha: 1, ease: "none" })
-          .to(item, { z: 500, duration: 4, ease: "linear" }, "<")
-          .to(item, { autoAlpha: 0, ease: "linear" }, "-=0.45");
+          .to(item, { z: 500, duration: 4, ease: "linear" }, "<");
       });
     }
   }
 
   let homeProjectAnim = new homeProjectAnimate();
+
+  class homeExpAnimate {
+    constructor() {
+      this.tlRevealAnim;
+    }
+
+    setTrigger() {
+      ScrollTrigger.create({
+        trigger: ".home__exp",
+        start: "top bottom",
+        end: "bottom top",
+        once: true,
+        onEnter: () => {
+          this.setup();
+        },
+      });
+    }
+
+    setup() {
+      gsap.to(".exp_heading", {
+        maskPosition: '-3343.64px 0px',
+        duration: 3,
+        ease: "linear",
+        scrollTrigger: {
+          trigger: ".home__exp",
+          start: `top 30%`,
+          end: `top+=${viewport.h * 0.4} 20%`,
+          scrub: true,
+        },
+      });
+
+
+    }
+  }
+  let homeExpAnim = new homeExpAnimate();
 
   class homeContactAnimate {
     constructor() {
@@ -2191,6 +2203,7 @@ const mainScript = () => {
   SCRIPT.homeScript = () => {
     homeHeroAnim.setup();
     homeProjectAnim.setTrigger();
+    homeExpAnim.setTrigger();
     homeContactAnim.setTrigger();
   };
 

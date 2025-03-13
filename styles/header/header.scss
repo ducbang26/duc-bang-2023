@@ -138,6 +138,7 @@
 }
 
 .menu-link {
+    position: relative;
     color: $color-white;
     transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
     font-kerning: none;
@@ -161,4 +162,15 @@ sup {
     font-size: 60%;
     line-height: 0;
     position: relative;
+}
+
+.typewriter {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.typewriter-clone {
+    opacity: 0;
+    margin-right: 0.5em;
 }
