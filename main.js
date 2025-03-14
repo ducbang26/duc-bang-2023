@@ -1785,14 +1785,6 @@ const mainScript = () => {
       return radius;
     }
 
-    window.addEventListener("mousedown", (e) => {
-      let pointer = pointers[0];
-      let posX = scaleByPixelRatio(e.clientX);
-      let posY = scaleByPixelRatio(e.clientY);
-      updatePointerDownData(pointer, -1, posX, posY);
-      clickSplat(pointer);
-    });
-
     $("body").one("mousemove", (e) => {
       let pointer = pointers[0];
       let posX = scaleByPixelRatio(e.clientX);
@@ -2145,7 +2137,7 @@ const mainScript = () => {
 
   class homeExpAnimate {
     constructor() {
-      this.tlRevealAnim;
+      this.tlLineAnim;
     }
 
     setTrigger() {
@@ -2168,12 +2160,31 @@ const mainScript = () => {
         scrollTrigger: {
           trigger: ".home__exp",
           start: `top 30%`,
-          end: `top+=${viewport.h * 0.4} 20%`,
+          end: `top+=${viewport.h * 0.4} top`,
           scrub: true,
         },
       });
 
+      this.placeExpItem();
+    }
 
+    placeExpItem() {
+      // Get the coordinates of the point that is the fraction 'pos' along the path
+      let path = document.getElementById("timeline_path");
+      let pathLength = path.getTotalLength();
+      let expItemPos = [0, 0.32, 0.5, 0.8]; //update time line item here
+      let expItems = document.querySelectorAll(".exp_item");
+
+      for (let index = 0; index < expItems.length; index++) {
+        let loc = path.getPointAtLength(expItemPos[index] * pathLength);
+        const element = expItems[index];
+        gsap.set(element, {
+          transformOrigin: "center bottom",
+          height: "180px",
+          transform: `translateX(${loc.x}px) translateY(${loc.y + (-expItems[index].offsetHeight)}px) rotateX(-70deg)`,//
+        })
+        console.log(loc.y);
+      }
     }
   }
   let homeExpAnim = new homeExpAnimate();

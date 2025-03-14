@@ -86,14 +86,14 @@ footer {
     }
 
     .social_link-item {
-        font-size: 3rem;
+        font-size: 2rem;
         position: absolute;
         bottom: 50%;
         left: 50%;
         transform:
             translate(-50%, -50%)
             rotate(calc(45deg * var(--i)))
-            translateY(calc(-35rem / sin(45deg)));
+            translateY(calc(-25rem / sin(45deg)));
     }
 
     .email {
@@ -105,18 +105,18 @@ footer {
         margin-right: auto;
         position: absolute;
         inset: auto 0% 0%;
-        transform: translateY(-10%);
+        transform: translateY(-11%);
     }
 
     .txt_copyright {
-        font-size: 3rem;
+        font-size: 2rem;
         line-height: 120%;
         letter-spacing: -.025em;
         font-weight: 700;
     }
 
     .copyright-wrapper {
-        padding-bottom: 3rem;
+        padding-bottom: 2rem;
     }
 
     .txt_email {
@@ -127,7 +127,7 @@ footer {
     .txt_email text {
         text-anchor: middle;
         fill: white;
-        font-size: 10rem;
+        font-size: 7rem;
         offset: 50%;
         letter-spacing: .05em;
         text-transform: uppercase;
