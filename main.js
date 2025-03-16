@@ -621,7 +621,6 @@ const mainScript = () => {
   // Cursor
   function initCursor() {
     // update cursor here
-    console.log("update cursor here");
     const canvas = document.getElementById("fluid");
     resizeCanvas();
 
@@ -1552,9 +1551,7 @@ const mainScript = () => {
 
     function update() {
       const dt = calcDeltaTime();
-      // console.log(dt)
       if (resizeCanvas()) initFramebuffers();
-      // updateColors(dt);
       applyInputs();
       step(dt);
       render(null);
@@ -2166,6 +2163,36 @@ const mainScript = () => {
       });
 
       this.placeExpItem();
+
+      const expTimeline = document.querySelector(".exp_timeline");
+
+      this.tlLineAnim = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".exp_timeline-wrap",
+          start: "top bottom",
+          end: "80% center",
+          scrub: true,
+          markers: true
+        },
+      })
+
+      this.tlLineAnim
+      .to(expTimeline, {
+        translateY: '-100vh',
+        duration: 4,
+      })
+      .to(".timeline_path-svg", {
+        "--dashOffset": "0",
+        duration: 4,
+      }, "<=0.2")
+      .to(expTimeline, {
+        scale: 1.1,
+        duration: 0.3,
+      }, "<")
+      .to(expTimeline, {
+        scale: 0.6,
+        duration: 3.5
+      }, "<=0.4");
     }
 
     placeExpItem() {
@@ -2175,6 +2202,8 @@ const mainScript = () => {
       let expItemPos = [0, 0.32, 0.5, 0.8]; //update time line item here
       let expItems = document.querySelectorAll(".exp_item");
 
+      console.log(pathLength);
+
       for (let index = 0; index < expItems.length; index++) {
         let loc = path.getPointAtLength(expItemPos[index] * pathLength);
         const element = expItems[index];
@@ -2183,8 +2212,15 @@ const mainScript = () => {
           height: "180px",
           transform: `translateX(${loc.x}px) translateY(${loc.y + (-expItems[index].offsetHeight)}px) rotateX(-70deg)`,//
         })
-        console.log(loc.y);
       }
+    }
+
+    revealExpItem() {
+      const expItems = document.querySelectorAll(".exp_item");
+
+      expItems.forEach((item) => {
+        console.log(item.querySelector(".inner_text-xl")); 
+      });
     }
   }
   let homeExpAnim = new homeExpAnimate();

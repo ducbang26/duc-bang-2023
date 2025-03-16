@@ -125,9 +125,11 @@
     transform-origin: center top;
     transform-style: preserve-3d;
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform;
+    // will-change: transform;
     opacity: 1;
-    transform: translateX(0px) translateY(0px) translateZ(1px) scale(1) rotateX(70deg);
+    transform: translateX(0px) translateY(72vh) translateZ(1px) scale(1.5) rotateX(70deg);
+    position: fixed;
+    top: 30vh;
   }
 
   .exp_item {
@@ -198,6 +200,15 @@
     border-radius: 9999px;
     bottom: 0;
     background-color: rgb(247 134 30);
+  }
+
+  .timeline_path-svg {
+    --dashOffset: 6786;
+  }
+
+  #timeline_path-active {
+    stroke-dasharray: 6786;
+    stroke-dashoffset: var(--dashOffset);
   }
 }
 
