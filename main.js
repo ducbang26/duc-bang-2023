@@ -2150,7 +2150,9 @@ const mainScript = () => {
     }
 
     setup() {
-      gsap.to(".exp_heading", {
+      const expTimeline = document.querySelector(".exp_timeline");
+      
+      gsap.to(".exp_heading-wrap", {
         maskPosition: '-3343.64px 0px',
         duration: 3,
         ease: "linear",
@@ -2164,16 +2166,13 @@ const mainScript = () => {
 
       this.placeExpItem();
 
-      const expTimeline = document.querySelector(".exp_timeline");
-
       this.tlLineAnim = gsap.timeline({
         scrollTrigger: {
           trigger: ".exp_timeline-wrap",
           start: "top bottom",
           end: "80% center",
           scrub: true,
-          markers: true
-        },
+        }
       })
 
       this.tlLineAnim
@@ -2186,23 +2185,23 @@ const mainScript = () => {
         duration: 4,
       }, "<=0.2")
       .to(expTimeline, {
-        scale: 1.1,
-        duration: 0.3,
+        scale: 1,
+        duration: 0.2,
       }, "<")
       .to(expTimeline, {
         scale: 0.6,
-        duration: 3.5
-      }, "<=0.4");
+        duration: 2.5
+      }, "<=0.25");
+
+      this.revealExpItem();
     }
 
     placeExpItem() {
       // Get the coordinates of the point that is the fraction 'pos' along the path
       let path = document.getElementById("timeline_path");
       let pathLength = path.getTotalLength();
-      let expItemPos = [0, 0.32, 0.5, 0.8]; //update time line item here
+      let expItemPos = [0, 0.25, 0.5, 0.75]; //update time line item here
       let expItems = document.querySelectorAll(".exp_item");
-
-      console.log(pathLength);
 
       for (let index = 0; index < expItems.length; index++) {
         let loc = path.getPointAtLength(expItemPos[index] * pathLength);
@@ -2219,7 +2218,46 @@ const mainScript = () => {
       const expItems = document.querySelectorAll(".exp_item");
 
       expItems.forEach((item) => {
-        console.log(item.querySelector(".inner_text-xl")); 
+        const marker = item.querySelector(".item_content-marker");
+        const line = item.querySelector(".item_content-line");
+        const dot = item.querySelector(".item_content-dot");
+        const textDate = item.querySelector(".text-date");
+        const textCompany = item.querySelector(".text-company");
+        const textDescription = item.querySelectorAll(".inner_description");
+        const textBottom = item.querySelector(".content_inner-bot");
+
+        const tlExpItemShow = gsap.timeline({
+          paused: true,
+          defaults: {
+            ease: "none"
+          }
+        })
+        .to(marker, { translateY: 0, color: "#FE8000", duration: 0.4 })
+        .to(textDate, { translateY: 0, color: "#FE8000", duration: 0.4 }, "<")
+        .to(line, { opacity: 1, visibility: "visible", duration: 0.1 }, "<=0.4")
+        .to(dot, { scale: 1, duration: 0.4 }, "<")
+        .to(textCompany, { translateY: 0, opacity: 1, duration: 0.3 }, '<=0.1')
+        .to(textBottom, { translateY: 0, opacity: 1, duration: 0.2 }, "<")
+        .to(textDescription, { translateX: 0, opacity: 1, stagger: 0.05, duration: 0.1 }, "<")
+
+        ScrollTrigger.create({
+          trigger: item,
+          start: `end+=${viewport.h * 1.4} 20%`,
+          end: `end+=${viewport.h * 1.6} 20%`,
+          onEnter: () => {
+            tlExpItemShow.play()
+          },
+          onEnterBack: () => {
+            tlExpItemShow.play()
+          },
+          onLeave: () => {
+            tlExpItemShow.reverse()
+          },
+          onLeaveBack: () => {
+            tlExpItemShow.reverse()
+          }
+        });
+
       });
     }
   }
